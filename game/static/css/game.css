@@ -6,28 +6,128 @@
     user-select: none;
 }
 
-.ac-game-menu-field{
+/*注释起来的是yxc的代码，我觉得效果不太好，就让ai重新写了一个，放在后面了*/
+/*.ac-game-menu-field{*/
+/*    width: 20vw;*/
+/*    position: relative;*/
+/*    top: 40vh;*/
+/*    left: 19vw;*/
+/*}*/
+
+/*.ac-game-menu-field-item {*/
+/*    color: white;*/
+/*    height: 7vh;*/
+/*    width: 18vw;*/
+/*    font-size: 5vh;*/
+/*    font-style: italic;*/
+/*    padding: 1.3vh;*/
+/*    text-align: center;*/
+/*    background-color: rgba(39,21,28, 0.6);*/
+/*    border-radius: 10px;*/
+/*    letter-spacing: 0.4vw;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.ac-game-menu-field-item:hover {*/
+/*    transform: scale(1.2);*/
+/*    transition: 150ms;*/
+/*}*/
+
+.ac-game-menu-field {
     width: 20vw;
     position: relative;
-    top: 40vh;
+    top: 38vh;
     left: 19vw;
 }
 
 .ac-game-menu-field-item {
-    color: white;
-    height: 7vh;
-    width: 18vw;
-    font-size: 5vh;
-    font-style: italic;
-    padding: 1.3vh;
-    text-align: center;
-    background-color: rgba(39,21,28, 0.6);
-    border-radius: 10px;
-    letter-spacing: 0.4vw;
+    color: #e4e4e7;
+    height: 9vh;
+    width: 16vw;
+    font-size: 4vh;
+    font-weight: 400;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(25, 25, 35, 0.6), rgba(35, 35, 45, 0.5));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    letter-spacing: 0.15vw;
     cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(12px);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    margin-bottom: 0.5vh;
+}
+
+.ac-game-menu-field-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+                transparent,
+                rgba(255, 255, 255, 0.03),
+                rgba(255, 255, 255, 0.06),
+                rgba(255, 255, 255, 0.03),
+                transparent);
+    transition: left 0.5s ease;
+}
+
+.ac-game-menu-field-item::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #f39c12, #e74c3c);
+    transition: width 0.3s ease;
 }
 
 .ac-game-menu-field-item:hover {
-    transform: scale(1.2);
-    transition: 150ms;
+    transform: translateY(-2px);
+    color: #ffffff;
+    background: linear-gradient(135deg, rgba(30, 30, 40, 0.7), rgba(40, 40, 50, 0.6));
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5),
+                0 0 24px rgba(243, 156, 18, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.ac-game-menu-field-item:hover::before {
+    left: 100%;
+}
+
+.ac-game-menu-field-item:hover::after {
+    width: 100%;
+}
+
+.ac-game-menu-field-item:active {
+    transform: translateY(0);
+    background: linear-gradient(135deg, rgba(25, 25, 35, 0.7), rgba(35, 35, 45, 0.6));
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5),
+                inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 可选：为不同按钮添加不同的强调色 */
+.ac-game-menu-field-item:nth-child(1):hover::after {
+    background: linear-gradient(90deg, #3498db, #2980b9);
+}
+
+.ac-game-menu-field-item:nth-child(2):hover::after {
+    background: linear-gradient(90deg, #e74c3c, #c0392b);
+}
+
+.ac-game-menu-field-item:nth-child(3):hover::after {
+    background: linear-gradient(90deg, #95a5a6, #7f8c8d);
 }
