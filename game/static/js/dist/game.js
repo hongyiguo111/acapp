@@ -437,7 +437,9 @@ class Particle extends AcGameObject {
     constructor(root){
         this.root = root;
         this.$playground =$(`<div class="ac-game-playground"></div>`);
-        
+
+        this.create_confirm_dialog();
+
         this.hide();
 
         this.start();
@@ -448,10 +450,58 @@ class Particle extends AcGameObject {
         return colors[Math.floor(Math.random() * 5)];
     }
 
+    // 退出游戏的提示框
+    // 退出游戏的提示框
+    create_confirm_dialog() {
+        // 先创建一个简单的对话框结构
+        this.$confirm_dialog = $(`
+            <div class="ballblitz-confirm-dialog">
+                <div class="ballblitz-confirm-box">
+                    <h2>BallBlitz</h2>
+                    <p>确定要退出游戏返回主菜单吗？当前游戏进度将会丢失。</p>
+                    <button class="confirm-yes">确定</button>
+                    <button class="confirm-no">取消</button>
+                </div>
+            </div>
+        `);
+
+        // 先隐藏对话框
+        this.$confirm_dialog.hide();
+
+        // 添加到游戏容器中
+        this.root.$ac_game.append(this.$confirm_dialog);
+
+        // 绑定按钮事件
+        let outer = this;
+
+        // 确定按钮 - 点击后返回菜单
+        this.$confirm_dialog.find('.confirm-yes').click(function() {
+            outer.$confirm_dialog.hide();  // 先隐藏对话框
+            outer.hide();  // 隐藏游戏界面
+            outer.root.menu.show();  // 显示菜单
+        });
+
+        // 取消按钮 - 点击后隐藏对话框
+        this.$confirm_dialog.find('.confirm-no').click(function() {
+            outer.$confirm_dialog.hide();
+        });
+    }
+
     start(){
     
     }
 
+    // 摁下'esc'键退出游戏界面
+    add_listening_events() {
+        let outer = this;
+
+        $(window).keydown(function(e) {
+            if (e.which === 27) {
+                // 显示我们自己的对话框，而不是用 confirm()
+                outer.$confirm_dialog.show();
+            }
+        });
+    }
 
     show(){ // 打开playground界面
         this.$playground.show();
@@ -466,6 +516,9 @@ class Particle extends AcGameObject {
         for(let i = 0 ; i < 5 ; i ++){
             this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, this.get_random_color(), this.height * 0.15, false));
         }
+
+        // 添加监听函数，为了实现退出游戏的功能
+        // this.add_listening_events()
     }
     
     hide(){ // 关闭playground界面
@@ -576,6 +629,8 @@ class Settings {
 
         this.$register.hide();
 
+        this.$acwing_login = this.$settings.find('.ac-game-settings-acwing img');
+
         this.root.$ac_game.append(this.$settings);
 
         this.start();
@@ -587,8 +642,26 @@ class Settings {
     }
 
     add_listening_events() {
+        let outer = this;
         this.add_listening_events_login();
         this.add_listening_events_register();
+
+        this.$acwing_login.click(function () {
+            outer.acwing_login();
+        })
+    }
+
+    acwing_login() {
+        $.ajax({
+            url: "https://app7549.acapp.acwing.com.cn/settings/acwing/web/apply_code/",
+            type: "GET",
+            success: function (resp) {
+                console.log(resp);
+                if(resp.result === "success") {
+                    window.location.replace(resp.apply_code_url);
+                }
+            }
+        })
     }
 
     add_listening_events_login() {
