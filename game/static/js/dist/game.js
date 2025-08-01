@@ -569,6 +569,10 @@ class Settings {
                 AcWing一键登录
             </div>
         </div>
+        <div class="ac-game-settings-github">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub Login">
+            <div>GitHub 一键登录</div>
+        </div>
     </div>
     <div class="ac-game-settings-register">
         <div class="ac-game-settings-title">
@@ -607,6 +611,10 @@ class Settings {
                 AcWing一键登录
             </div>
         </div>
+        <div class="ac-game-settings-github">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub Login">
+            <div>GitHub 一键登录</div>
+        </div>
     </div>
 </div>
 `);
@@ -630,6 +638,9 @@ class Settings {
         this.$register.hide();
 
         this.$acwing_login = this.$settings.find('.ac-game-settings-acwing img');
+        this.$github_login = this.$settings.find('.ac-game-settings-github img');
+
+        this.add_listening_events();
 
         this.root.$ac_game.append(this.$settings);
 
@@ -649,6 +660,10 @@ class Settings {
         this.$acwing_login.click(function () {
             outer.acwing_login();
         })
+
+        this.$github_login.click(function () {
+            outer.github_login();
+        })
     }
 
     acwing_login() {
@@ -662,6 +677,23 @@ class Settings {
                 }
             }
         })
+    }
+
+    github_login() {
+        $.ajax({
+            url: "https://app7549.acapp.acwing.com.cn/settings/github/web/apply_code/",
+            type: "GET",
+            success: function (resp) {
+                console.log(resp);
+                if (resp.result === "success") {
+                    window.location.replace(resp.apply_code_url);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("GitHub 登录失败:", error);
+                alert("GitHub 登录暂时不可用，请稍后重试");
+            }
+        });
     }
 
     add_listening_events_login() {

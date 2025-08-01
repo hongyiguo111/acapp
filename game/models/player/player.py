@@ -6,5 +6,8 @@ class Player(models.Model):
     photo = models.URLField(max_length=256, blank=True)
     openid = models.CharField(default="", max_length=50, blank=True, null=True)
 
+    github_id = models.CharField(default="", max_length=256, blank=True, null=True)
+    github_username = models.CharField(default="", max_length=256, blank=True, null=True)
+    
     def __str__(self):
         return str(self.user)

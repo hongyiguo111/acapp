@@ -93,6 +93,12 @@ CACHES = {
 }
 USER_AGENTS_CACHE = 'default'
 
+# GitHub OAuth 配置
+GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID', 'Ov23lifuiE0cNspZSu3p')
+GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET', '3e8fc0a9a7c1c16a1fc891ffec161ba43bd641e5')
+GITHUB_REDIRECT_URI = "https://app7549.acapp.acwing.com.cn/settings/github/web/receive_code/"
+
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 

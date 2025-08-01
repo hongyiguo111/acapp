@@ -7,7 +7,7 @@
 }
 
 .ac-game-settings-login {
-    height: 41vh;
+    height: 48vh;
     width: 17vw;
     position: relative;
     top: 50%;
@@ -221,8 +221,50 @@
     white-space: nowrap;
 }
 
+/* GitHub 一键登录样式 */
+.ac-game-settings-github {
+    display: block;
+    height: 7vh;
+    margin: 0 1vw;
+    position: relative;
+}
+
+.ac-game-settings-github > img {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    display: block;
+    transition: all 0.2s ease;
+    filter: brightness(0.9) invert(1);  /* invert 让黑色图标变白色 */
+    width: auto;
+    height: auto;
+    max-height: 3.5vh;
+    max-width: 90%;
+}
+
+.ac-game-settings-github > img:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+    filter: brightness(1.1) invert(1) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+}
+
+.ac-game-settings-github > div {
+    color: #e4e4e7;
+    font-size: 1.5vh;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    text-align: center;
+    display: block;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+}
+
 .ac-game-settings-register {
-    height: 49vh;
+    height: 56vh;
     width: 17vw;
     position: relative;
     top: 50%;
