@@ -11,4 +11,5 @@ urlpatterns = [
         path('register/', register, name='settings_register'),
         path("acwing/", include("game.urls.settings.acwing.index")),
         path("github/", include("game.urls.settings.github.index")),
+        path("gitee/", include("game.urls.settings.gitee.index")),  # 新增
 ]

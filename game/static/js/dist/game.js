@@ -563,15 +563,13 @@ class Settings {
         </div>
         <br>
         <div class="ac-game-settings-acwing">
-            <img width="30" src="https://app165.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
-            <br>
-            <div>
-                AcWing一键登录
-            </div>
+            <img width="30" src="https://app7549.acapp.acwing.com.cn/static/image/login/acwing.png"  alt="AcWing Login">
         </div>
         <div class="ac-game-settings-github">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub Login">
-            <div>GitHub 一键登录</div>
+            <img src="https://app7549.acapp.acwing.com.cn/static/image/login/github.png" alt="GitHub Login">
+        </div>
+            <div class="ac-game-settings-gitee">
+            <img src="https://app7549.acapp.acwing.com.cn/static/image/login/gitee.svg" alt="Gitee Login">
         </div>
     </div>
     <div class="ac-game-settings-register">
@@ -606,17 +604,14 @@ class Settings {
         <br>
         <div class="ac-game-settings-acwing">
             <img width="30" src="https://app165.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
-            <br>
-            <div>
-                AcWing一键登录
-            </div>
         </div>
         <div class="ac-game-settings-github">
             <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub Login">
-            <div>GitHub 一键登录</div>
+        </div>
+            <div class="ac-game-settings-gitee">
+            <img src="https://gitee.com/static/images/logo-black.svg" alt="Gitee Login">
         </div>
     </div>
-</div>
 `);
         this.$login = this.$settings.find(".ac-game-settings-login");
         this.$login_username = this.$login.find(".ac-game-settings-username input");
@@ -639,6 +634,7 @@ class Settings {
 
         this.$acwing_login = this.$settings.find('.ac-game-settings-acwing img');
         this.$github_login = this.$settings.find('.ac-game-settings-github img');
+        this.$gitee_login = this.$settings.find('.ac-game-settings-gitee img'); // 新增
 
         this.add_listening_events();
 
@@ -664,6 +660,11 @@ class Settings {
         this.$github_login.click(function () {
             outer.github_login();
         })
+
+        // Gitee 登录（新增）
+        this.$gitee_login.click(function() {
+            outer.gitee_login();
+        });
     }
 
     acwing_login() {
@@ -692,6 +693,23 @@ class Settings {
             error: function(xhr, status, error) {
                 console.error("GitHub 登录失败:", error);
                 alert("GitHub 登录暂时不可用，请稍后重试");
+            }
+        });
+    }
+
+    gitee_login() {
+        $.ajax({
+            url: "/settings/gitee/web/apply_code/",
+            type: "GET",
+            success: function(resp) {
+                console.log(resp);
+                if (resp.result === "success") {
+                    window.location.replace(resp.apply_code_url);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Gitee 登录失败:", error);
+                alert("Gitee 登录暂时不可用，请稍后重试");
             }
         });
     }

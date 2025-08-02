@@ -1,3 +1,4 @@
+/* ================= 公共区域 ================= */
 .ac-game-settings {
     width: 100%;
     height: 100%;
@@ -6,7 +7,25 @@
     user-select: none;
 }
 
+/* ================= 登录框 ================= */
 .ac-game-settings-login {
+    height: 42vh;
+    width: 17vw;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, rgba(25, 25, 35, 0.8), rgba(35, 35, 45, 0.7));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(12px);
+    overflow: hidden;
+}
+
+/* ================= 注册框 ================= */
+.ac-game-settings-register {
     height: 48vh;
     width: 17vw;
     position: relative;
@@ -22,6 +41,7 @@
     overflow: hidden;
 }
 
+/* ================= 标题 ================= */
 .ac-game-settings-title {
     color: #e4e4e7;
     font-size: 3vh;
@@ -35,25 +55,10 @@
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.ac-game-settings-username {
-    display: block;
-    height: 7vh;
-    margin: 0 1vw;
-}
-
-.ac-game-settings-password {
-    display: block;
-    height: 7vh;
-    margin: 0 1vw;
-}
-
+/* ================= 表单区 ================= */
+.ac-game-settings-username,
+.ac-game-settings-password,
 .ac-game-settings-submit {
-    display: block;
-    height: 7vh;
-    margin: 0 1vw;
-}
-
-.ac-game-settings-acwing {
     display: block;
     height: 7vh;
     margin: 0 1vw;
@@ -151,6 +156,7 @@
                 inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+/* ================= 提示文字 & 选项 ================= */
 .ac-game-settings-error-message {
     color: #ef4444;
     font-size: 0.85vh;
@@ -180,105 +186,67 @@
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-.ac-game-settings-acwing {
-    display: block;
-    height: 7vh;
-    margin: 0 1vw;
-    position: relative;
+/* ===================================================
+   登录方式图标（AcWing / GitHub / Gitee）
+   → 绝对定位到底部，三等分宽度
+   =================================================== */
+.ac-game-settings-acwing,
+.ac-game-settings-github,
+.ac-game-settings-gitee {
+    position: absolute;
+    bottom: 1.5vh;
+    height: 5vh;
+    width: 33.33%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.ac-game-settings-acwing { left: 0; }
+.ac-game-settings-github { left: 33.33%; }
+.ac-game-settings-gitee  { left: 66.66%; }
+
+.ac-game-settings-acwing > img,
+.ac-game-settings-github > img,
+.ac-game-settings-gitee > img {
+    max-height: 3.5vh;
+    max-width: 60%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    filter: brightness(0.9);
 }
 
 .ac-game-settings-acwing > img {
-    position: absolute;
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    cursor: pointer;
-    display: block;
-    transition: all 0.2s ease;
-    filter: brightness(0.9);
-    width: auto;
-    height: auto;
-    max-height: 3.5vh;
-    max-width: 90%;
-}
-
-.ac-game-settings-acwing > img:hover {
-    transform: translate(-50%, -50%) scale(1.05);
-    filter: brightness(1.1) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
-}
-
-.ac-game-settings-acwing > div {
-    color: #e4e4e7;
-    font-size: 1.5vh;
-    font-family: 'Inter', 'Roboto', sans-serif;
-    text-align: center;
-    display: block;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-    position: absolute;
-    bottom: 15%;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-}
-
-/* GitHub 一键登录样式 */
-.ac-game-settings-github {
-    display: block;
-    height: 7vh;
-    margin: 0 1vw;
-    position: relative;
+    max-height: 7vh;  /* 更大一点 */
+    max-width: 65%;     /* 也可以适当放宽宽度 */
 }
 
 .ac-game-settings-github > img {
-    position: absolute;
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    cursor: pointer;
-    display: block;
-    transition: all 0.2s ease;
-    filter: brightness(0.9) invert(1);  /* invert 让黑色图标变白色 */
-    width: auto;
-    height: auto;
-    max-height: 3.5vh;
-    max-width: 90%;
+    filter: brightness(0.9) invert(1); /* GitHub 使用白色图标效果 */
+    max-height: 2.2vh;
+}
+
+.ac-game-settings-gitee > img {
+    max-height: 7vh;  /* 更大一点 */
+    max-width: 65%;     /* 也可以适当放宽宽度 */
+}
+
+.ac-game-settings-acwing > img:hover,
+.ac-game-settings-gitee > img:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
 }
 
 .ac-game-settings-github > img:hover {
-    transform: translate(-50%, -50%) scale(1.05);
+    transform: scale(1.05);
     filter: brightness(1.1) invert(1) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
 }
 
-.ac-game-settings-github > div {
-    color: #e4e4e7;
-    font-size: 1.5vh;
-    font-family: 'Inter', 'Roboto', sans-serif;
-    text-align: center;
-    display: block;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-    position: absolute;
-    bottom: 15%;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-}
 
-.ac-game-settings-register {
-    height: 56vh;
-    width: 17vw;
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: linear-gradient(135deg, rgba(25, 25, 35, 0.8), rgba(35, 35, 45, 0.7));
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(12px);
-    overflow: hidden;
-}
-
+/*菜单界面*/
 .ac-game-menu {
     width: 100%;
     height: 100%;
