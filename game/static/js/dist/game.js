@@ -569,7 +569,7 @@ class Settings {
             <img src="https://app7549.acapp.acwing.com.cn/static/image/login/github.png" alt="GitHub Login">
         </div>
             <div class="ac-game-settings-gitee">
-            <img src="https://app7549.acapp.acwing.com.cn/static/image/login/gitee.svg" alt="Gitee Login">
+            <img src="https://app7549.acapp.acwing.com.cn/static/image/login/gitee.png" alt="Gitee Login">
         </div>
     </div>
     <div class="ac-game-settings-register">
@@ -602,14 +602,14 @@ class Settings {
             登录
         </div>
         <br>
-        <div class="ac-game-settings-acwing">
-            <img width="30" src="https://app165.acapp.acwing.com.cn/static/image/settings/acwing_logo.png">
+        <div class="ac-game-settings-acwing" title="AcWing 一键登录">
+            <img width="30" src="https://app7549.acapp.acwing.com.cn/static/image/login/acwing.png"  alt="AcWing Login">
         </div>
-        <div class="ac-game-settings-github">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub Login">
+        <div class="ac-game-settings-github" title="GitHub 一键登录">
+            <img src="https://app7549.acapp.acwing.com.cn/static/image/login/github.png" alt="GitHub Login">
         </div>
-            <div class="ac-game-settings-gitee">
-            <img src="https://gitee.com/static/images/logo-black.svg" alt="Gitee Login">
+            <div class="ac-game-settings-gitee" title="Gitee 一键登录">
+            <img src="https://app7549.acapp.acwing.com.cn/static/image/login/gitee.png" alt="Gitee Login">
         </div>
     </div>
 `);

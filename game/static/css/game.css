@@ -1,16 +1,21 @@
-/* ================= 公共区域 ================= */
 .ac-game-settings {
     width: 100%;
     height: 100%;
     background-image: url("/static/image/menu/background.gif");
-    background-size: 100% 100%;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     user-select: none;
+    will-change: scroll-position;
+    contain: layout style paint;
 }
 
-/* ================= 登录框 ================= */
 .ac-game-settings-login {
-    height: 42vh;
+    height: 38vh;
     width: 17vw;
+    min-width: 280px;
+    max-width: 400px;
     position: relative;
     top: 50%;
     left: 50%;
@@ -22,12 +27,15 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(12px);
     overflow: hidden;
+    will-change: transform;
+    contain: layout style paint;
 }
 
-/* ================= 注册框 ================= */
 .ac-game-settings-register {
-    height: 48vh;
+    height: 45vh;
     width: 17vw;
+    min-width: 280px;
+    max-width: 400px;
     position: relative;
     top: 50%;
     left: 50%;
@@ -39,28 +47,28 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(12px);
     overflow: hidden;
+    will-change: transform;
+    contain: layout style paint;
 }
 
-/* ================= 标题 ================= */
 .ac-game-settings-title {
     color: #e4e4e7;
-    font-size: 3vh;
+    font-size: clamp(18px, 3vh, 32px);
     font-weight: 400;
     font-family: 'Inter', 'Roboto', sans-serif;
     text-align: center;
     padding-top: 2vh;
-    margin-bottom: 2vh;
     text-transform: uppercase;
     letter-spacing: 0.15vw;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* ================= 表单区 ================= */
 .ac-game-settings-username,
 .ac-game-settings-password,
 .ac-game-settings-submit {
     display: block;
     height: 7vh;
+    min-height: 40px;
     margin: 0 1vw;
 }
 
@@ -73,6 +81,7 @@
 .ac-game-settings-item > input {
     width: 90%;
     line-height: 3vh;
+    min-height: 32px;
     position: relative;
     top: 50%;
     left: 50%;
@@ -83,8 +92,10 @@
     color: #e4e4e7;
     padding: 0 1vw;
     font-family: 'Inter', 'Roboto', sans-serif;
+    font-size: clamp(12px, 1.5vh, 16px);
     transition: all 0.2s ease;
     backdrop-filter: blur(8px);
+    will-change: transform, box-shadow;
 }
 
 .ac-game-settings-item > input:focus {
@@ -103,6 +114,7 @@
     color: #e4e4e7;
     width: 90%;
     line-height: 3vh;
+    min-height: 36px;
     position: relative;
     top: 50%;
     left: 50%;
@@ -111,6 +123,7 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 8px;
     font-family: 'Inter', 'Roboto', sans-serif;
+    font-size: clamp(12px, 1.4vh, 16px);
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.1vw;
@@ -119,6 +132,8 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
     transition: all 0.2s ease;
     overflow: hidden;
+    will-change: transform, box-shadow;
+    backface-visibility: hidden;
 }
 
 .ac-game-settings-item > button::before {
@@ -135,6 +150,7 @@
                 rgba(255, 255, 255, 0.1),
                 transparent);
     transition: left 0.5s ease;
+    will-change: transform;
 }
 
 .ac-game-settings-item > button:hover {
@@ -156,21 +172,21 @@
                 inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* ================= 提示文字 & 选项 ================= */
 .ac-game-settings-error-message {
     color: #ef4444;
-    font-size: 0.85vh;
+    font-size: clamp(10px, 1vh, 14px);
     font-family: 'Inter', 'Roboto', sans-serif;
     display: inline;
     float: left;
     padding-left: 1.85vw;
-    padding-top: 0.73vh;
+    padding-top: 0.35vh;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    font-weight: bold;
 }
 
 .ac-game-settings-option {
     color: #e4e4e7;
-    font-size: 1.7vh;
+    font-size: clamp(12px, 1.7vh, 18px);
     font-family: 'Inter', 'Roboto', sans-serif;
     display: inline;
     float: right;
@@ -186,16 +202,13 @@
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-/* ===================================================
-   登录方式图标（AcWing / GitHub / Gitee）
-   → 绝对定位到底部，三等分宽度
-   =================================================== */
 .ac-game-settings-acwing,
 .ac-game-settings-github,
 .ac-game-settings-gitee {
     position: absolute;
     bottom: 1.5vh;
     height: 5vh;
+    min-height: 30px;
     width: 33.33%;
     display: flex;
     justify-content: center;
@@ -212,26 +225,22 @@
 .ac-game-settings-acwing > img,
 .ac-game-settings-github > img,
 .ac-game-settings-gitee > img {
-    max-height: 3.5vh;
-    max-width: 60%;
+    width: 3.5vh;
+    height: 3.5vh;
+    min-width: 30px;
+    min-height: 30px;
+    max-width: 35px;
+    max-height: 35px;
+    object-fit: contain;
     cursor: pointer;
     transition: all 0.2s ease;
     filter: brightness(0.9);
-}
-
-.ac-game-settings-acwing > img {
-    max-height: 7vh;  /* 更大一点 */
-    max-width: 65%;     /* 也可以适当放宽宽度 */
+    will-change: transform, filter;
+    backface-visibility: hidden;
 }
 
 .ac-game-settings-github > img {
-    filter: brightness(0.9) invert(1); /* GitHub 使用白色图标效果 */
-    max-height: 2.2vh;
-}
-
-.ac-game-settings-gitee > img {
-    max-height: 7vh;  /* 更大一点 */
-    max-width: 65%;     /* 也可以适当放宽宽度 */
+    filter: brightness(0.9) invert(1);
 }
 
 .ac-game-settings-acwing > img:hover,
@@ -245,46 +254,24 @@
     filter: brightness(1.1) invert(1) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
 }
 
-
 /*菜单界面*/
 .ac-game-menu {
     width: 100%;
     height: 100%;
     background-image: url("/static/image/menu/background.gif");
-    background-size: 100% 100%;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     user-select: none;
+    will-change: scroll-position;
+    contain: layout style paint;
 }
-
-/*注释起来的是yxc的代码，我觉得效果不太好，就让ai重新写了一个，放在后面了*/
-/*.ac-game-menu-field{*/
-/*    width: 20vw;*/
-/*    position: relative;*/
-/*    top: 40vh;*/
-/*    left: 19vw;*/
-/*}*/
-
-/*.ac-game-menu-field-item {*/
-/*    color: white;*/
-/*    height: 7vh;*/
-/*    width: 18vw;*/
-/*    font-size: 5vh;*/
-/*    font-style: italic;*/
-/*    padding: 1.3vh;*/
-/*    text-align: center;*/
-/*    background-color: rgba(39,21,28, 0.6);*/
-/*    border-radius: 10px;*/
-/*    letter-spacing: 0.4vw;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.ac-game-menu-field-item:hover {*/
-/*    transform: scale(1.2);*/
-/*    transition: 150ms;*/
-/*}*/
-
 
 .ac-game-menu-field {
     width: 20vw;
+    min-width: 200px;
+    max-width: 300px;
     position: relative;
     top: 20%;
     left: 17%;
@@ -293,8 +280,11 @@
 .ac-game-menu-field-item {
     color: #e4e4e7;
     height: 7vh;
+    min-height: 50px;
     width: 12vw;
-    font-size: 3.3vh;
+    min-width: 180px;
+    max-width: 240px;
+    font-size: clamp(20px, 4vh, 36px);
     font-weight: 400;
     font-family: 'Inter', 'Roboto', sans-serif;
     padding: 0;
@@ -314,6 +304,8 @@
     overflow: hidden;
     transition: all 0.2s ease;
     margin-bottom: 1.7vh;
+    will-change: transform, box-shadow;
+    backface-visibility: hidden;
 }
 
 .ac-game-menu-field-item::before {
@@ -330,6 +322,7 @@
                 rgba(255, 255, 255, 0.03),
                 transparent);
     transition: left 0.5s ease;
+    will-change: transform;
 }
 
 .ac-game-menu-field-item::after {
@@ -341,6 +334,7 @@
     height: 2px;
     background: linear-gradient(90deg, #f39c12, #e74c3c);
     transition: width 0.3s ease;
+    will-change: width;
 }
 
 .ac-game-menu-field-item:hover {
@@ -370,7 +364,7 @@
 }
 
 .ac-game-menu-field-item:last-child {
-    margin-bottom: 0;  /* 最后一个按钮不需要底部间距 */
+    margin-bottom: 0;
 }
 
 /* 可选：为不同按钮添加不同的强调色 */
@@ -396,103 +390,232 @@
     user-select: none;
 }
 
-/* 下面是游戏画布的退出提示的css */
-/* BallBlitz 确认对话框样式 */
-/* BallBlitz 确认对话框样式 */
-/*.ballblitz-confirm-dialog {*/
-/*    position: fixed;*/
-/*    top: 0;*/
-/*    left: 0;*/
-/*    width: 100%;*/
-/*    height: 100%;*/
-/*    background-color: rgba(0, 0, 0, 0.8);  !* 更深的黑色背景 *!*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*    z-index: 1000;*/
-/*    backdrop-filter: blur(5px);  !* 背景模糊效果 *!*/
-/*}*/
+/* 响应式媒体查询 */
+/* 平板横屏和小屏幕笔记本 */
+@media screen and (max-width: 1024px) {
+    .ac-game-settings-login,
+    .ac-game-settings-register {
+        width: 25vw;
+        min-width: 320px;
+        max-width: 450px;
+    }
+    
+    .ac-game-menu-field {
+        width: 30vw;
+        min-width: 250px;
+        max-width: 350px;
+        left: 15%;
+    }
+    
+    .ac-game-menu-field-item {
+        width: 20vw;
+        min-width: 220px;
+        max-width: 280px;
+    }
+}
 
-/*.ballblitz-confirm-box {*/
-/*    background: linear-gradient(135deg, rgba(25, 25, 35, 0.9), rgba(35, 35, 45, 0.8));*/
-/*    padding: 35px 40px;*/
-/*    border: 1px solid rgba(255, 255, 255, 0.1);*/
-/*    border-radius: 12px;*/
-/*    text-align: center;*/
-/*    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),*/
-/*                inset 0 1px 0 rgba(255, 255, 255, 0.06);*/
-/*    backdrop-filter: blur(12px);*/
-/*    min-width: 350px;*/
-/*}*/
+/* 平板竖屏 */
+@media screen and (max-width: 768px) {
+    .ac-game-settings-login,
+    .ac-game-settings-register {
+        width: 35vw;
+        min-width: 300px;
+        max-width: 400px;
+        height: auto;
+        min-height: 320px;
+        padding-bottom: 20px;
+    }
+    
+    .ac-game-settings-register {
+        min-height: 380px;
+    }
+    
+    .ac-game-settings-title {
+        font-size: clamp(20px, 4vh, 36px);
+        padding-top: 3vh;
+    }
+    
+    .ac-game-settings-username,
+    .ac-game-settings-password,
+    .ac-game-settings-submit {
+        height: 8vh;
+        min-height: 50px;
+        margin: 8px 1vw;
+    }
+    
+    .ac-game-menu-field {
+        width: 40vw;
+        min-width: 280px;
+        max-width: 400px;
+        left: 10%;
+        top: 15%;
+    }
+    
+    .ac-game-menu-field-item {
+        width: 35vw;
+        min-width: 260px;
+        max-width: 360px;
+        height: 8vh;
+        min-height: 60px;
+        margin-bottom: 2vh;
+        font-size: clamp(18px, 3.8vh, 32px);
+    }
+    
+    /* 移动端性能优化 */
+    .ac-game-settings,
+    .ac-game-menu {
+        background-attachment: scroll;
+        will-change: auto;
+    }
+}
 
-/*.ballblitz-confirm-box h2 {*/
-/*    color: #e4e4e7;*/
-/*    margin-bottom: 20px;*/
-/*    font-size: 2.5vh;*/
-/*    font-family: 'Inter', 'Roboto', sans-serif;*/
-/*    text-transform: uppercase;*/
-/*    letter-spacing: 0.15vw;*/
-/*    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);*/
-/*}*/
+/* 手机横屏 */
+@media screen and (max-width: 667px) and (orientation: landscape) {
+    .ac-game-settings-login,
+    .ac-game-settings-register {
+        width: 45vw;
+        min-width: 280px;
+        max-width: 350px;
+        height: auto;
+        min-height: 280px;
+    }
+    
+    .ac-game-settings-register {
+        min-height: 320px;
+    }
+    
+    .ac-game-settings-title {
+        font-size: clamp(16px, 3.5vh, 28px);
+        padding-top: 2vh;
+    }
+    
+    .ac-game-menu-field {
+        width: 50vw;
+        min-width: 250px;
+        max-width: 320px;
+        left: 8%;
+        top: 10%;
+    }
+    
+    .ac-game-menu-field-item {
+        width: 45vw;
+        min-width: 230px;
+        max-width: 300px;
+        height: 9vh;
+        min-height: 50px;
+        font-size: clamp(16px, 3.5vh, 28px);
+    }
+}
 
-/*.ballblitz-confirm-box p {*/
-/*    color: rgba(228, 228, 231, 0.8);*/
-/*    margin-bottom: 30px;*/
-/*    line-height: 1.6;*/
-/*    font-size: 1.6vh;*/
-/*    font-family: 'Inter', 'Roboto', sans-serif;*/
-/*}*/
+/* 手机竖屏 */
+@media screen and (max-width: 480px) {
+    .ac-game-settings-login,
+    .ac-game-settings-register {
+        width: 80vw;
+        min-width: 280px;
+        max-width: 360px;
+        height: auto;
+        min-height: 350px;
+        padding-bottom: 25px;
+    }
+    
+    .ac-game-settings-register {
+        min-height: 420px;
+    }
+    
+    .ac-game-settings-title {
+        font-size: clamp(22px, 5vh, 40px);
+        padding-top: 4vh;
+    }
+    
+    .ac-game-settings-username,
+    .ac-game-settings-password,
+    .ac-game-settings-submit {
+        height: 10vh;
+        min-height: 55px;
+        margin: 12px 2vw;
+    }
+    
+    .ac-game-settings-item > input,
+    .ac-game-settings-item > button {
+        width: 85%;
+        font-size: clamp(14px, 2vh, 18px);
+    }
+    
+    .ac-game-settings-error-message {
+        font-size: clamp(11px, 1.5vh, 16px);
+        padding-left: 3vw;
+    }
+    
+    .ac-game-settings-option {
+        font-size: clamp(14px, 2.2vh, 20px);
+        padding-right: 3vw;
+    }
+    
+    .ac-game-settings-acwing,
+    .ac-game-settings-github,
+    .ac-game-settings-gitee {
+        height: 8vh;
+        min-height: 40px;
+        bottom: 2vh;
+    }
+    
+    .ac-game-menu-field {
+        width: 70vw;
+        min-width: 280px;
+        max-width: 400px;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 12%;
+    }
+    
+    .ac-game-menu-field-item {
+        width: 65vw;
+        min-width: 260px;
+        max-width: 380px;
+        height: 12vh;
+        min-height: 70px;
+        margin-bottom: 3vh;
+        font-size: clamp(18px, 4vh, 36px);
+    }
+    
+    .ac-game-settings,
+    .ac-game-menu {
+        background-position: center top;
+    }
+}
 
-/*.ballblitz-confirm-box button {*/
-/*    padding: 12px 30px;*/
-/*    margin: 0 10px;*/
-/*    border: 1px solid rgba(255, 255, 255, 0.2);*/
-/*    border-radius: 8px;*/
-/*    font-size: 1.5vh;*/
-/*    font-family: 'Inter', 'Roboto', sans-serif;*/
-/*    font-weight: 400;*/
-/*    text-transform: uppercase;*/
-/*    letter-spacing: 0.1vw;*/
-/*    cursor: pointer;*/
-/*    transition: all 0.2s ease;*/
-/*    position: relative;*/
-/*    overflow: hidden;*/
-/*}*/
+/* 小屏手机 */
+@media screen and (max-width: 360px) {
+    .ac-game-settings-login,
+    .ac-game-settings-register {
+        width: 90vw;
+        min-width: 260px;
+        max-width: 320px;
+    }
+    
+    .ac-game-menu-field {
+        width: 85vw;
+        min-width: 250px;
+        max-width: 300px;
+    }
+    
+    .ac-game-menu-field-item {
+        width: 80vw;
+        min-width: 240px;
+        max-width: 290px;
+    }
+}
 
-/*.confirm-yes {*/
-/*    background: linear-gradient(135deg, rgba(231, 76, 60, 0.8), rgba(192, 57, 43, 0.7));*/
-/*    color: #e4e4e7;*/
-/*    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4),*/
-/*                inset 0 1px 0 rgba(255, 255, 255, 0.1);*/
-/*}*/
-
-/*.confirm-yes:hover {*/
-/*    background: linear-gradient(135deg, rgba(231, 76, 60, 0.9), rgba(192, 57, 43, 0.8));*/
-/*    transform: translateY(-2px);*/
-/*    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5),*/
-/*                0 0 24px rgba(231, 76, 60, 0.2),*/
-/*                inset 0 1px 0 rgba(255, 255, 255, 0.2);*/
-/*}*/
-
-/*.confirm-no {*/
-/*    background: linear-gradient(135deg, rgba(149, 165, 166, 0.8), rgba(127, 140, 141, 0.7));*/
-/*    color: #e4e4e7;*/
-/*    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4),*/
-/*                inset 0 1px 0 rgba(255, 255, 255, 0.1);*/
-/*}*/
-
-/*.confirm-no:hover {*/
-/*    background: linear-gradient(135deg, rgba(149, 165, 166, 0.9), rgba(127, 140, 141, 0.8));*/
-/*    transform: translateY(-2px);*/
-/*    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5),*/
-/*                0 0 24px rgba(149, 165, 166, 0.2),*/
-/*                inset 0 1px 0 rgba(255, 255, 255, 0.2);*/
-/*}*/
-
-/*!* 按钮点击效果 *!*/
-/*.confirm-yes:active,*/
-/*.confirm-no:active {*/
-/*    transform: translateY(0);*/
-/*    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5),*/
-/*                inset 0 2px 4px rgba(0, 0, 0, 0.3);*/
-/*}*/
+/* 纯性能优化，不改变视觉效果 */
+/* 减少动画偏好支持 */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        will-change: auto !important;
+    }
+}
