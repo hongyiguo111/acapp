@@ -6,7 +6,7 @@ class AcGamePlayground{
         this.create_confirm_dialog();
 
         this.hide();
-
+        this.root.$ac_game.append(this.$playground);
         this.start();
     }
 
@@ -53,7 +53,21 @@ class AcGamePlayground{
     }
 
     start(){
-    
+        let outer = this;
+        $(window).resize(function () {
+            outer.resize();
+        }); // 当用户改变窗口大小的时候，事件就会触发
+    }
+
+    resize() {
+        this.width = this.$playground.width();
+        this.height = this.$playground.height();
+        let unit = Math.min(this.width / 16, this.height / 9);
+        this.width = unit * 16;
+        this.height = unit * 9;
+        this.scale = this.height;
+
+        if(this.game_map) this.game_map.resize();
     }
 
     // 摁下'esc'键退出游戏界面
@@ -68,18 +82,20 @@ class AcGamePlayground{
         });
     }
 
-    show(){ // 打开playground界面
+    show() { // 打开playground界面
         this.$playground.show();
-        this.root.$ac_game.append(this.$playground);
+
+        this.resize();
+
         //存下来宽高
         this.width = this.$playground.width();
         this.height = this.$playground.height();
         this.game_map = new GameMap(this);
         this.players = [];
-        this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, "white", this.height * 0.15, true));
+        this.players.push(new Player(this, this.width / 2 / this.scale, 0.5, 0.05, "white", 0.15, true));
 
         for(let i = 0 ; i < 5 ; i ++){
-            this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, this.get_random_color(), this.height * 0.15, false));
+            this.players.push(new Player(this, this.width / 2 / this.scale, 0.5, 0.05, this.get_random_color(), 0.15, false));
         }
 
         // 添加监听函数，为了实现退出游戏的功能
