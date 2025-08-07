@@ -367,6 +367,181 @@
     margin-bottom: 0;
 }
 
+/* 操作指南样式 */
+.ac-game-menu-guide {
+    position: fixed;
+    top: 3vh;
+    right: 3vw;
+    z-index: 1000;
+    user-select: none;
+}
+
+.ac-game-menu-guide-toggle {
+    color: #e4e4e7;
+    height: 6vh;
+    min-height: 45px;
+    width: auto;
+    min-width: 140px;
+    padding: 0 1.5vw;
+    font-size: clamp(14px, 2.5vh, 20px);
+    font-weight: 400;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8vw;
+    background: linear-gradient(135deg, rgba(25, 25, 35, 0.6), rgba(35, 35, 45, 0.5));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    letter-spacing: 0.08vw;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(12px);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    will-change: transform, box-shadow;
+    backface-visibility: hidden;
+}
+
+.ac-game-menu-guide-icon {
+    font-size: clamp(16px, 2.8vh, 24px);
+    margin-right: 0.3vw;
+}
+
+.ac-game-menu-guide-arrow {
+    font-size: clamp(12px, 2vh, 18px);
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.ac-game-menu-guide-arrow.active {
+    transform: rotate(180deg);
+}
+
+.ac-game-menu-guide-toggle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+                transparent,
+                rgba(255, 255, 255, 0.03),
+                rgba(255, 255, 255, 0.06),
+                rgba(255, 255, 255, 0.03),
+                transparent);
+    transition: left 0.5s ease;
+    will-change: transform;
+}
+
+.ac-game-menu-guide-toggle::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #ab7fbf, #8e44ad);
+    transition: width 0.3s ease;
+    will-change: width;
+}
+
+.ac-game-menu-guide-toggle:hover {
+    transform: translateY(-2px);
+    color: #ffffff;
+    background: linear-gradient(135deg, rgba(30, 30, 40, 0.7), rgba(40, 40, 50, 0.6));
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5),
+                0 0 24px rgba(155, 89, 182, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.ac-game-menu-guide-toggle:hover::before {
+    left: 100%;
+}
+
+.ac-game-menu-guide-toggle:hover::after {
+    width: 100%;
+}
+
+.ac-game-menu-guide-toggle:active {
+    transform: translateY(0);
+    background: linear-gradient(135deg, rgba(25, 25, 35, 0.7), rgba(35, 35, 45, 0.6));
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5),
+                inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.ac-game-menu-guide-content {
+    margin-top: 1vh;
+    background: linear-gradient(135deg, rgba(25, 25, 35, 0.85), rgba(35, 35, 45, 0.8));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2vh 1.5vw;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(12px);
+    max-width: 320px;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.ac-game-menu-guide-content.active {
+    opacity: 1;
+    max-height: 500px;
+    margin-top: 1.5vh;
+}
+
+.ac-game-menu-guide-content h3 {
+    color: #f39c12;
+    font-size: clamp(14px, 2.2vh, 18px);
+    font-weight: 500;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    margin: 0 0 1.5vh 0;
+    text-transform: uppercase;
+    letter-spacing: 0.1vw;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.ac-game-menu-guide-item {
+    color: #e4e4e7;
+    font-size: clamp(12px, 1.8vh, 16px);
+    font-family: 'Inter', 'Roboto', sans-serif;
+    margin-bottom: 1.2vh;
+    padding-left: 1vw;
+    line-height: 1.5;
+    position: relative;
+}
+
+.ac-game-menu-guide-item::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #3498db;
+    font-size: clamp(10px, 1.5vh, 14px);
+}
+
+.ac-game-menu-guide-item:last-child {
+    margin-bottom: 0;
+}
+
+.ac-game-menu-guide-key {
+    display: inline-block;
+    background: rgba(52, 152, 219, 0.2);
+    border: 1px solid rgba(52, 152, 219, 0.4);
+    border-radius: 4px;
+    padding: 0.2vh 0.5vw;
+    margin: 0 0.3vw;
+    font-weight: 500;
+    color: #3498db;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
 /* 可选：为不同按钮添加不同的强调色 */
 .ac-game-menu-field-item:nth-of-type(1):hover::after {
     background: linear-gradient(90deg, #3498db, #2980b9);

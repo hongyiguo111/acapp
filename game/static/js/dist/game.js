@@ -3,6 +3,27 @@ class AcGameMenu{
         this.root = root;
         this.$menu = $(`
 <div class="ac-game-menu">
+    <div class="ac-game-menu-guide">
+        <div class="ac-game-menu-guide-toggle">
+            <span class="ac-game-menu-guide-icon"></span>
+            <span>操作指南</span>
+            <span class="ac-game-menu-guide-arrow">▼</span>
+        </div>
+        <div class="ac-game-menu-guide-content">
+            <h3>游戏操作说明</h3>
+            <div class="ac-game-menu-guide-item">
+                <strong>移动：</strong>鼠标<span class="ac-game-menu-guide-key">右键</span>控制角色移动
+            </div>
+            <div class="ac-game-menu-guide-item">
+                <strong>火球：</strong>按下<span class="ac-game-menu-guide-key">Q</span>键选择技能，<span class="ac-game-menu-guide-key">左键</span>发射
+            </div>
+            <div class="ac-game-menu-guide-item">
+                <strong>闪现：</strong>按下<span class="ac-game-menu-guide-key">F</span>键选择技能，<span class="ac-game-menu-guide-key">左键</span>释放
+            </div>
+        </div>
+    </div>
+
+
     <div class="ac-game-menu-field">
         <div class="ac-game-menu-field-item ac-game-menu-field-item-single-mode">
             单人模式
@@ -29,6 +50,10 @@ class AcGameMenu{
         this.$settings = this.$menu.find('.ac-game-menu-field-item-settings');
         this.$exit = this.$menu.find('.ac-game-menu-field-item-exit');
 
+        this.$guide_toggle = this.$menu.find('.ac-game-menu-guide-toggle');
+        this.$guide_content = this.$menu.find('.ac-game-menu-guide-content');
+        this.$guide_arrow = this.$menu.find('.ac-game-menu-guide-arrow');
+
         this.start();
     }
 
@@ -51,6 +76,19 @@ class AcGameMenu{
         });
         this.$exit.click(function(){
             outer.root.settings.logout_on_remote();
+        });
+        this.$guide_toggle.click(function(){
+            outer.$guide_content.toggleClass('active');
+            outer.$guide_arrow.toggleClass('active');
+        });
+
+        $(document).click(function(e){
+            if (!$(e.target).closest('.ac-game-menu-guide').length) {
+                if (outer.$guide_content.hasClass('active')) {
+                    outer.$guide_content.removeClass('active');
+                    outer.$guide_arrow.removeClass('active');
+                }
+            }
         });
     }
 
