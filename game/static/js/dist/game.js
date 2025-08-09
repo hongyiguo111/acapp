@@ -1,27 +1,29 @@
-class AcGameMenu{
-    constructor(root){
+class AcGameMenu {
+    constructor(root) {
         this.root = root;
         this.$menu = $(`
 <div class="ac-game-menu">
-    <div class="ac-game-menu-guide">
-        <div class="ac-game-menu-guide-toggle">
-            <span class="ac-game-menu-guide-icon"></span>
-            <span>操作指南</span>
-            <span class="ac-game-menu-guide-arrow">▼</span>
+     <div class="ac-game-menu-guide">
+            <div class="ac-game-menu-guide-toggle">
+                <span class="ac-game-menu-guide-text">操作指南</span>
+                <span class="ac-game-menu-guide-arrow">▼</span>
+            </div>
+            <div class="ac-game-menu-guide-content">
+                <h3>游戏操作说明</h3>
+                <div class="ac-game-menu-guide-item">
+                    <strong>移动：</strong>鼠标<span class="ac-game-menu-guide-key">右键</span>控制角色移动
+                </div>
+                <div class="ac-game-menu-guide-item">
+                    <strong>火球：</strong>按下<span class="ac-game-menu-guide-key">Q</span>键选择技能，<span class="ac-game-menu-guide-key">左键</span>发射
+                </div>
+                <div class="ac-game-menu-guide-item">
+                    <strong>闪现：</strong>按下<span class="ac-game-menu-guide-key">F</span>键选择技能，<span class="ac-game-menu-guide-key">左键</span>释放
+                </div>
+                <div class="ac-game-menu-guide-item">
+                    <strong>多人模式聊天窗：</strong>按下<span class="ac-game-menu-guide-key">ENTER</span>键打开聊天窗，<span class="ac-game-menu-guide-key">ESC</span>键关闭
+                </div>
+            </div>
         </div>
-        <div class="ac-game-menu-guide-content">
-            <h3>游戏操作说明</h3>
-            <div class="ac-game-menu-guide-item">
-                <strong>移动：</strong>鼠标<span class="ac-game-menu-guide-key">右键</span>控制角色移动
-            </div>
-            <div class="ac-game-menu-guide-item">
-                <strong>火球：</strong>按下<span class="ac-game-menu-guide-key">Q</span>键选择技能，<span class="ac-game-menu-guide-key">左键</span>发射
-            </div>
-            <div class="ac-game-menu-guide-item">
-                <strong>闪现：</strong>按下<span class="ac-game-menu-guide-key">F</span>键选择技能，<span class="ac-game-menu-guide-key">左键</span>释放
-            </div>
-        </div>
-    </div>
 
 
     <div class="ac-game-menu-field">
@@ -57,32 +59,33 @@ class AcGameMenu{
         this.start();
     }
 
-    start(){
+    start() {
         this.add_listening_events();
     }
 
     add_listening_events() {
         let outer = this;
-        this.$single_mode.click(function(){
+        this.$single_mode.click(function () {
             outer.hide();
             outer.root.playground.show("single mode");
         });
-        this.$multi_mode.click(function(){
+        this.$multi_mode.click(function () {
             outer.hide();
             outer.root.playground.show("multi mode");
         });
-        this.$settings.click(function(){
+        this.$settings.click(function () {
 
         });
-        this.$exit.click(function(){
+        this.$exit.click(function () {
             outer.root.settings.logout_on_remote();
         });
-        this.$guide_toggle.click(function(){
+        
+        this.$guide_toggle.click(function () {
             outer.$guide_content.toggleClass('active');
             outer.$guide_arrow.toggleClass('active');
         });
 
-        $(document).click(function(e){
+        $(document).click(function (e) {
             if (!$(e.target).closest('.ac-game-menu-guide').length) {
                 if (outer.$guide_content.hasClass('active')) {
                     outer.$guide_content.removeClass('active');
@@ -92,11 +95,11 @@ class AcGameMenu{
         });
     }
 
-    show(){//显示menu界面
+    show() {//显示menu界面
         this.$menu.show();
     }
 
-    hide(){// 关闭menu界面
+    hide() {// 关闭menu界面
         this.$menu.hide();
     }
 
@@ -170,11 +173,144 @@ let AC_GAME_ANIMATION = function (timestamp){ // 回调函数，实现：每一�
 
 
 requestAnimationFrame(AC_GAME_ANIMATION); // js提供的api，其功能请见笔记
+class ChatField {
+    constructor(playground) {
+        this.playground = playground;
+
+        this.$history = $(`<div class="ac-game-chat-field-history">历史记录</div>`);
+        this.$input = $(`<input type="text" class="ac-game-chat-field-input">`);
+
+        this.$history.hide();
+        this.$input.hide();
+
+        // 阻止聊天区域的右键菜单
+        this.$history.on('contextmenu', function (e) {
+            e.preventDefault();
+            return false;
+        });
+
+        this.$input.on('contextmenu', function (e) {
+            e.preventDefault();
+            return false;
+        });
+
+        this.func_id = null;
+        this.is_input_active = false;
+
+        this.playground.$playground.append(this.$history);
+        this.playground.$playground.append(this.$input);
+
+        this.start();
+    }
+
+    start() {
+        this.add_listening_events();
+    }
+
+    add_listening_events() {
+        let outer = this;
+
+        this.$input.keydown(function (e) {
+            if (e.which === 27) { // esc
+                outer.hide_input();
+                outer.hide_history();
+                return false;
+            } else if (e.which === 13) { // enter
+                let username = outer.playground.root.settings.username;
+                let text = outer.$input.val();
+                if (text) {
+                    outer.$input.val("");
+                    outer.add_message(username, text);
+                    outer.playground.mps.send_message(username, text);
+                }
+                return false;
+            }
+        });
+
+        this.playground.$playground.mousedown(function (e) {
+            let $target = $(e.target);
+
+            // 判断点击是否在聊天区域外
+            if (!$target.is(outer.$input) && !$target.is(outer.$history) &&
+                !$target.closest('.ac-game-chat-field-history').length) {
+
+                // 如果输入框显示，关闭它
+                if (outer.$input.is(':visible')) {
+                    outer.hide_input();
+                }
+                // 如果历史记录显示，关闭它
+                if (outer.$history.is(':visible')) {
+                    outer.hide_history();
+                }
+            }
+        });
+
+        // 防止点击输入框和历史记录时触发外部点击
+        this.$input.mousedown(function (e) {
+            e.stopPropagation();
+        });
+
+        this.$history.mousedown(function (e) {
+            e.stopPropagation();
+        });
+    }
+
+    render_message(message) {
+        return $(`<div>${message}</div>`);
+    }
+
+    add_message(username, text) {
+        this.show_history();
+        let message = `${username}: ${text}`;
+        this.$history.append(this.render_message(message));
+        this.$history.scrollTop(this.$history[0].scrollHeight);
+    }
+
+    show_history() {
+        let outer = this;
+        this.$history.fadeIn();
+
+        // 如果输入框激活，就不启动倒计时
+        if (this.func_id) {
+            return;
+        }
+
+        if (!this.$input.is(":visible")) {
+            this.func_id = setTimeout(function () {
+                outer.$history.fadeOut();
+                outer.func_id = null;
+            }, 3000);
+        }
+    }
+
+    show_input() {
+        this.$input.show();
+        this.$input.focus();
+        this.show_history();
+    }
+
+    hide_input() {
+        this.$input.hide();
+        this.playground.game_map.$canvas.focus();
+        this.show_history();
+    }
+
+    hide_history() {
+        this.$history.hide();
+
+        if (this.func_id) {
+            clearTimeout(this.func_id);
+            this.func_id = null;
+        }
+
+        this.playground.game_map.$canvas.focus();
+    }
+}
 class GameMap extends AcGameObject { // 继承自游戏引擎基类
     constructor(playground) {
         super(); // 自函数功能：调用基类的构造函数
         this.playground = playground;
-        this.$canvas = $(`<canvas></canvas>`)//创建一个canvas的jQuery对象，就是我们要实现的画布
+        this.$canvas = $(`<canvas tabindex=0></canvas>`)//创建一个canvas的jQuery对象，就是我们要实现的画布
         this.ctx = this.$canvas[0].getContext('2d'); //jQuery对象是一个数组，第一个索引是html对象
         //设置画布的宽高
         this.ctx.canvas.width = this.playground.width;
@@ -183,6 +319,7 @@ class GameMap extends AcGameObject { // 继承自游戏引擎基类
     }
 
      start() {
+        this.$canvas.focus();
      }
 
      resize() {
@@ -337,7 +474,7 @@ class Particle extends AcGameObject {
         });
         this.playground.game_map.$canvas.mousedown(function (e) {
             if (outer.playground.state !== "fighting")
-                return false;
+                return true;
 
             const rect = outer.ctx.canvas.getBoundingClientRect();
             if (e.which === 3) {//移动功能
@@ -370,7 +507,19 @@ class Particle extends AcGameObject {
                 outer.cur_skill = null;
             }
         });
-        $(window).keydown(function (e) {
+        this.playground.game_map.$canvas.keydown(function (e) {
+            if (e.which === 13) {
+                if (outer.playground.mode === "multi mode") { // enter 打开聊天框
+                    outer.playground.chat_field.show_input();
+                    return false;
+                }
+            } else if (e.which === 27) {
+                if (outer.playground.mode === "multi mode") {
+                    outer.playground.chat_field.hide_input();
+                    return false;
+                }
+            }
+
             if (outer.playground.state !== "fighting")
                 return true;
 
@@ -726,8 +875,11 @@ class Particle extends AcGameObject {
                 outer.receive_shoot_fireball(uuid, data.tx, data.ty, data.ball_uuid);
             } else if (event === "attack") {
                 outer.receive_attack(uuid, data.attackee_uuid, data.x, data.y, data.angle, data.damage, data.ball_uuid);
-            } else if (event == "blink")
+            } else if (event == "blink") {
                 outer.receive_blink(uuid, data.tx, data.ty);
+            } else if (event == "message") {
+                outer.receive_message(uuid, data.username, data.text);
+            }
         };
     }
 
@@ -842,6 +994,20 @@ class Particle extends AcGameObject {
             player.blink(tx, ty);
         }
     }
+
+    send_message(username, text) {
+        let outer = this;
+        this.ws.send(JSON.stringify({
+            'event': "message",
+            'uuid': outer.uuid,
+            'username': username,
+            'text': text,
+        }));
+    }
+
+    receive_message(uuid, username, text) {
+        this.playground.chat_field.add_message(username, text);
+    }
 }class AcGamePlayground{
     constructor(root){
         this.root = root;
@@ -947,6 +1113,7 @@ class Particle extends AcGameObject {
                 this.players.push(new Player(this, this.width / 2 / this.scale, 0.5, 0.05, this.get_random_color(), 0.15, "robot"));
             }
         } else if (mode === "multi mode"){
+            this.chat_field = new ChatField(this);
             this.mps = new MultiPlayerSocket(this);
             this.mps.uuid = this.players[0].uuid;
 

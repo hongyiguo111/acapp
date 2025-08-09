@@ -3,7 +3,7 @@ class GameMap extends AcGameObject { // 继承自游戏引擎基类
     constructor(playground) {
         super(); // 自函数功能：调用基类的构造函数
         this.playground = playground;
-        this.$canvas = $(`<canvas></canvas>`)//创建一个canvas的jQuery对象，就是我们要实现的画布
+        this.$canvas = $(`<canvas tabindex=0></canvas>`)//创建一个canvas的jQuery对象，就是我们要实现的画布
         this.ctx = this.$canvas[0].getContext('2d'); //jQuery对象是一个数组，第一个索引是html对象
         //设置画布的宽高
         this.ctx.canvas.width = this.playground.width;
@@ -12,6 +12,7 @@ class GameMap extends AcGameObject { // 继承自游戏引擎基类
     }
 
      start() {
+        this.$canvas.focus();
      }
 
      resize() {
