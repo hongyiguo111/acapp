@@ -35,6 +35,10 @@ class AcGameMenu {
             多人模式
         </div>
         <br>
+        <div class="ac-game-menu-field-item ac-game-menu-field-item-chatroom">
+            聊天室
+        </div>
+        <br>
         <div class="ac-game-menu-field-item ac-game-menu-field-item-settings">
             设置
         </div>
@@ -49,6 +53,7 @@ class AcGameMenu {
         this.root.$ac_game.append(this.$menu);
         this.$single_mode = this.$menu.find('.ac-game-menu-field-item-single-mode');
         this.$multi_mode = this.$menu.find('.ac-game-menu-field-item-multi-mode');
+        this.$chatroom = this.$menu.find('.ac-game-menu-field-item-chatroom');
         this.$settings = this.$menu.find('.ac-game-menu-field-item-settings');
         this.$exit = this.$menu.find('.ac-game-menu-field-item-exit');
 
@@ -73,6 +78,10 @@ class AcGameMenu {
             outer.hide();
             outer.root.playground.show("multi mode");
         });
+        this.$chatroom.click(function () {
+            outer.hide();
+            outer.root.chatroom.show();
+        })
         this.$settings.click(function () {
 
         });
