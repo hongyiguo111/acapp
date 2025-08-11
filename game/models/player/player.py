@@ -12,6 +12,8 @@ class Player(models.Model):
     # Gitee 字段（新增）
     gitee_id = models.CharField(default="", max_length=256, blank=True, null=True)
     gitee_username = models.CharField(default="", max_length=256, blank=True, null=True)
+
+    score = models.IntegerField(default=1500)
     
     def __str__(self):
         return str(self.user)

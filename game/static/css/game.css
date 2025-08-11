@@ -376,21 +376,30 @@
     margin-bottom: 0;
 }
 
-/* 可选：为不同按钮添加不同的强调色 */
+
+/* 单人模式 - 赛博青 */
 .ac-game-menu-field-item:nth-of-type(1):hover::after {
-    background: linear-gradient(90deg, #3498db, #2980b9);
+    background: linear-gradient(90deg, #06B6D4, #0891B2);
 }
 
+/* 多人模式 - 霓虹粉 */
 .ac-game-menu-field-item:nth-of-type(2):hover::after {
-    background: linear-gradient(90deg, #51cb18, #2f4e2f);
+    background: linear-gradient(90deg, #EC4899, #DB2777);
 }
 
+/* 聊天室 - 数码绿 */
 .ac-game-menu-field-item:nth-of-type(3):hover::after {
-    background: linear-gradient(90deg, #95a5a6, #7f8c8d);
+    background: linear-gradient(90deg, #22D3EE, #059669);
 }
 
+/* 设置 - 深空灰 */
 .ac-game-menu-field-item:nth-of-type(4):hover::after {
-    background: linear-gradient(90deg, #b85151, #b11f09);
+    background: linear-gradient(90deg, #71717A, #52525B);
+}
+
+/* 退出登录 - 警戒橙红 */
+.ac-game-menu-field-item:nth-of-type(5):hover::after {
+    background: linear-gradient(90deg, #f35c5c, #ab0101);
 }
 
 /* 操作指南样式 */
@@ -933,8 +942,8 @@
 /*多人模式下的对话功能*/
 .ac-game-chat-field-history {
     position: absolute;
-    bottom: 10%;  /* 改为从底部定位 */
-    left: 8%;     /* 靠左边 */
+    bottom: 10%; /* 改为从底部定位 */
+    left: 8%; /* 靠左边 */
     width: 300px; /* 使用固定宽度，更稳定 */
     height: 200px; /* 使用固定高度 */
 
@@ -980,8 +989,8 @@
 
 .ac-game-chat-field-input {
     position: absolute;
-    bottom: 5%;  /* 紧贴历史记录框下方 */
-    left: 8%;     /* 与历史框对齐 */
+    bottom: 5%; /* 紧贴历史记录框下方 */
+    left: 8%; /* 与历史框对齐 */
     width: 300px; /* 与历史框同宽 */
     height: 36px; /* 固定高度 */
 
