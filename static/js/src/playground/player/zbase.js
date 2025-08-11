@@ -216,11 +216,21 @@ class Player extends AcGameObject {
     update() {
         this.spend_time += this.timedelta / 1000;
 
+        this.update_win();
+
         if (this.character === "me" && this.playground.state === "fighting") {
             this.update_coldtime();
         }
         this.update_move();
         this.render();
+    }
+
+    update_win() {
+        // 竞赛状态，且只有一名玩家，且该玩家就是我，则胜利
+        if (this.playground.state === "fighting" && this.character === "me" && this.playground.players.length === 1) {
+            this.playground.state = "over";
+            this.playground.score_board.win();
+        }
     }
 
     update_coldtime() {
@@ -333,8 +343,10 @@ class Player extends AcGameObject {
     }
 
     on_destroy() {
-        if (this.character == "me")
+        if (this.character == "me" && this.playground.state === "fighting") {
             this.playground.state = "over";
+            this.playground.score_board.lose();
+        }
         for (let i = 0; i < this.playground.players.length; i++) {
             if (this.playground.players[i] === this) {
                 this.playground.players.splice(i, 1);
