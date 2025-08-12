@@ -1,0 +1,362 @@
+@media screen and (max-width: 1024px) {
+    .ac-game-menu-guide {
+        top: 2.5vh;
+        right: 2.5vw;
+    }
+
+    .ac-game-menu-guide-toggle {
+        min-width: 90px;
+        padding: 0 1vw;
+    }
+
+    .ac-game-menu-guide-content.active {
+        width: 260px;
+        min-width: 220px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .ac-game-menu-guide {
+        top: 2vh;
+        right: 2vw;
+    }
+
+    .ac-game-menu-guide-toggle {
+        height: 5vh;
+        min-height: 40px;
+        min-width: 85px;
+        font-size: clamp(11px, 1.7vh, 15px);
+    }
+
+    .ac-game-menu-guide-content {
+        padding: 1.3vh 1vw;
+    }
+
+    .ac-game-menu-guide-content.active {
+        width: 240px;
+        min-width: 200px;
+    }
+}
+
+@media screen and (max-width: 667px) and (orientation: landscape) {
+    .ac-game-menu-guide {
+        top: 1.5vh;
+        right: 1.5vw;
+    }
+
+    .ac-game-menu-guide-toggle {
+        height: 6vh;
+        min-height: 35px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .ac-game-menu-guide {
+        top: 1.5vh;
+        right: 2vw;
+        gap: 0.5vw;
+    }
+
+    .ac-game-menu-guide-toggle {
+        height: 6vh;
+        min-height: 38px;
+        min-width: 80px;
+        font-size: clamp(10px, 1.6vh, 14px);
+        padding: 0 2vw;
+    }
+
+    .ac-game-menu-guide-content {
+        padding: 1.5vh 2vw;
+    }
+
+    .ac-game-menu-guide-content.active {
+        width: 65vw;
+        max-width: 240px;
+        min-width: 180px;
+    }
+
+    .ac-game-menu-guide-item {
+        font-size: clamp(10px, 1.4vh, 13px);
+        padding-left: 3vw;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .ac-game-menu-guide {
+        right: 1vw;
+    }
+
+    .ac-game-menu-guide-toggle {
+        min-width: 75px;
+    }
+
+    .ac-game-menu-guide-content.active {
+        width: 60vw;
+        max-width: 220px;
+        min-width: 160px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ac-game-menu-guide-arrow,
+    .ac-game-menu-guide-content {
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* 响应式媒体查询 */
+/* 平板横屏和小屏幕笔记本 */
+@media screen and (max-width: 1024px) {
+    .ac-game-settings-login,
+    .ac-game-settings-register {
+        width: 25vw;
+        min-width: 320px;
+        max-width: 450px;
+    }
+
+    .ac-game-menu-field {
+        width: 30vw;
+        min-width: 250px;
+        max-width: 350px;
+        left: 15%;
+    }
+
+    .ac-game-menu-field-item {
+        width: 20vw;
+        min-width: 220px;
+        max-width: 280px;
+    }
+}
+
+/* 平板竖屏 */
+@media screen and (max-width: 768px) {
+    .ac-game-settings-login,
+    .ac-game-settings-register {
+        width: 35vw;
+        min-width: 300px;
+        max-width: 400px;
+        height: auto;
+        min-height: 320px;
+        padding-bottom: 20px;
+    }
+
+    .ac-game-settings-register {
+        min-height: 380px;
+    }
+
+    .ac-game-settings-title {
+        font-size: clamp(20px, 4vh, 36px);
+        padding-top: 3vh;
+    }
+
+    .ac-game-settings-username,
+    .ac-game-settings-password,
+    .ac-game-settings-submit {
+        height: 8vh;
+        min-height: 50px;
+        margin: 8px 1vw;
+    }
+
+    .ac-game-menu-field {
+        width: 40vw;
+        min-width: 280px;
+        max-width: 400px;
+        left: 10%;
+        top: 15%;
+    }
+
+    .ac-game-menu-field-item {
+        width: 35vw;
+        min-width: 260px;
+        max-width: 360px;
+        height: 8vh;
+        min-height: 60px;
+        margin-bottom: 2vh;
+        font-size: clamp(18px, 3.8vh, 32px);
+    }
+
+    /* 移动端性能优化 */
+    .ac-game-settings,
+    .ac-game-menu {
+        background-attachment: scroll;
+        will-change: auto;
+    }
+}
+
+/* 手机横屏 */
+@media screen and (max-width: 667px) and (orientation: landscape) {
+    .ac-game-settings-login,
+    .ac-game-settings-register {
+        width: 45vw;
+        min-width: 280px;
+        max-width: 350px;
+        height: auto;
+        min-height: 280px;
+    }
+
+    .ac-game-settings-register {
+        min-height: 320px;
+    }
+
+    .ac-game-settings-title {
+        font-size: clamp(16px, 3.5vh, 28px);
+        padding-top: 2vh;
+    }
+
+    .ac-game-menu-field {
+        width: 50vw;
+        min-width: 250px;
+        max-width: 320px;
+        left: 8%;
+        top: 10%;
+    }
+
+    .ac-game-menu-field-item {
+        width: 45vw;
+        min-width: 230px;
+        max-width: 300px;
+        height: 9vh;
+        min-height: 50px;
+        font-size: clamp(16px, 3.5vh, 28px);
+    }
+}
+
+/* 手机竖屏 */
+@media screen and (max-width: 480px) {
+    .ac-game-settings-login,
+    .ac-game-settings-register {
+        width: 80vw;
+        min-width: 280px;
+        max-width: 360px;
+        height: auto;
+        min-height: 350px;
+        padding-bottom: 25px;
+    }
+
+    .ac-game-settings-register {
+        min-height: 420px;
+    }
+
+    .ac-game-settings-title {
+        font-size: clamp(22px, 5vh, 40px);
+        padding-top: 4vh;
+    }
+
+    .ac-game-settings-username,
+    .ac-game-settings-password,
+    .ac-game-settings-submit {
+        height: 10vh;
+        min-height: 55px;
+        margin: 12px 2vw;
+    }
+
+    .ac-game-settings-item > input,
+    .ac-game-settings-item > button {
+        width: 85%;
+        font-size: clamp(14px, 2vh, 18px);
+    }
+
+    .ac-game-settings-error-message {
+        font-size: clamp(11px, 1.5vh, 16px);
+        padding-left: 3vw;
+    }
+
+    .ac-game-settings-option {
+        font-size: clamp(14px, 2.2vh, 20px);
+        padding-right: 3vw;
+    }
+
+    .ac-game-settings-acwing,
+    .ac-game-settings-github,
+    .ac-game-settings-gitee {
+        height: 8vh;
+        min-height: 40px;
+        bottom: 2vh;
+    }
+
+    .ac-game-menu-field {
+        width: 70vw;
+        min-width: 280px;
+        max-width: 400px;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 12%;
+    }
+
+    .ac-game-menu-field-item {
+        width: 65vw;
+        min-width: 260px;
+        max-width: 380px;
+        height: 12vh;
+        min-height: 70px;
+        margin-bottom: 3vh;
+        font-size: clamp(18px, 4vh, 36px);
+    }
+
+    .ac-game-settings,
+    .ac-game-menu {
+        background-position: center top;
+    }
+}
+
+/* 小屏手机 */
+@media screen and (max-width: 360px) {
+    .ac-game-settings-login,
+    .ac-game-settings-register {
+        width: 90vw;
+        min-width: 260px;
+        max-width: 320px;
+    }
+
+    .ac-game-menu-field {
+        width: 85vw;
+        min-width: 250px;
+        max-width: 300px;
+    }
+
+    .ac-game-menu-field-item {
+        width: 80vw;
+        min-width: 240px;
+        max-width: 290px;
+    }
+}
+
+/* 纯性能优化，不改变视觉效果 */
+/* 减少动画偏好支持 */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        will-change: auto !important;
+    }
+}
+
+
+/* 响应式调整 - 如果需要的话 */
+@media (max-height: 600px) {
+    .ac-game-chat-field-history {
+        height: 150px;
+    }
+}
+
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .ac-game-chatroom-container {
+        grid-template-columns: 1fr;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+    }
+
+    .ac-game-chatroom-online-users {
+        display: none;
+    }
+
+    .ac-game-chatroom-message {
+        max-width: 85%;
+    }
+}

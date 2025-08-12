@@ -22,6 +22,9 @@ class AcGameMenu {
                 <div class="ac-game-menu-guide-item">
                     <strong>多人模式聊天窗：</strong>按下<span class="ac-game-menu-guide-key">ENTER</span>键打开聊天窗，<span class="ac-game-menu-guide-key">ESC</span>键关闭
                 </div>
+                <div class="ac-game-menu-guide-item">
+                    <strong>游戏结束后：</strong>点击<span class="ac-game-menu-guide-key">任意位置</span>回到<span class="ac-game-menu-guide-key">菜单</span>
+                </div>
             </div>
         </div>
 
@@ -33,6 +36,10 @@ class AcGameMenu {
         <br>
         <div class="ac-game-menu-field-item ac-game-menu-field-item-multi-mode">
             多人模式
+        </div>
+        <br>
+        <div class="ac-game-menu-field-item ac-game-menu-field-item-leaderboard">
+            排行榜
         </div>
         <br>
         <div class="ac-game-menu-field-item ac-game-menu-field-item-chatroom">
@@ -53,6 +60,7 @@ class AcGameMenu {
         this.root.$ac_game.append(this.$menu);
         this.$single_mode = this.$menu.find('.ac-game-menu-field-item-single-mode');
         this.$multi_mode = this.$menu.find('.ac-game-menu-field-item-multi-mode');
+        this.$leaderboard = this.$menu.find(`.ac-game-menu-field-item-leaderboard`);
         this.$chatroom = this.$menu.find('.ac-game-menu-field-item-chatroom');
         this.$settings = this.$menu.find('.ac-game-menu-field-item-settings');
         this.$exit = this.$menu.find('.ac-game-menu-field-item-exit');
@@ -77,6 +85,10 @@ class AcGameMenu {
         this.$multi_mode.click(function () {
             outer.hide();
             outer.root.playground.show("multi mode");
+        });
+        this.$leaderboard.click(function () {
+            outer.hide();
+            outer.root.leaderboard.show();
         });
         this.$chatroom.click(function () {
             outer.hide();

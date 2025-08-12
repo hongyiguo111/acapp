@@ -1,0 +1,328 @@
+.ac-game-menu {
+    width: 100%;
+    height: 100%;
+    background-image: url("/static/image/menu/background.gif");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    user-select: none;
+    will-change: scroll-position;
+    contain: layout style paint;
+}
+
+.ac-game-menu-field {
+    width: 20vw;
+    min-width: 200px;
+    max-width: 300px;
+    position: relative;
+    top: 20%;
+    left: 17%;
+}
+
+.ac-game-menu-field-item {
+    color: #e4e4e7;
+    height: 7vh;
+    min-height: 50px;
+    width: 12vw;
+    min-width: 180px;
+    max-width: 240px;
+    font-size: clamp(20px, 4vh, 36px);
+    font-weight: 400;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(25, 25, 35, 0.6), rgba(35, 35, 45, 0.5));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    letter-spacing: 0.15vw;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(12px);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    margin-bottom: 1.7vh;
+    will-change: transform, box-shadow;
+    backface-visibility: hidden;
+}
+
+.ac-game-menu-field-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 255, 255, 0.03),
+    rgba(255, 255, 255, 0.06),
+    rgba(255, 255, 255, 0.03),
+    transparent);
+    transition: left 0.5s ease;
+    will-change: transform;
+}
+
+.ac-game-menu-field-item::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #f39c12, #e74c3c);
+    transition: width 0.3s ease;
+    will-change: width;
+}
+
+.ac-game-menu-field-item:hover {
+    transform: translateY(-2px);
+    color: #ffffff;
+    background: linear-gradient(135deg, rgba(30, 30, 40, 0.7), rgba(40, 40, 50, 0.6));
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5),
+    0 0 24px rgba(243, 156, 18, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.ac-game-menu-field-item:hover::before {
+    left: 100%;
+}
+
+.ac-game-menu-field-item:hover::after {
+    width: 100%;
+}
+
+.ac-game-menu-field-item:active {
+    transform: translateY(0);
+    background: linear-gradient(135deg, rgba(25, 25, 35, 0.7), rgba(35, 35, 45, 0.6));
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5),
+    inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.ac-game-menu-field-item:last-child {
+    margin-bottom: 0;
+}
+
+
+/* 单人模式 - 赛博青 */
+.ac-game-menu-field-item:nth-of-type(1):hover::after {
+    background: linear-gradient(90deg, #06B6D4, #0891B2);
+}
+
+/* 多人模式 - 霓虹粉 */
+.ac-game-menu-field-item:nth-of-type(2):hover::after {
+    background: linear-gradient(90deg, #EC4899, #DB2777);
+}
+
+/* 排行榜 - 紫金色 */
+.ac-game-menu-field-item:nth-of-type(3):hover::after {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+}
+
+/* 聊天室 - 数码绿 */
+.ac-game-menu-field-item:nth-of-type(4):hover::after {
+    background: linear-gradient(90deg, #22D3EE, #059669);
+}
+
+/* 设置 - 深空灰 */
+.ac-game-menu-field-item:nth-of-type(5):hover::after {
+    background: linear-gradient(90deg, #71717A, #52525B);
+}
+
+/* 退出登录 - 警戒橙红 */
+.ac-game-menu-field-item:nth-of-type(6):hover::after {
+    background: linear-gradient(90deg, #f35c5c, #ab0101);
+}
+
+/* 操作指南样式 */
+.ac-game-menu-guide {
+    position: fixed;
+    top: 2vh;
+    right: 2vw;
+    z-index: 1000;
+    user-select: none;
+    display: flex;
+    flex-direction: row-reverse; /* 反转布局，按钮在右，内容在左 */
+    align-items: flex-start;
+    gap: 0.8vw;
+}
+
+.ac-game-menu-guide-toggle {
+    color: #e4e4e7;
+    height: 4.5vh;
+    min-height: 36px;
+    width: auto;
+    min-width: 100px;
+    max-width: 120px;
+    padding: 0 1.2vw;
+    font-size: clamp(12px, 1.8vh, 16px);
+    font-weight: 400;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(25, 25, 35, 0.5), rgba(35, 35, 45, 0.4));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    letter-spacing: 0.05vw;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    will-change: transform, box-shadow;
+    backface-visibility: hidden;
+}
+
+.ac-game-menu-guide-text {
+    flex: 1;
+    text-align: center;
+    font-size: clamp(11px, 1.6vh, 14px);
+}
+
+.ac-game-menu-guide-arrow {
+    font-size: clamp(10px, 1.4vh, 14px);
+    transition: transform 0.3s ease;
+    display: inline-block;
+    position: absolute;
+    right: 0.4vw;
+    transform: rotate(-90deg); /* 箭头向左 */
+}
+
+.ac-game-menu-guide-arrow.active {
+    transform: rotate(90deg); /* 展开时箭头向右 */
+}
+
+.ac-game-menu-guide-toggle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 255, 255, 0.03),
+    rgba(255, 255, 255, 0.06),
+    rgba(255, 255, 255, 0.03),
+    transparent);
+    transition: left 0.5s ease;
+    will-change: transform;
+}
+
+.ac-game-menu-guide-toggle::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #9b59b6, #8e44ad);
+    transition: width 0.3s ease;
+    will-change: width;
+}
+
+.ac-game-menu-guide-toggle:hover {
+    transform: translateY(-1px);
+    color: #ffffff;
+    background: linear-gradient(135deg, rgba(30, 30, 40, 0.6), rgba(40, 40, 50, 0.5));
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(155, 89, 182, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.ac-game-menu-guide-toggle:hover::before {
+    left: 100%;
+}
+
+.ac-game-menu-guide-toggle:hover::after {
+    width: 100%;
+}
+
+.ac-game-menu-guide-toggle:active {
+    transform: translateY(0);
+    background: linear-gradient(135deg, rgba(25, 25, 35, 0.7), rgba(35, 35, 45, 0.6));
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5),
+    inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.ac-game-menu-guide-content {
+    background: linear-gradient(135deg, rgba(25, 25, 35, 0.8), rgba(35, 35, 45, 0.75));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 1.5vh 1.2vw;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    width: 0; /* 初始宽度为0 */
+    max-width: 280px;
+    min-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    white-space: nowrap; /* 防止文字在宽度动画时换行 */
+}
+
+.ac-game-menu-guide-content.active {
+    opacity: 1;
+    width: 280px; /* 展开时设置宽度 */
+    min-width: 240px;
+    white-space: normal; /* 恢复正常换行 */
+}
+
+.ac-game-menu-guide-content h3 {
+    color: #f39c12;
+    font-size: clamp(12px, 1.8vh, 15px);
+    font-weight: 500;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    margin: 0 0 1.2vh 0;
+    text-transform: uppercase;
+    letter-spacing: 0.08vw;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.ac-game-menu-guide-item {
+    color: #e4e4e7;
+    font-size: clamp(11px, 1.5vh, 14px);
+    font-family: 'Inter', 'Roboto', sans-serif;
+    margin-bottom: 1vh;
+    padding-left: 0.8vw;
+    line-height: 1.4;
+    position: relative;
+}
+
+.ac-game-menu-guide-item::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #3498db;
+    font-size: clamp(10px, 1.5vh, 14px);
+}
+
+.ac-game-menu-guide-item:last-child {
+    margin-bottom: 0;
+}
+
+.ac-game-menu-guide-key {
+    display: inline-block;
+    background: rgba(52, 152, 219, 0.15);
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    border-radius: 3px;
+    padding: 0.1vh 0.4vw;
+    margin: 0 0.2vw;
+    font-weight: 500;
+    font-size: clamp(10px, 1.4vh, 13px);
+    color: #5dade2;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}

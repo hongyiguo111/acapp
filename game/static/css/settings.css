@@ -1,0 +1,263 @@
+.ac-game-settings {
+    width: 100%;
+    height: 100%;
+    background-image: url("/static/image/menu/background.gif");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    user-select: none;
+    will-change: scroll-position;
+    contain: layout style paint;
+}
+
+.ac-game-settings-login {
+    height: 38vh;
+    width: 17vw;
+    min-width: 280px;
+    max-width: 400px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, rgba(25, 25, 35, 0.8), rgba(35, 35, 45, 0.7));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(12px);
+    overflow: hidden;
+    will-change: transform;
+    contain: layout style paint;
+}
+
+.ac-game-settings-register {
+    height: 45vh;
+    width: 17vw;
+    min-width: 280px;
+    max-width: 400px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, rgba(25, 25, 35, 0.8), rgba(35, 35, 45, 0.7));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(12px);
+    overflow: hidden;
+    will-change: transform;
+    contain: layout style paint;
+}
+
+.ac-game-settings-title {
+    color: #e4e4e7;
+    font-size: clamp(18px, 3vh, 32px);
+    font-weight: 400;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    text-align: center;
+    padding-top: 2vh;
+    text-transform: uppercase;
+    letter-spacing: 0.15vw;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.ac-game-settings-username,
+.ac-game-settings-password,
+.ac-game-settings-submit {
+    display: block;
+    height: 7vh;
+    min-height: 40px;
+    margin: 0 1vw;
+}
+
+.ac-game-settings-item {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.ac-game-settings-item > input {
+    width: 90%;
+    line-height: 3vh;
+    min-height: 32px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #e4e4e7;
+    padding: 0 1vw;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    font-size: clamp(12px, 1.5vh, 16px);
+    transition: all 0.2s ease;
+    backdrop-filter: blur(8px);
+    will-change: transform, box-shadow;
+}
+
+.ac-game-settings-item > input:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 16px rgba(243, 156, 18, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.ac-game-settings-item > input::placeholder {
+    color: rgba(228, 228, 231, 0.5);
+}
+
+.ac-game-settings-item > button {
+    color: #e4e4e7;
+    width: 90%;
+    line-height: 3vh;
+    min-height: 36px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.8), rgba(41, 128, 185, 0.7));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    font-size: clamp(12px, 1.4vh, 16px);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.1vw;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.2s ease;
+    overflow: hidden;
+    will-change: transform, box-shadow;
+    backface-visibility: hidden;
+}
+
+.ac-game-settings-item > button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0.1),
+    transparent);
+    transition: left 0.5s ease;
+    will-change: transform;
+}
+
+.ac-game-settings-item > button:hover {
+    transform: translate(-50%, -50%) translateY(-2px);
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.9), rgba(41, 128, 185, 0.8));
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5),
+    0 0 24px rgba(52, 152, 219, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.ac-game-settings-item > button:hover::before {
+    left: 100%;
+}
+
+.ac-game-settings-item > button:active {
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, rgba(41, 128, 185, 0.8), rgba(52, 152, 219, 0.7));
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5),
+    inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.ac-game-settings-error-message {
+    color: #ef4444;
+    font-size: clamp(10px, 1vh, 14px);
+    font-family: 'Inter', 'Roboto', sans-serif;
+    display: inline;
+    float: left;
+    padding-left: 1.85vw;
+    padding-top: 0.35vh;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+}
+
+.ac-game-settings-option {
+    color: #e4e4e7;
+    font-size: clamp(12px, 1.7vh, 18px);
+    font-family: 'Inter', 'Roboto', sans-serif;
+    display: inline;
+    float: right;
+    padding-right: 2.0vw;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.ac-game-settings-option:hover {
+    color: #ffffff;
+    text-decoration: underline;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.ac-game-settings-acwing,
+.ac-game-settings-github,
+.ac-game-settings-gitee {
+    position: absolute;
+    bottom: 1.5vh;
+    height: 5vh;
+    min-height: 30px;
+    width: 33.33%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.ac-game-settings-acwing {
+    left: 0;
+}
+
+.ac-game-settings-github {
+    left: 33.33%;
+}
+
+.ac-game-settings-gitee {
+    left: 66.66%;
+}
+
+.ac-game-settings-acwing > img,
+.ac-game-settings-github > img,
+.ac-game-settings-gitee > img {
+    width: 3.5vh;
+    height: 3.5vh;
+    min-width: 30px;
+    min-height: 30px;
+    max-width: 35px;
+    max-height: 35px;
+    object-fit: contain;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    filter: brightness(0.9);
+    will-change: transform, filter;
+    backface-visibility: hidden;
+}
+
+.ac-game-settings-github > img {
+    filter: brightness(0.9) invert(1);
+}
+
+.ac-game-settings-acwing > img:hover,
+.ac-game-settings-gitee > img:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+}
+
+.ac-game-settings-github > img:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1) invert(1) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+}

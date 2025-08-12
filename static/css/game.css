@@ -387,18 +387,23 @@
     background: linear-gradient(90deg, #EC4899, #DB2777);
 }
 
-/* 聊天室 - 数码绿 */
+/* 排行榜 - 紫金色 */
 .ac-game-menu-field-item:nth-of-type(3):hover::after {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+}
+
+/* 聊天室 - 数码绿 */
+.ac-game-menu-field-item:nth-of-type(4):hover::after {
     background: linear-gradient(90deg, #22D3EE, #059669);
 }
 
 /* 设置 - 深空灰 */
-.ac-game-menu-field-item:nth-of-type(4):hover::after {
+.ac-game-menu-field-item:nth-of-type(5):hover::after {
     background: linear-gradient(90deg, #71717A, #52525B);
 }
 
 /* 退出登录 - 警戒橙红 */
-.ac-game-menu-field-item:nth-of-type(5):hover::after {
+.ac-game-menu-field-item:nth-of-type(6):hover::after {
     background: linear-gradient(90deg, #f35c5c, #ab0101);
 }
 

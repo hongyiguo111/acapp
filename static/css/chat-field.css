@@ -1,0 +1,83 @@
+.ac-game-chat-field-history {
+    position: absolute;
+    bottom: 10%; /* 改为从底部定位 */
+    left: 8%; /* 靠左边 */
+    width: 300px; /* 使用固定宽度，更稳定 */
+    height: 200px; /* 使用固定高度 */
+
+    /* 美化样式 */
+    background-color: rgba(0, 0, 0, 0.3); /* 半透明黑色背景 */
+    backdrop-filter: blur(5px); /* 背景模糊效果 */
+    border-radius: 8px; /* 圆角 */
+    padding: 10px;
+
+    /* 文字样式 */
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+
+    /* 滚动条优化 */
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    /* 边框效果 */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 自定义滚动条 */
+.ac-game-chat-field-history::-webkit-scrollbar {
+    width: 4px;
+}
+
+.ac-game-chat-field-history::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+}
+
+.ac-game-chat-field-history::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+}
+
+.ac-game-chat-field-history::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.ac-game-chat-field-input {
+    position: absolute;
+    bottom: 5%; /* 紧贴历史记录框下方 */
+    left: 8%; /* 与历史框对齐 */
+    width: 300px; /* 与历史框同宽 */
+    height: 36px; /* 固定高度 */
+
+    /* 美化输入框 */
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 0 12px;
+
+    /* 文字样式 */
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+    /* 输入框交互效果 */
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+/* 输入框聚焦效果 */
+.ac-game-chat-field-input:focus {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+/* 输入框占位符样式 */
+.ac-game-chat-field-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 13px;
+}
