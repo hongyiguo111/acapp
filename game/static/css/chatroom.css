@@ -2,24 +2,24 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .ac-game-chatroom-container {
+    display: grid;
+    grid-template-rows: 60px 1fr 65px;
+    grid-template-columns: 280px 1fr;
     width: 90%;
     max-width: 1000px;
     height: 85%;
     background: #ededed;
     border-radius: 10px;
-    display: grid;
-    grid-template-rows: 60px 1fr 65px;
-    grid-template-columns: 280px 1fr;
     overflow: hidden;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 }
@@ -27,28 +27,28 @@
 /* 头部标题栏 */
 .ac-game-chatroom-header {
     grid-column: 1 / -1;
-    background: #f7f7f7;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
+    background: #f7f7f7;
     border-bottom: 1px solid #d6d6d6;
 }
 
 .ac-game-chatroom-header h2 {
-    color: #333;
     margin: 0;
+    color: #333;
     font-size: 18px;
     font-weight: normal;
 }
 
 .ac-game-chatroom-close {
+    padding: 5px 10px;
     background: transparent;
     border: none;
     color: #999;
     font-size: 24px;
     cursor: pointer;
-    padding: 5px 10px;
     transition: all 0.2s;
 }
 
@@ -65,9 +65,9 @@
 }
 
 .ac-game-chatroom-online-users h3 {
-    color: #999;
     margin: 0;
     padding: 15px 20px 10px;
+    color: #999;
     font-size: 13px;
     font-weight: normal;
     border-bottom: 1px solid #e7e7e7;
@@ -105,14 +105,14 @@
     white-space: nowrap;
 }
 
-/* 消息显示区域 - 微信风格 */
+/* 消息显示区域 */
 .ac-game-chatroom-messages {
-    background: #f5f5f5;
-    padding: 20px;
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 15px;
+    padding: 20px;
+    background: #f5f5f5;
+    overflow-y: auto;
 }
 
 /* 消息容器 */
@@ -120,22 +120,19 @@
     display: flex;
     align-items: flex-start;
     gap: 10px;
-    animation: slideIn 0.3s ease;
     max-width: 70%;
+    animation: slideIn 0.3s ease;
 }
 
-/* 自己发送的消息 - 右对齐 */
 .ac-game-chatroom-message.message-self {
     align-self: flex-end;
     flex-direction: row-reverse;
 }
 
-/* 他人发送的消息 - 左对齐 */
 .ac-game-chatroom-message.message-other {
     align-self: flex-start;
 }
 
-/* 系统消息 - 居中 */
 .ac-game-chatroom-message.system-message {
     align-self: center;
     max-width: none;
@@ -146,24 +143,21 @@
 .message-bubble {
     position: relative;
     padding: 10px 15px;
+    max-width: 100%;
     border-radius: 10px;
     word-wrap: break-word;
-    max-width: 100%;
 }
 
-/* 自己的消息气泡 - 绿色 */
 .message-self .message-bubble {
     background: #95ec69;
     border-top-right-radius: 4px;
 }
 
-/* 他人的消息气泡 - 白色 */
 .message-other .message-bubble {
     background: white;
     border-top-left-radius: 4px;
 }
 
-/* 消息气泡小三角 */
 .message-self .message-bubble::after {
     content: '';
     position: absolute;
@@ -188,13 +182,12 @@
     border-color: transparent white transparent transparent;
 }
 
-/* 系统消息样式 */
 .system-message .message-bubble {
+    padding: 5px 12px;
     background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
     color: white;
     font-size: 12px;
-    padding: 5px 12px;
-    border-radius: 15px;
 }
 
 /* 用户名和消息内容 */
@@ -206,9 +199,9 @@
 }
 
 .message-username {
-    font-size: 12px;
-    color: #999;
     margin-bottom: 2px;
+    color: #999;
+    font-size: 12px;
 }
 
 .message-self .message-username {
@@ -216,55 +209,54 @@
 }
 
 .message-content {
+    margin: 0;
     color: #333;
     font-size: 14px;
     line-height: 1.5;
-    margin: 0;
 }
 
 /* 头像样式 */
 .message-avatar {
+    position: relative;
+    flex-shrink: 0;
     width: 35px;
     height: 35px;
     border-radius: 4px;
     object-fit: cover;
-    flex-shrink: 0;
     cursor: pointer;
-    position: relative;
 }
 
-/* 鼠标悬停时显示用户名 */
 .message-avatar:hover::after {
     content: attr(title);
     position: absolute;
     bottom: -20px;
     left: 50%;
+    z-index: 10;
     transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
     padding: 2px 8px;
+    background: rgba(0, 0, 0, 0.8);
     border-radius: 4px;
+    color: white;
     font-size: 12px;
     white-space: nowrap;
-    z-index: 10;
 }
 
 /* 输入区域 */
 .ac-game-chatroom-input-area {
-    background: #f7f7f7;
-    padding: 15px 20px;
     display: flex;
-    gap: 10px;
-    border-top: 1px solid #d6d6d6;
     align-items: center;
+    gap: 10px;
+    padding: 15px 20px;
+    background: #f7f7f7;
+    border-top: 1px solid #d6d6d6;
 }
 
 .ac-game-chatroom-input {
     flex: 1;
     padding: 10px 15px;
+    background: white;
     border: 1px solid #d6d6d6;
     border-radius: 5px;
-    background: white;
     font-size: 14px;
     outline: none;
     transition: all 0.2s;
@@ -277,9 +269,9 @@
 .ac-game-chatroom-send {
     padding: 10px 25px;
     background: #07c160;
-    color: white;
     border: none;
     border-radius: 5px;
+    color: white;
     font-size: 14px;
     cursor: pointer;
     transition: all 0.2s;

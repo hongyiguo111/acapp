@@ -9,6 +9,7 @@ export class AcGame{
         this.playground = new AcGamePlayground(this);
         this.chatroom = new AcGameChatRoom(this);
         this.leaderboard = new AcGameLeaderboard(this);
+        this.user_settings = new AcGameUserSettings(this);
 
         this.start();
     }

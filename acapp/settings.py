@@ -142,9 +142,13 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = '/home/acs/media'
 MEDIA_URL = '/media/'
+
+AVATAR_UPLOAD_PATH = 'avatars/'
+AVATAR_MAX_SIZE = 2 * 1024 * 1024  # 最大2MB
+AVATAR_ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif']
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

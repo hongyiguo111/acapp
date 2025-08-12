@@ -95,7 +95,8 @@ class AcGameMenu {
             outer.root.chatroom.show();
         })
         this.$settings.click(function () {
-
+            outer.hide();
+            outer.root.user_settings.show();
         });
         this.$exit.click(function () {
             outer.root.settings.logout_on_remote();

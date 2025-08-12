@@ -222,3 +222,77 @@ SIGINT/SIGTERM received...killing workers...
 worker 1 buried after 1 seconds
 worker 2 buried after 1 seconds
 goodbye to uWSGI.
+*** Starting uWSGI 2.0.20 (64bit) on [Tue Aug 12 14:53:48 2025] ***
+compiled with version: 9.3.0 on 28 October 2021 05:02:51
+os: Linux-5.4.0-182-generic #202-Ubuntu SMP Fri Apr 26 12:29:36 UTC 2024
+nodename: 8479f11b19ee
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/acs/acapp
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/acs/acapp
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:8000 fd 3
+Python version: 3.8.10 (default, Sep 28 2021, 16:10:42)  [GCC 9.3.0]
+Python main interpreter initialized at 0x5615a85a05e0
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 344232 bytes (336 KB) for 10 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0x5615a85a05e0 pid: 452598 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 452598)
+spawned uWSGI worker 1 (pid: 452600, cores: 5)
+spawned uWSGI worker 2 (pid: 452605, cores: 5)
+SIGINT/SIGTERM received...killing workers...
+worker 1 buried after 1 seconds
+worker 2 buried after 1 seconds
+goodbye to uWSGI.
+*** Starting uWSGI 2.0.20 (64bit) on [Tue Aug 12 14:54:13 2025] ***
+compiled with version: 9.3.0 on 28 October 2021 05:02:51
+os: Linux-5.4.0-182-generic #202-Ubuntu SMP Fri Apr 26 12:29:36 UTC 2024
+nodename: 8479f11b19ee
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/acs/acapp
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/acs/acapp
+your memory page size is 4096 bytes
+detected max file descriptor number: 1024
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 127.0.0.1:8000 fd 3
+Python version: 3.8.10 (default, Sep 28 2021, 16:10:42)  [GCC 9.3.0]
+Python main interpreter initialized at 0x55da3bc4d5e0
+python threads support enabled
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 344232 bytes (336 KB) for 10 cores
+*** Operational MODE: preforking+threaded ***
+WSGI app 0 (mountpoint='') ready in 1 seconds on interpreter 0x55da3bc4d5e0 pid: 452643 (default app)
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI master process (pid: 452643)
+spawned uWSGI worker 1 (pid: 452645, cores: 5)
+spawned uWSGI worker 2 (pid: 452650, cores: 5)
+Not Found: /favicon.ico
+[pid: 452650|app: 0|req: 1/1] 206.168.34.127 () {36 vars in 497 bytes} [Tue Aug 12 14:54:20 2025] GET /favicon.ico => generated 2735 bytes in 156 msecs (HTTP/1.1 404) 5 headers in 159 bytes (1 switches on core 0)
+[pid: 452645|app: 0|req: 1/2] 221.216.117.154 () {62 vars in 1225 bytes} [Tue Aug 12 14:54:24 2025] GET / => generated 1076 bytes in 151 msecs (HTTP/1.1 200) 5 headers in 167 bytes (1 switches on core 0)
+[pid: 452645|app: 0|req: 2/3] 221.216.117.154 () {62 vars in 1182 bytes} [Tue Aug 12 14:54:25 2025] GET /settings/getinfo/?platform=WEB => generated 120 bytes in 20 msecs (HTTP/1.1 200) 6 headers in 172 bytes (1 switches on core 4)
+Not Found: /.well-known/security.txt
+[pid: 452650|app: 0|req: 2/4] 206.168.34.127 () {36 vars in 517 bytes} [Tue Aug 12 14:54:39 2025] GET /.well-known/security.txt => generated 2774 bytes in 6 msecs (HTTP/1.1 404) 5 headers in 159 bytes (1 switches on core 1)
+[pid: 452645|app: 0|req: 3/5] 221.216.117.154 () {62 vars in 1225 bytes} [Tue Aug 12 14:55:13 2025] GET / => generated 1076 bytes in 7 msecs (HTTP/1.1 200) 5 headers in 167 bytes (1 switches on core 3)
+[pid: 452645|app: 0|req: 4/6] 221.216.117.154 () {62 vars in 1183 bytes} [Tue Aug 12 14:55:13 2025] GET /settings/getinfo/?platform=WEB => generated 120 bytes in 9 msecs (HTTP/1.1 200) 6 headers in 172 bytes (1 switches on core 2)
+[pid: 452645|app: 0|req: 5/7] 221.216.117.154 () {58 vars in 1125 bytes} [Tue Aug 12 14:55:15 2025] GET /settings/get_user_settings/ => generated 62 bytes in 8 msecs (HTTP/1.1 200) 6 headers in 171 bytes (1 switches on core 1)
+[pid: 452650|app: 0|req: 3/8] 221.216.117.154 () {58 vars in 1125 bytes} [Tue Aug 12 14:55:55 2025] GET /settings/get_user_settings/ => generated 62 bytes in 15 msecs (HTTP/1.1 200) 6 headers in 171 bytes (1 switches on core 2)
+SIGINT/SIGTERM received...killing workers...
+worker 1 buried after 1 seconds
+worker 2 buried after 1 seconds
+goodbye to uWSGI.

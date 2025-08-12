@@ -1,0 +1,312 @@
+.ac-game-user-settings {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.ac-game-user-settings-container {
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    background: linear-gradient(135deg, rgba(25, 25, 35, 0.95), rgba(35, 35, 45, 0.9));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.ac-game-user-settings-header {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(41, 128, 185, 0.05));
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ac-game-user-settings-title {
+    color: #e4e4e7;
+    font-size: 24px;
+    font-weight: 500;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.ac-game-user-settings-close {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 28px;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.ac-game-user-settings-close:hover {
+    color: rgba(255, 255, 255, 0.9);
+    transform: rotate(90deg);
+}
+
+.ac-game-user-settings-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 25px;
+}
+
+/* 设置区块 */
+.ac-game-user-settings-section {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.ac-game-user-settings-section:last-child {
+    border-bottom: none;
+}
+
+.ac-game-user-settings-section-title {
+    color: #3498db;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+/* 头像部分 */
+.ac-game-user-settings-avatar-section {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.ac-game-user-settings-avatar-preview {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+.ac-game-user-settings-avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(52, 152, 219, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.ac-game-user-settings-avatar-upload {
+    flex: 1;
+}
+
+.ac-game-user-settings-upload-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.8), rgba(41, 128, 185, 0.7));
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    transition: all 0.2s ease;
+}
+
+.ac-game-user-settings-upload-btn:hover {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.9), rgba(41, 128, 185, 0.8));
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(52, 152, 219, 0.3);
+}
+
+.ac-game-user-settings-upload-input {
+    display: none;
+}
+
+.ac-game-user-settings-upload-info {
+    color: rgba(228, 228, 231, 0.5);
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+/* 表单组 */
+.ac-game-user-settings-form-group {
+    margin-bottom: 20px;
+}
+
+.ac-game-user-settings-label {
+    display: block;
+    color: rgba(228, 228, 231, 0.8);
+    font-size: 14px;
+    margin-bottom: 8px;
+    font-family: 'Inter', 'Roboto', sans-serif;
+}
+
+.ac-game-user-settings-input-wrapper {
+    position: relative;
+}
+
+.ac-game-user-settings-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #e4e4e7;
+    font-size: 14px;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.ac-game-user-settings-input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(52, 152, 219, 0.5);
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+}
+
+.ac-game-user-settings-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* 用户名验证状态 */
+.ac-game-user-settings-username-status {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+}
+
+.ac-game-user-settings-username-status.checking {
+    color: #f39c12;
+}
+
+.ac-game-user-settings-username-status.available {
+    color: #27ae60;
+}
+
+.ac-game-user-settings-username-status.unavailable {
+    color: #e74c3c;
+}
+
+/* 提示信息 */
+.ac-game-user-settings-hint {
+    color: rgba(228, 228, 231, 0.5);
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.ac-game-user-settings-error {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.ac-game-user-settings-success {
+    color: #27ae60;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+/* 按钮 */
+.ac-game-user-settings-btn {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.8), rgba(41, 128, 185, 0.7));
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Inter', 'Roboto', sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.2s ease;
+}
+
+.ac-game-user-settings-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.9), rgba(41, 128, 185, 0.8));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+}
+
+.ac-game-user-settings-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.ac-game-user-settings-btn.secondary {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.ac-game-user-settings-btn.secondary:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* 认证类型标签 */
+.ac-game-user-settings-auth-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    margin-left: 10px;
+}
+
+.ac-game-user-settings-auth-badge.github {
+    background: rgba(36, 41, 46, 0.8);
+    color: #fff;
+}
+
+.ac-game-user-settings-auth-badge.gitee {
+    background: rgba(200, 55, 44, 0.8);
+    color: #fff;
+}
+
+.ac-game-user-settings-auth-badge.acwing {
+    background: rgba(0, 122, 204, 0.8);
+    color: #fff;
+}
+
+/* 滚动条样式 */
+.ac-game-user-settings-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.ac-game-user-settings-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.ac-game-user-settings-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.ac-game-user-settings-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
