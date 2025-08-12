@@ -360,3 +360,95 @@
         max-width: 85%;
     }
 }
+
+/* 用户信息块响应式样式 - 添加到 media.css 文件中相应位置 */
+
+/* 平板横屏和小屏幕笔记本 */
+@media screen and (max-width: 1024px) {
+    .ac-game-menu-user-info {
+        top: 2.5vh;
+        left: 2.5vw;
+        padding: 0.7vh 1vw;
+    }
+
+    .ac-game-menu-user-avatar {
+        width: 3.2vh;
+        height: 3.2vh;
+        min-width: 26px;
+        min-height: 26px;
+    }
+}
+
+/* 平板竖屏 */
+@media screen and (max-width: 768px) {
+    .ac-game-menu-user-info {
+        top: 2vh;
+        left: 2vw;
+        gap: 0.6vw;
+        padding: 0.6vh 0.8vw;
+    }
+
+    .ac-game-menu-user-avatar {
+        width: 3vh;
+        height: 3vh;
+        min-width: 24px;
+        min-height: 24px;
+    }
+
+    .ac-game-menu-user-name {
+        font-size: clamp(11px, 1.6vh, 14px);
+        max-width: 120px;
+    }
+}
+
+/* 手机横屏 */
+@media screen and (max-width: 667px) and (orientation: landscape) {
+    .ac-game-menu-user-info {
+        top: 1.5vh;
+        left: 1.5vw;
+        padding: 0.5vh 0.8vw;
+    }
+
+    .ac-game-menu-user-avatar {
+        width: 2.8vh;
+        height: 2.8vh;
+        min-width: 22px;
+        min-height: 22px;
+    }
+}
+
+/* 手机竖屏 */
+@media screen and (max-width: 480px) {
+    .ac-game-menu-user-info {
+        top: 1.5vh;
+        left: 2vw;
+        gap: 0.5vw;
+        padding: 0.5vh 0.8vw;
+    }
+
+    .ac-game-menu-user-avatar {
+        width: 2.5vh;
+        height: 2.5vh;
+        min-width: 20px;
+        min-height: 20px;
+        max-width: 30px;
+        max-height: 30px;
+    }
+
+    .ac-game-menu-user-name {
+        font-size: clamp(10px, 1.5vh, 13px);
+        max-width: 100px;
+    }
+}
+
+/* 小屏手机 */
+@media screen and (max-width: 360px) {
+    .ac-game-menu-user-info {
+        left: 1vw;
+        padding: 0.4vh 0.6vw;
+    }
+
+    .ac-game-menu-user-name {
+        max-width: 80px;
+    }
+}

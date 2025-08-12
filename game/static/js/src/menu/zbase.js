@@ -3,6 +3,11 @@ class AcGameMenu {
         this.root = root;
         this.$menu = $(`
 <div class="ac-game-menu">
+    <div class="ac-game-menu-user-info">
+        <img class="ac-game-menu-user-avatar" src="" alt="用户头像">
+        <span class="ac-game-menu-user-name"></span>
+    </div>
+
      <div class="ac-game-menu-guide">
             <div class="ac-game-menu-guide-toggle">
                 <span class="ac-game-menu-guide-text">操作指南</span>
@@ -58,6 +63,11 @@ class AcGameMenu {
 `);
         this.$menu.hide()
         this.root.$ac_game.append(this.$menu);
+
+        this.$user_info = this.$menu.find('.ac-game-menu-user-info');
+        this.$user_avatar = this.$menu.find('.ac-game-menu-user-avatar');
+        this.$user_name = this.$menu.find('.ac-game-menu-user-name');
+
         this.$single_mode = this.$menu.find('.ac-game-menu-field-item-single-mode');
         this.$multi_mode = this.$menu.find('.ac-game-menu-field-item-multi-mode');
         this.$leaderboard = this.$menu.find(`.ac-game-menu-field-item-leaderboard`);
@@ -74,10 +84,24 @@ class AcGameMenu {
 
     start() {
         this.add_listening_events();
+        this.update_user_info();
+    }
+
+    update_user_info() {
+        if (this.root.settings && this.root.settings.username && this.root.settings.photo) {
+            this.$user_avatar.attr('src', this.root.settings.photo);
+            this.$user_name.text(this.root.settings.username);
+        }
     }
 
     add_listening_events() {
         let outer = this;
+
+        this.$user_info.click(function () {
+            outer.hide();
+            outer.root.user_settings.show();
+        })
+
         this.$single_mode.click(function () {
             outer.hide();
             outer.root.playground.show("single mode");
@@ -119,6 +143,7 @@ class AcGameMenu {
 
     show() {//显示menu界面
         this.$menu.show();
+        this.update_user_info();
     }
 
     hide() {// 关闭menu界面
