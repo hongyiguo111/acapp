@@ -3,9 +3,9 @@
 * [acgit](https://git.acwing.com/HongyiGuo/acapp)
 * [github](https://github.com/hongyiguo111/acapp)
 
-[游戏网址](https://app7549.acapp.acwing.com.cn/)
+[游戏网址](https://app7562.acapp.acwing.com.cn/)
 
-[Acapp下载地址](https://www.acwing.com/file_system/file/content/whole/index/content/13607636/)（目前游戏还没有开发完，所以没有向所有人开放）
+[Acapp下载地址](https://www.acwing.com/file_system/file/content/whole/index/content/13650477/)
 
 # Linux基础课最后一课
 

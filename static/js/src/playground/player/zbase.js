@@ -281,6 +281,12 @@ class Player extends AcGameObject {
             this.ctx.beginPath();
             this.ctx.arc(this.x * scale, this.y * scale, this.radius * scale, 0, Math.PI * 2, false);
             this.ctx.stroke();
+            
+            // 添加白色边框，让黑色头像也能看见
+            this.ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
+            this.ctx.lineWidth = 3;
+            this.ctx.stroke();
+
             this.ctx.clip();
             this.ctx.drawImage(this.img, (this.x - this.radius) * scale, (this.y - this.radius) * scale,
                 this.radius * 2 * scale, this.radius * 2 * scale);
