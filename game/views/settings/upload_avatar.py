@@ -91,7 +91,7 @@ def upload_avatar(request):
         # 更新数据库
         new_photo_url = f'{settings.MEDIA_URL}{settings.AVATAR_UPLOAD_PATH}{filename}'
         # 构建完整URL
-        new_photo_url = f'https://app7549.acapp.acwing.com.cn{new_photo_url}'
+        new_photo_url = f'https://app7562.acapp.acwing.com.cn{new_photo_url}'
         player.photo = new_photo_url
         player.save()
 

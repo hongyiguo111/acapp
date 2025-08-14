@@ -9,7 +9,7 @@ def apply_code(request):
     """申请 Gitee 授权码"""
     # Gitee OAuth 参数
     client_id = settings.GITEE_CLIENT_ID
-    redirect_uri = quote("https://app7549.acapp.acwing.com.cn/settings/gitee/web/receive_code/")
+    redirect_uri = quote("https://app7562.acapp.acwing.com.cn/settings/gitee/web/receive_code/")
     state = secrets.token_urlsafe(32)
 
     # 保存 state 到缓存

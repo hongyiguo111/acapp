@@ -176,7 +176,7 @@ class AcGameUserSettings {
         let outer = this;
 
         $.ajax({
-            url: "https://app7549.acapp.acwing.com.cn/settings/get_user_settings/",
+            url: "https://app7562.acapp.acwing.com.cn/settings/get_user_settings/",
             type: "GET",
             success: function(resp) {
                 if (resp.result === "success") {
@@ -246,7 +246,7 @@ class AcGameUserSettings {
         // 延迟检查（避免频繁请求）
         this.username_check_timer = setTimeout(function() {
             $.ajax({
-                url: "https://app7549.acapp.acwing.com.cn/settings/check_username/",
+                url: "https://app7562.acapp.acwing.com.cn/settings/check_username/",
                 type: "GET",
                 data: { username: username },
                 success: function(resp) {
@@ -276,7 +276,7 @@ class AcGameUserSettings {
         this.$username_btn.prop('disabled', true);
 
         $.ajax({
-            url: "https://app7549.acapp.acwing.com.cn/settings/update_username/",
+            url: "https://app7562.acapp.acwing.com.cn/settings/update_username/",
             type: "POST",
             headers: {
                 'X-CSRFToken': this.get_csrf_token()
@@ -329,7 +329,7 @@ class AcGameUserSettings {
         this.$password_btn.prop('disabled', true);
 
         $.ajax({
-            url: "https://app7549.acapp.acwing.com.cn/settings/update_password/",
+            url: "https://app7562.acapp.acwing.com.cn/settings/update_password/",
             type: "POST",
             headers: {
                 'X-CSRFToken': this.get_csrf_token()
@@ -386,7 +386,7 @@ class AcGameUserSettings {
         this.$avatar_message.html('<div class="ac-game-user-settings-hint">上传中...</div>');
 
         $.ajax({
-            url: "https://app7549.acapp.acwing.com.cn/settings/upload_avatar/",
+            url: "https://app7562.acapp.acwing.com.cn/settings/upload_avatar/",
             type: "POST",
             headers: {
                 'X-CSRFToken': this.get_csrf_token()

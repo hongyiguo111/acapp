@@ -74,7 +74,7 @@ class AcGameLeaderboard {
         this.$table.html('<div class="ac-game-leaderboard-loading">加载中...</div>');
 
         $.ajax({
-            url: "https://app7549.acapp.acwing.com.cn/settings/ranklist/",
+            url: "https://app7562.acapp.acwing.com.cn/settings/ranklist/",
             type: "GET",
             data: {
                 page: page
@@ -128,7 +128,7 @@ class AcGameLeaderboard {
                         <img class="ac-game-leaderboard-avatar" 
                              src="${player.photo}" 
                              alt="${player.username}"
-                             onerror="this.src='https://app7549.acapp.acwing.com.cn/static/image/favicon/favicon.png'">
+                             onerror="this.src='https://app7562.acapp.acwing.com.cn/static/image/favicon/favicon.png'">
                         <span class="ac-game-leaderboard-username">${player.username}</span>
                     </div>
                     <div class="ac-game-leaderboard-score">${player.score}</div>

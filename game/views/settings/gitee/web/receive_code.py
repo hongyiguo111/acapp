@@ -36,7 +36,7 @@ def receive_code(request):
             'code': code,
             'client_id': settings.GITEE_CLIENT_ID,
             'client_secret': settings.GITEE_CLIENT_SECRET,
-            'redirect_uri': "https://app7549.acapp.acwing.com.cn/settings/gitee/web/receive_code/",
+            'redirect_uri': "https://app7562.acapp.acwing.com.cn/settings/gitee/web/receive_code/",
         }
 
         token_response = requests.post(token_url, data=token_params, timeout=10)

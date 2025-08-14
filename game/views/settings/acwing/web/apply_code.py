@@ -10,8 +10,8 @@ def get_state():
     return res
 
 def apply_code(request):
-    appid = "7549"
-    redirect_uri = quote("https://app7549.acapp.acwing.com.cn/settings/acwing/web/receive_code/")
+    appid = "7562"
+    redirect_uri = quote("https://app7562.acapp.acwing.com.cn/settings/acwing/web/receive_code/")
     scope = "userinfo"
     state = get_state()
 

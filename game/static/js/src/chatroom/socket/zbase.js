@@ -1,7 +1,7 @@
 class ChatRoomSocket {
     constructor(chatroom) {
         this.chatroom = chatroom;
-        this.ws = new WebSocket("wss://app7549.acapp.acwing.com.cn/wss/chatroom/");
+        this.ws = new WebSocket("wss://app7562.acapp.acwing.com.cn/wss/chatroom/");
 
         this.username = this.chatroom.root.settings.username;
         this.photo = this.chatroom.root.settings.photo;

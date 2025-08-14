@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-0)9g(ho61g(_mdhik909-deje7dcj!82907n-hhri2a(afa3nw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["39.96.169.44", "app7549.acapp.acwing.com.cn"]
+ALLOWED_HOSTS = ["39.96.169.44", "app7562.acapp.acwing.com.cn"]
 
 
 # Application definition
@@ -97,7 +97,7 @@ USER_AGENTS_CACHE = 'default'
 # GitHub OAuth 配置
 GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID', 'Ov23lifuiE0cNspZSu3p')
 GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET', '3e8fc0a9a7c1c16a1fc891ffec161ba43bd641e5')
-GITHUB_REDIRECT_URI = "https://app7549.acapp.acwing.com.cn/settings/github/web/receive_code/"
+GITHUB_REDIRECT_URI = "https://app7562.acapp.acwing.com.cn/settings/github/web/receive_code/"
 
 # Gitee OAuth 配置
 GITEE_CLIENT_ID = os.environ.get('GITEE_CLIENT_ID', '4b32eb96126ca55ce4f8e1c835b43c18bf7fa85de26a572ae0d5782323e71834')
