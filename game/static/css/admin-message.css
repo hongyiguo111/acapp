@@ -1,0 +1,254 @@
+.ac-game-admin-message {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 400px;
+    height: 500px;
+    background: linear-gradient(135deg, rgba(25, 25, 35, 0.95), rgba(35, 35, 45, 0.9));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    display: none;
+    flex-direction: column;
+    z-index: 1001;
+}
+
+.ac-game-admin-message-header {
+    padding: 15px 20px;
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.2), rgba(41, 128, 185, 0.1));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 12px 12px 0 0;
+}
+
+.ac-game-admin-message-title {
+    color: #e4e4e7;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.ac-game-admin-message-close {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.ac-game-admin-message-close:hover {
+    color: rgba(255, 255, 255, 0.9);
+    transform: rotate(90deg);
+}
+
+.ac-game-admin-message-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ac-game-admin-message-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%; /* Ensure full width */
+}
+
+.ac-game-admin-message-bubble {
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: 10px;
+    word-wrap: break-word;
+}
+
+/* Key fix: Use flex container for proper alignment */
+.ac-game-admin-message-sent {
+    align-items: flex-end; /* Align children to the right */
+}
+
+.ac-game-admin-message-sent .ac-game-admin-message-bubble {
+    background: rgba(52, 152, 219, 0.8);
+    color: white;
+    border-top-right-radius: 4px;
+    align-self: flex-end; /* Ensure bubble aligns right */
+}
+
+.ac-game-admin-message-received {
+    align-items: flex-start; /* Align children to the left */
+}
+
+.ac-game-admin-message-received .ac-game-admin-message-bubble {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e4e4e7;
+    border-top-left-radius: 4px;
+    align-self: flex-start; /* Ensure bubble aligns left */
+}
+
+.ac-game-admin-message-time {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0 5px;
+    align-self: inherit; /* Inherit alignment from parent */
+}
+
+.ac-game-admin-message-sent .ac-game-admin-message-time {
+    text-align: right;
+    align-self: flex-end; /* Align time to the right */
+}
+
+.ac-game-admin-message-received .ac-game-admin-message-time {
+    text-align: left;
+    align-self: flex-start; /* Align time to the left */
+}
+
+.ac-game-admin-message-input-area {
+    padding: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    gap: 10px;
+}
+
+.ac-game-admin-message-input {
+    flex: 1;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #e4e4e7;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.ac-game-admin-message-input:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(52, 152, 219, 0.5);
+}
+
+.ac-game-admin-message-send {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.8), rgba(41, 128, 185, 0.7));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ac-game-admin-message-send:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.9), rgba(41, 128, 185, 0.8));
+    transform: translateY(-1px);
+}
+
+.ac-game-admin-message-send:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.ac-game-chatroom-admin-button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    margin: 10px 20px;
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.2), rgba(41, 128, 185, 0.1));
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ac-game-chatroom-admin-button:hover {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.3), rgba(41, 128, 185, 0.2));
+    border-color: rgba(52, 152, 219, 0.5);
+}
+
+.ac-game-chatroom-admin-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(52, 152, 219, 0.3);
+    border-radius: 50%;
+    color: #3498db;
+    font-size: 14px;
+}
+
+.ac-game-chatroom-admin-text {
+    color: black;
+    font-size: 14px;
+}
+
+.ac-game-chatroom-admin-badge {
+    margin-left: auto;
+    padding: 2px 6px;
+    background: #e74c3c;
+    border-radius: 10px;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    min-width: 18px;
+    text-align: center;
+}
+
+/* 滚动条样式 */
+.ac-game-admin-message-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.ac-game-admin-message-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.ac-game-admin-message-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.ac-game-admin-message-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* 加载动画 */
+.ac-game-admin-message-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* 空消息提示 */
+.ac-game-admin-message-empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: rgba(255, 255, 255, 0.4);
+    text-align: center;
+}
+
+.ac-game-admin-message-empty-icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.ac-game-admin-message-empty-text {
+    font-size: 14px;
+}

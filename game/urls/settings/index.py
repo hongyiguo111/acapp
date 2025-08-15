@@ -9,6 +9,16 @@ from game.views.settings.check_username import check_username
 from game.views.settings.update_username import update_username
 from game.views.settings.update_password import update_password
 from game.views.settings.upload_avatar import upload_avatar
+from game.views.settings.admin_messages import (
+    send_admin_message,
+    get_admin_messages,
+    reply_admin_message,
+    get_unread_count,
+    admin_reply_quick,
+    mark_messages_read
+)
+
+from game.views.settings.admin_message_panel import admin_message_panel
 
 urlpatterns = [
     path('getinfo/', getinfo, name='settings_getinfo'),
@@ -24,4 +34,13 @@ urlpatterns = [
     path('update_username/', update_username, name='settings_update_username'),
     path('update_password/', update_password, name='settings_update_password'),
     path('upload_avatar/', upload_avatar, name='settings_upload_avatar'),
+    # 管理员私信相关路由
+    path('send_admin_message/', send_admin_message, name='settings_send_admin_message'),
+    path('get_admin_messages/', get_admin_messages, name='settings_get_admin_messages'),
+    path('reply_admin_message/', reply_admin_message, name='settings_reply_admin_message'),
+    path('get_unread_count/', get_unread_count, name='settings_get_unread_count'),
+    path('admin_panel/', admin_message_panel, name='settings_admin_panel'),
+    path('admin_reply_quick/', admin_reply_quick, name='settings_admin_reply_quick'),
+    path('mark_messages_read/', mark_messages_read, name='settings_mark_messages_read'),
 ]
+

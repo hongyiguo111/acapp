@@ -1,0 +1,212 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>管理员消息管理</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .unread-count {
+            background: #e74c3c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+        .message-item {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #fafafa;
+        }
+        .message-item.unread {
+            background: #fff3cd;
+            border-color: #ffc107;
+        }
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .message-content {
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .reply-section {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+        .reply-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .reply-input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .reply-button {
+            padding: 8px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .reply-button:hover {
+            background: #2980b9;
+        }
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pagination a {
+            padding: 5px 10px;
+            margin: 0 5px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .pagination a:hover {
+            background: #2980b9;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #3498db;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← 返回游戏</a>
+
+        <div class="header">
+            <h1>管理员消息管理</h1>
+            <div class="unread-count">未读消息: {{ unread_count }}</div>
+        </div>
+
+        {% for message in messages %}
+        <div class="message-item {% if not message.is_read %}unread{% endif %}">
+            <div class="message-header">
+                <span>发送者: {{ message.sender.user.username }}</span>
+                <span>时间: {{ message.timestamp|date:"Y-m-d H:i:s" }}</span>
+            </div>
+
+            <div class="message-content">
+                {{ message.message }}
+            </div>
+
+            {% if message.reply %}
+            <div class="reply-section">
+                <strong>管理员回复:</strong>
+                <div class="message-content">
+                    {{ message.reply }}
+                </div>
+                <small>回复时间: {{ message.reply_timestamp|date:"Y-m-d H:i:s" }}</small>
+            </div>
+            {% else %}
+            <div class="reply-section">
+                <form class="reply-form" method="post" action="/settings/admin_reply_quick/">
+                    {% csrf_token %}
+                    <input type="hidden" name="message_id" value="{{ message.id }}">
+                    <input type="text" name="reply" class="reply-input" placeholder="输入回复..." required>
+                    <button type="submit" class="reply-button">回复</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p>暂无消息</p>
+        {% endfor %}
+
+        {% if messages.has_other_pages %}
+        <div class="pagination">
+            {% if messages.has_previous %}
+            <a href="?page={{ messages.previous_page_number }}">上一页</a>
+            {% endif %}
+
+            <span>第 {{ messages.number }} / {{ messages.paginator.num_pages }} 页</span>
+
+            {% if messages.has_next %}
+            <a href="?page={{ messages.next_page_number }}">下一页</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // 自动标记消息为已读
+        document.addEventListener('DOMContentLoaded', function() {
+            const unreadMessages = document.querySelectorAll('.message-item.unread');
+            const messageIds = [];
+
+            unreadMessages.forEach(function(msg) {
+                // 获取消息ID（需要在HTML中添加data属性）
+                const form = msg.querySelector('form');
+                if (form) {
+                    const messageId = form.querySelector('input[name="message_id"]').value;
+                    messageIds.push(messageId);
+                }
+            });
+
+            // 批量标记为已读
+            if (messageIds.length > 0) {
+                fetch('/settings/mark_messages_read/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({ message_ids: messageIds })
+                });
+            }
+        });
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>
