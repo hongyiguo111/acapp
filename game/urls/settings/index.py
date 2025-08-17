@@ -17,8 +17,8 @@ from game.views.settings.admin_messages import (
     admin_reply_quick,
     mark_messages_read
 )
-
 from game.views.settings.admin_message_panel import admin_message_panel
+from game.views.settings.announcement import get_announcements, update_announcement
 
 urlpatterns = [
     path('getinfo/', getinfo, name='settings_getinfo'),
@@ -42,5 +42,7 @@ urlpatterns = [
     path('admin_panel/', admin_message_panel, name='settings_admin_panel'),
     path('admin_reply_quick/', admin_reply_quick, name='settings_admin_reply_quick'),
     path('mark_messages_read/', mark_messages_read, name='settings_mark_messages_read'),
-]
 
+    path('get_announcements/', get_announcements, name='settings_get_announcements'),
+    path('update_announcement/', update_announcement, name='settings_update_announcement'),
+]

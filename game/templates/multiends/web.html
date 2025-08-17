@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/admin-message.css' %}">
     <link rel="stylesheet" href="{% static 'css/leaderboard.css' %}">
     <link rel="stylesheet" href="{% static 'css/menu.css' %}">
+    <link rel="stylesheet" href="{% static 'css/announcement.css' %}">
     <link rel="stylesheet" href="{% static 'css/playground.css' %}">
     <link rel="stylesheet" href="{% static 'css/settings.css' %}">
     <link rel="stylesheet" href="{% static 'css/user-settings.css' %}">
@@ -18,12 +19,13 @@
 </head>
 
 <body style="margin: 0">
-    <div id="ac_game_12345678"></div>
-    <script type="module">
-        import {AcGame} from "{% static 'js/dist/game.js' %}";
-        $(document).ready(function(){
-            let ac_game = new AcGame("ac_game_12345678");
-        });
-    </script>
+<div id="ac_game_12345678"></div>
+<script type="module">
+    import {AcGame} from "{% static 'js/dist/game.js' %}";
+
+    $(document).ready(function () {
+        let ac_game = new AcGame("ac_game_12345678");
+    });
+</script>
 </body>
 

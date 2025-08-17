@@ -79,6 +79,8 @@ class AcGameMenu {
         this.$guide_content = this.$menu.find('.ac-game-menu-guide-content');
         this.$guide_arrow = this.$menu.find('.ac-game-menu-guide-arrow');
 
+        this.announcement_board = new AnnouncementBoard(this);
+
         this.start();
     }
 
@@ -125,7 +127,7 @@ class AcGameMenu {
         this.$exit.click(function () {
             outer.root.settings.logout_on_remote();
         });
-        
+
         this.$guide_toggle.click(function () {
             outer.$guide_content.toggleClass('active');
             outer.$guide_arrow.toggleClass('active');
