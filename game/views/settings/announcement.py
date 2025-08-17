@@ -8,7 +8,8 @@ import json
 def get_announcements(request):
     """获取所有活动公告（所有用户可访问）"""
     try:
-        announcements = Announcement.objects.filter(is_active=True)[:5]  # 最多显示5条
+        # 获取最新的5条活跃公告
+        announcements = Announcement.objects.filter(is_active=True).order_by('-created_at')[:5]
 
         data = []
         for ann in announcements:
@@ -16,6 +17,7 @@ def get_announcements(request):
                 'id': ann.id,
                 'title': ann.title,
                 'content': ann.content,
+                'created_at': ann.created_at.strftime('%Y-%m-%d %H:%M'),
                 'updated_at': ann.updated_at.strftime('%m-%d %H:%M')
             })
 
@@ -26,6 +28,45 @@ def get_announcements(request):
             'result': 'success',
             'announcements': data,
             'is_admin': is_admin
+        })
+    except Exception as e:
+        return JsonResponse({
+            'result': 'error',
+            'message': str(e)
+        })
+
+
+@login_required
+@require_POST
+def create_announcement(request):
+    """创建新公告（仅管理员）"""
+    try:
+        # 权限检查
+        if request.user.username != 'admin':
+            return JsonResponse({
+                'result': 'error',
+                'message': '权限不足'
+            })
+
+        data = json.loads(request.body)
+
+        # 创建新公告
+        announcement = Announcement.objects.create(
+            title=data.get('title', '系统公告')[:100],
+            content=data.get('content', '')[:500],
+            is_active=data.get('is_active', True)
+        )
+
+        return JsonResponse({
+            'result': 'success',
+            'message': '公告创建成功',
+            'announcement_id': announcement.id
+        })
+
+    except json.JSONDecodeError:
+        return JsonResponse({
+            'result': 'error',
+            'message': '无效的数据格式'
         })
     except Exception as e:
         return JsonResponse({
@@ -47,26 +88,79 @@ def update_announcement(request):
             })
 
         data = json.loads(request.body)
+        announcement_id = data.get('id')
 
-        # 获取或创建第一条公告
-        announcement, created = Announcement.objects.get_or_create(
-            id=1,  # 固定使用ID=1的公告
-            defaults={
-                'title': '系统公告',
-                'content': '暂无公告'
-            }
-        )
+        if not announcement_id:
+            return JsonResponse({
+                'result': 'error',
+                'message': '缺少公告ID'
+            })
 
-        # 更新内容
-        announcement.title = data.get('title', '系统公告')[:100]  # 限制长度
-        announcement.content = data.get('content', '')[:500]  # 限制长度
-        announcement.is_active = data.get('is_active', True)
-        announcement.save()
+        # 获取并更新公告
+        try:
+            announcement = Announcement.objects.get(id=announcement_id)
+            announcement.title = data.get('title', announcement.title)[:100]
+            announcement.content = data.get('content', announcement.content)[:500]
+            announcement.is_active = data.get('is_active', announcement.is_active)
+            announcement.save()
 
+            return JsonResponse({
+                'result': 'success',
+                'message': '公告更新成功'
+            })
+        except Announcement.DoesNotExist:
+            return JsonResponse({
+                'result': 'error',
+                'message': '公告不存在'
+            })
+
+    except json.JSONDecodeError:
         return JsonResponse({
-            'result': 'success',
-            'message': '公告已更新'
+            'result': 'error',
+            'message': '无效的数据格式'
         })
+    except Exception as e:
+        return JsonResponse({
+            'result': 'error',
+            'message': str(e)
+        })
+
+
+@login_required
+@require_POST
+def delete_announcement(request):
+    """删除公告（仅管理员）"""
+    try:
+        # 权限检查
+        if request.user.username != 'admin':
+            return JsonResponse({
+                'result': 'error',
+                'message': '权限不足'
+            })
+
+        data = json.loads(request.body)
+        announcement_id = data.get('id')
+
+        if not announcement_id:
+            return JsonResponse({
+                'result': 'error',
+                'message': '缺少公告ID'
+            })
+
+        # 删除公告
+        try:
+            announcement = Announcement.objects.get(id=announcement_id)
+            announcement.delete()
+
+            return JsonResponse({
+                'result': 'success',
+                'message': '公告删除成功'
+            })
+        except Announcement.DoesNotExist:
+            return JsonResponse({
+                'result': 'error',
+                'message': '公告不存在'
+            })
 
     except json.JSONDecodeError:
         return JsonResponse({

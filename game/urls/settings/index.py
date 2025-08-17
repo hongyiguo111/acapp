@@ -18,7 +18,12 @@ from game.views.settings.admin_messages import (
     mark_messages_read
 )
 from game.views.settings.admin_message_panel import admin_message_panel
-from game.views.settings.announcement import get_announcements, update_announcement
+from game.views.settings.announcement import (
+    get_announcements,
+    create_announcement,  # 新增
+    update_announcement,
+    delete_announcement  # 新增
+)
 
 urlpatterns = [
     path('getinfo/', getinfo, name='settings_getinfo'),
@@ -44,5 +49,7 @@ urlpatterns = [
     path('mark_messages_read/', mark_messages_read, name='settings_mark_messages_read'),
 
     path('get_announcements/', get_announcements, name='settings_get_announcements'),
+    path('create_announcement/', create_announcement, name='settings_create_announcement'),  # 新增
     path('update_announcement/', update_announcement, name='settings_update_announcement'),
+    path('delete_announcement/', delete_announcement, name='settings_delete_announcement'),  # 新增
 ]
