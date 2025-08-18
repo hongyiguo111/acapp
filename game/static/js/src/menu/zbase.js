@@ -39,6 +39,10 @@ class AcGameMenu {
             单人模式
         </div>
         <br>
+        <div class="ac-game-menu-field-item ac-game-menu-field-item-dual-mode">
+            双人模式
+        </div>
+        <br>
         <div class="ac-game-menu-field-item ac-game-menu-field-item-multi-mode">
             多人模式
         </div>
@@ -69,6 +73,7 @@ class AcGameMenu {
         this.$user_name = this.$menu.find('.ac-game-menu-user-name');
 
         this.$single_mode = this.$menu.find('.ac-game-menu-field-item-single-mode');
+        this.$dual_mode = this.$menu.find('.ac-game-menu-field-item-dual-mode');
         this.$multi_mode = this.$menu.find('.ac-game-menu-field-item-multi-mode');
         this.$leaderboard = this.$menu.find(`.ac-game-menu-field-item-leaderboard`);
         this.$chatroom = this.$menu.find('.ac-game-menu-field-item-chatroom');
@@ -107,6 +112,10 @@ class AcGameMenu {
         this.$single_mode.click(function () {
             outer.hide();
             outer.root.playground.show("single mode");
+        });
+        this.$dual_mode.click(function () {
+            outer.hide();
+            outer.root.playground.show("dual mode");
         });
         this.$multi_mode.click(function () {
             outer.hide();

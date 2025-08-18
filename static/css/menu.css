@@ -116,28 +116,33 @@
     background: linear-gradient(90deg, #06B6D4, #0891B2);
 }
 
-/* 多人模式 - 霓虹粉 */
+/* 双人模式 - 电光紫 */
 .ac-game-menu-field-item:nth-of-type(2):hover::after {
+    background: linear-gradient(90deg, #8B5CF6, #7C3AED);
+}
+
+/* 多人模式 - 霓虹粉 */
+.ac-game-menu-field-item:nth-of-type(3):hover::after {
     background: linear-gradient(90deg, #EC4899, #DB2777);
 }
 
 /* 排行榜 - 紫金色 */
-.ac-game-menu-field-item:nth-of-type(3):hover::after {
+.ac-game-menu-field-item:nth-of-type(4):hover::after {
     background: linear-gradient(90deg, #667eea, #764ba2);
 }
 
 /* 聊天室 - 数码绿 */
-.ac-game-menu-field-item:nth-of-type(4):hover::after {
+.ac-game-menu-field-item:nth-of-type(5):hover::after {
     background: linear-gradient(90deg, #22D3EE, #059669);
 }
 
 /* 设置 - 深空灰 */
-.ac-game-menu-field-item:nth-of-type(5):hover::after {
+.ac-game-menu-field-item:nth-of-type(6):hover::after {
     background: linear-gradient(90deg, #71717A, #52525B);
 }
 
 /* 退出登录 - 警戒橙红 */
-.ac-game-menu-field-item:nth-of-type(6):hover::after {
+.ac-game-menu-field-item:nth-of-type(7):hover::after {
     background: linear-gradient(90deg, #f35c5c, #ab0101);
 }
 

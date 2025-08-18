@@ -27,7 +27,7 @@ class FireBall extends AcGameObject {
         }
         this.update_move();
 
-        if(this.player.character !== "enemy") {
+        if (this.player.character !== "enemy") {
             this.update_attack();
         }
 
@@ -69,8 +69,10 @@ class FireBall extends AcGameObject {
         let angle = Math.atan2(player.y - this.y, player.x - this.x);
         player.is_attack(angle, this.damage);
 
-        if(this.playground.mode === "multi mode") {
+        if (this.playground.mode === "multi mode") {
             this.playground.mps.send_attack(player.uuid, player.x, player.y, angle, this.damage, this.uuid);
+        } else if (this.playground.mode === "dual mode") {  // 新增
+            this.playground.dps.send_attack(player.uuid, player.x, player.y, angle, this.damage, this.uuid);
         }
 
         this.destroy();

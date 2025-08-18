@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from game.models.announcement.announcement import Announcement
+from django.utils.timezone import localtime
 import json
 
 
@@ -17,8 +18,8 @@ def get_announcements(request):
                 'id': ann.id,
                 'title': ann.title,
                 'content': ann.content,
-                'created_at': ann.created_at.strftime('%Y-%m-%d %H:%M'),
-                'updated_at': ann.updated_at.strftime('%m-%d %H:%M')
+                'created_at': localtime(ann.created_at).strftime('%Y-%m-%d %H:%M'),
+                'updated_at': localtime(ann.updated_at).strftime('%m-%d %H:%M')
             })
 
         # 如果是管理员，返回额外的编辑权限标记

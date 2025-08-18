@@ -46,7 +46,12 @@ class ChatField {
                 if (text) {
                     outer.$input.val("");
                     outer.add_message(username, text);
-                    outer.playground.mps.send_message(username, text);
+
+                    if (outer.playground.mode === "multi mode") {
+                        outer.playground.mps.send_message(username, text);
+                    } else if (outer.playground.mode === "dual mode") {
+                        outer.playground.dps.send_message(username, text);
+                    }
                 }
                 return false;
             }

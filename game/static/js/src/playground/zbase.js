@@ -68,6 +68,14 @@ class AcGamePlayground {
             for (let i = 0; i < 5; i++) {
                 this.players.push(new Player(this, this.width / 2 / this.scale, 0.5, 0.05, this.get_random_color(), 0.15, "robot"));
             }
+        } else if (mode === "dual mode") {  // 新增双人模式
+            this.chat_field = new ChatField(this);
+            this.dps = new DualPlayerSocket(this);  // 使用 dps (dual player socket)
+            this.dps.uuid = this.players[0].uuid;
+
+            this.dps.ws.onopen = function () {
+                outer.dps.send_create_player(outer.root.settings.username, outer.root.settings.photo);
+            };
         } else if (mode === "multi mode") {
             this.chat_field = new ChatField(this);
             this.mps = new MultiPlayerSocket(this);
@@ -80,18 +88,18 @@ class AcGamePlayground {
     }
 
     hide() { // 关闭playground界面
-        while(this.players && this.players.length > 0) {
+        while (this.players && this.players.length > 0) {
             this.players[0].destroy();
         }
 
-        if(this.game_map) {
+        if (this.game_map) {
             this.game_map.destroy();
         }
-        if(this.notice_board) {
+        if (this.notice_board) {
             this.notice_board.destroy();
             this.notice_board = null;
         }
-        if(this.score_board) {
+        if (this.score_board) {
             this.score_board.destroy();
             this.score_board = null;
         }

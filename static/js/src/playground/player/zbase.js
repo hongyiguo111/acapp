@@ -45,7 +45,10 @@ class Player extends AcGameObject {
         this.playground.player_count++;
         this.playground.notice_board.write("已就绪：" + this.playground.player_count + "人");
 
-        if (this.playground.player_count >= 3) {
+        if (this.playground.mode === "dual mode" && this.playground.player_count >= 2) {
+            this.playground.state = "fighting";
+            this.playground.notice_board.write("Fighting");
+        } else if (this.playground.mode === "multi mode" && this.playground.player_count >= 3) {
             this.playground.state = "fighting";
             this.playground.notice_board.write("Fighting");
         }
@@ -76,6 +79,8 @@ class Player extends AcGameObject {
 
                 if (outer.playground.mode === "multi mode") {
                     outer.playground.mps.send_move_to(tx, ty);
+                } else if (outer.playground.mode === "dual mode") {  // 新增
+                    outer.playground.dps.send_move_to(tx, ty);
                 }
             } else if (e.which === 1) {
                 let tx = (e.clientX - rect.left) / outer.playground.scale;
@@ -86,6 +91,8 @@ class Player extends AcGameObject {
                     let fireball = outer.shoot_fireball(tx, ty);
                     if (outer.playground.mode === "multi mode") {
                         outer.playground.mps.send_shoot_fireball(tx, ty, fireball.uuid);
+                    } else if (outer.playground.mode === "dual mode") {  // 新增
+                        outer.playground.dps.send_shoot_fireball(tx, ty, fireball.uuid);
                     }
                 } else if (outer.cur_skill === "blink") {
                     if (outer.blink_coldtime > outer.eps)
@@ -94,6 +101,8 @@ class Player extends AcGameObject {
 
                     if (outer.playground.mode === "multi mode") {
                         outer.playground.mps.send_blink(tx, ty);  // 添加这行
+                    } else if (outer.playground.mode === "dual mode") {  // 新增
+                        outer.playground.dps.send_blink(tx, ty);
                     }
                 }
                 outer.cur_skill = null;
@@ -101,12 +110,12 @@ class Player extends AcGameObject {
         });
         this.playground.game_map.$canvas.keydown(function (e) {
             if (e.which === 13) {
-                if (outer.playground.mode === "multi mode") { // enter 打开聊天框
+                if (outer.playground.mode === "multi mode" || outer.playground.mode === "dual mode") { // enter 打开聊天框
                     outer.playground.chat_field.show_input();
                     return false;
                 }
             } else if (e.which === 27) {
-                if (outer.playground.mode === "multi mode") {
+                if (outer.playground.mode === "multi mode" || outer.playground.mode === "dual mode") {
                     outer.playground.chat_field.hide_input();
                     return false;
                 }
@@ -281,7 +290,7 @@ class Player extends AcGameObject {
             this.ctx.beginPath();
             this.ctx.arc(this.x * scale, this.y * scale, this.radius * scale, 0, Math.PI * 2, false);
             this.ctx.stroke();
-            
+
             // 添加白色边框，让黑色头像也能看见
             this.ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
             this.ctx.lineWidth = 3;
