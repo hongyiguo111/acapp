@@ -45,7 +45,11 @@ class Player extends AcGameObject {
         this.playground.player_count++;
         this.playground.notice_board.write("已就绪：" + this.playground.player_count + "人");
 
-        if (this.playground.mode === "dual mode" && this.playground.player_count >= 2) {
+        if(this.playground.mode === "single mode") {
+            this.playground.state = "fighting"
+            this.playground.notice_board.write("Fighting");
+        }
+        else if (this.playground.mode === "dual mode" && this.playground.player_count >= 2) {
             this.playground.state = "fighting";
             this.playground.notice_board.write("Fighting");
         } else if (this.playground.mode === "multi mode" && this.playground.player_count >= 3) {

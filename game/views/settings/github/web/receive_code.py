@@ -17,7 +17,7 @@ WORKER_URL = "https://github-oauth-proxy.eg372933.workers.dev"
 
 
 def receive_code(request):
-    """通过 Cloudflare Worker 处理 GitHub OAuth"""
+    """直接调用GitHub API，不使用Worker"""
     try:
         # 1. 获取参数
         code = request.GET.get('code')
@@ -26,44 +26,49 @@ def receive_code(request):
         if not code:
             return HttpResponse("缺少授权码")
 
-        # 2. 验证 state（可选）
+        # 2. 验证state
         cache_key = f"github_state_{state}"
         if cache.get(cache_key):
             cache.delete(cache_key)
 
-        # 3. 通过 Worker 获取 access_token
-        logger.info(f"正在通过 Worker 获取 access_token...")
+        # 3. 直接获取access_token（不用Worker）
+        logger.info("正在获取access_token...")
+
+        token_data = {
+            'client_id': settings.GITHUB_CLIENT_ID,
+            'client_secret': settings.GITHUB_CLIENT_SECRET,
+            'code': code,
+        }
 
         token_response = requests.post(
-            f"{WORKER_URL}/github/access_token",
-            json={
-                'client_id': settings.GITHUB_CLIENT_ID,
-                'client_secret': settings.GITHUB_CLIENT_SECRET,
-                'code': code,
-            },
+            'https://github.com/login/oauth/access_token',
+            data=token_data,
+            headers={'Accept': 'application/json'},
             timeout=30
         )
 
         if token_response.status_code != 200:
-            return HttpResponse(f"Worker 错误: {token_response.status_code}")
+            return HttpResponse(f"GitHub错误: {token_response.status_code}")
 
-        token_data = token_response.json()
-        logger.info(f"Token 响应: {token_data}")
+        token_result = token_response.json()
+        logger.info(f"Token响应: {token_result}")
 
-        # 检查错误
-        if 'error' in token_data:
-            return HttpResponse(f"GitHub 错误: {token_data.get('error_description', token_data.get('error'))}")
+        if 'error' in token_result:
+            return HttpResponse(f"GitHub错误: {token_result.get('error_description', token_result.get('error'))}")
 
-        access_token = token_data.get('access_token')
+        access_token = token_result.get('access_token')
         if not access_token:
-            return HttpResponse(f"未获取到 access_token: {token_data}")
+            return HttpResponse(f"未获取到access_token: {token_result}")
 
-        # 4. 通过 Worker 获取用户信息
-        logger.info("正在通过 Worker 获取用户信息...")
+        # 4. 直接获取用户信息
+        logger.info("正在获取用户信息...")
 
-        user_response = requests.post(
-            f"{WORKER_URL}/github/user",
-            json={'access_token': access_token},
+        user_response = requests.get(
+            'https://api.github.com/user',
+            headers={
+                'Authorization': f'token {access_token}',
+                'User-Agent': 'Django-OAuth-App'
+            },
             timeout=30
         )
 
@@ -73,24 +78,22 @@ def receive_code(request):
         user_data = user_response.json()
         logger.info(f"用户数据: {user_data.get('login')}")
 
-        # 5. 处理用户登录/注册
+        # 5. 后续处理用户登录/注册的代码保持不变
         github_id = str(user_data.get('id'))
         github_username = user_data.get('login')
         github_avatar = user_data.get('avatar_url')
 
         if not github_id:
-            return HttpResponse("无法获取 GitHub 用户 ID")
+            return HttpResponse("无法获取GitHub用户ID")
 
         # 查找或创建用户
         players = Player.objects.filter(github_id=github_id)
 
         if players.exists():
-            # 老用户登录
             player = players.first()
             login(request, player.user)
             logger.info(f"用户 {github_username} 登录成功")
         else:
-            # 新用户注册
             username = f"github_{github_username}"
             counter = 0
             while User.objects.filter(username=username).exists():
