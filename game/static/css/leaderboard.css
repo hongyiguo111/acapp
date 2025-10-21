@@ -4,7 +4,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
     display: flex;
     justify-content: center;
@@ -15,15 +15,16 @@
 .ac-game-leaderboard-container {
     width: 90%;
     max-width: 900px;
-    height: 85%;
-    max-height: 1150px;
-    background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
+    height: 92%;
+    max-height: 1500px;
+    background: #ffffff;
     border-radius: 20px;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     overflow: hidden;
     animation: slideIn 0.3s ease-out;
+    border: 1px solid #e5e7eb;
 }
 
 @keyframes slideIn {
@@ -37,37 +38,38 @@
     }
 }
 
+/* 头部标题栏 */
 .ac-game-leaderboard-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 25px 30px;
+    background: #f8f9fa;
+    padding: 20px 25px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .ac-game-leaderboard-title {
-    color: white;
-    font-size: 28px;
+    color: #1f2937;
+    font-size: 24px;
     font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     margin: 0;
 }
 
 .ac-game-leaderboard-icon {
-    font-size: 32px;
+    font-size: 28px;
 }
 
 .ac-game-leaderboard-close {
-    background: rgba(255, 255, 255, 0.2);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    width: 40px;
-    height: 40px;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    color: #6b7280;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
-    font-size: 24px;
+    font-size: 22px;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
@@ -76,14 +78,151 @@
 }
 
 .ac-game-leaderboard-close:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: #f3f4f6;
+    color: #374151;
     transform: rotate(90deg);
 }
 
+/* 当前玩家信息卡片 */
+.ac-game-leaderboard-player-card {
+    background: #fafbfc;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 20px;
+}
+
+.ac-game-leaderboard-player-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 20px;
+    background: #ffffff;
+    border-radius: 15px;
+    border: 1px solid #e5e7eb;
+    position: relative;
+    overflow: hidden;
+}
+
+.ac-game-leaderboard-player-info::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(147, 197, 253, 0.1), transparent);
+    transform: translateX(-100%);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.ac-game-leaderboard-player-rank {
+    min-width: 80px;
+    text-align: center;
+}
+
+.ac-game-leaderboard-player-rank-number {
+    font-size: 28px;
+    font-weight: bold;
+    color: #f59e0b;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.ac-game-leaderboard-player-rank-label {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-top: 2px;
+}
+
+.ac-game-leaderboard-player-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #93c5fd;
+    box-shadow: 0 2px 8px rgba(147, 197, 253, 0.3);
+}
+
+.ac-game-leaderboard-player-details {
+    flex: 1;
+}
+
+.ac-game-leaderboard-player-name {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 8px;
+}
+
+.ac-game-leaderboard-player-tier {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ac-game-leaderboard-tier-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+}
+
+.ac-game-leaderboard-tier-icon {
+    font-size: 18px;
+}
+
+.ac-game-leaderboard-tier-progress {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #6b7280;
+    font-size: 12px;
+}
+
+.ac-game-leaderboard-progress-bar {
+    width: 100px;
+    height: 4px;
+    background: #e5e7eb;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.ac-game-leaderboard-progress-fill {
+    height: 100%;
+    background: #93c5fd;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.ac-game-leaderboard-player-score {
+    text-align: right;
+}
+
+.ac-game-leaderboard-player-score-value {
+    font-size: 32px;
+    font-weight: bold;
+    color: #3b82f6;
+}
+
+.ac-game-leaderboard-player-score-label {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+/* 其他玩家列表区域 */
 .ac-game-leaderboard-content {
     flex: 1;
     overflow-y: auto;
-    padding: 20px;
+    padding: 15px;
+    background: #fafbfc;
 }
 
 .ac-game-leaderboard-table {
@@ -93,159 +232,213 @@
 .ac-game-leaderboard-row {
     display: flex;
     align-items: center;
-    padding: 15px 20px;
-    margin-bottom: 10px;
-    background: white;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    background: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
 }
 
 .ac-game-leaderboard-row:hover {
+    background: #f9fafb;
+    border-color: #93c5fd;
     transform: translateX(5px);
-    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
+/* 前三名特殊样式 */
 .ac-game-leaderboard-row.rank-1 {
-    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-    color: white;
+    background: #fef3c7;
+    border-color: #fbbf24;
 }
 
 .ac-game-leaderboard-row.rank-2 {
-    background: linear-gradient(135deg, #C0C0C0 0%, #B8B8B8 100%);
-    color: white;
+    background: #f3f4f6;
+    border-color: #d1d5db;
 }
 
 .ac-game-leaderboard-row.rank-3 {
-    background: linear-gradient(135deg, #CD7F32 0%, #B87333 100%);
-    color: white;
+    background: #fed7aa;
+    border-color: #fb923c;
 }
 
 .ac-game-leaderboard-rank {
-    width: 60px;
-    font-size: 20px;
+    width: 50px;
+    font-size: 18px;
     font-weight: bold;
+    color: #6b7280;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.ac-game-leaderboard-row.rank-1 .ac-game-leaderboard-rank::after,
-.ac-game-leaderboard-row.rank-2 .ac-game-leaderboard-rank::after,
-.ac-game-leaderboard-row.rank-3 .ac-game-leaderboard-rank::after {
-    content: "👑";
-    margin-left: 5px;
+.ac-game-leaderboard-row.rank-1 .ac-game-leaderboard-rank {
+    color: #f59e0b;
+}
+
+.ac-game-leaderboard-row.rank-2 .ac-game-leaderboard-rank {
+    color: #9ca3af;
+}
+
+.ac-game-leaderboard-row.rank-3 .ac-game-leaderboard-rank {
+    color: #f97316;
 }
 
 .ac-game-leaderboard-user {
     flex: 1;
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
 }
 
 .ac-game-leaderboard-avatar {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #e5e7eb;
 }
 
 .ac-game-leaderboard-username {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
+    color: #374151;
 }
 
-.ac-game-leaderboard-score {
-    font-size: 22px;
-    font-weight: bold;
-    color: #667eea;
-    min-width: 100px;
-    text-align: right;
+/* 段位显示 */
+.ac-game-leaderboard-tier {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 120px;
 }
 
-.ac-game-leaderboard-row.rank-1 .ac-game-leaderboard-score,
-.ac-game-leaderboard-row.rank-2 .ac-game-leaderboard-score,
-.ac-game-leaderboard-row.rank-3 .ac-game-leaderboard-score {
+.ac-game-leaderboard-tier-mini {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 500;
     color: white;
 }
 
+.ac-game-leaderboard-tier-mini-icon {
+    font-size: 14px;
+}
+
+.ac-game-leaderboard-score {
+    font-size: 18px;
+    font-weight: bold;
+    color: #3b82f6;
+    min-width: 80px;
+    text-align: right;
+}
+
+/* ========== 优化后的分页控制 ========== */
 .ac-game-leaderboard-pagination {
-    padding: 20px;
+    padding: 15px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: white;
+    background: #ffffff;
     border-top: 1px solid #e5e7eb;
 }
 
 .ac-game-leaderboard-page-info {
     color: #6b7280;
-    font-size: 14px;
+    font-size: 13px;
+    font-weight: 500;
 }
 
 .ac-game-leaderboard-page-buttons {
     display: flex;
-    gap: 10px;
+    gap: 6px;
+    align-items: center;
 }
 
+/* 统一的页码按钮样式 - 核心优化 */
 .ac-game-leaderboard-page-btn {
-    padding: 8px 16px;
-    background: white;
-    border: 2px solid #e5e7eb;
+    padding: 8px 12px;
+    min-width: 38px;
+    height: 38px;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
     border-radius: 8px;
     color: #374151;
     font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    box-sizing: border-box;
 }
 
-.ac-game-leaderboard-page-btn:hover:not(:disabled) {
-    background: #667eea;
-    color: white;
-    border-color: #667eea;
+/* hover效果 */
+.ac-game-leaderboard-page-btn:hover:not(:disabled):not(.active) {
+    background: #f9fafb;
+    border-color: #93c5fd;
+    color: #1f2937;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
+/* 禁用状态 */
 .ac-game-leaderboard-page-btn:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
+    background: #fafbfc;
 }
 
+/* 激活状态 */
 .ac-game-leaderboard-page-btn.active {
-    background: #667eea;
+    background: #3b82f6;
     color: white;
-    border-color: #667eea;
+    border-color: #3b82f6;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
 }
 
+.ac-game-leaderboard-page-btn.active:hover {
+    background: #2563eb;
+    border-color: #2563eb;
+    transform: none;
+}
+
+/* 滚动条样式 */
 .ac-game-leaderboard-content::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
 }
 
 .ac-game-leaderboard-content::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: #f3f4f6;
     border-radius: 10px;
 }
 
 .ac-game-leaderboard-content::-webkit-scrollbar-thumb {
-    background: #667eea;
+    background: #d1d5db;
     border-radius: 10px;
 }
 
 .ac-game-leaderboard-content::-webkit-scrollbar-thumb:hover {
-    background: #764ba2;
+    background: #9ca3af;
 }
 
+/* 加载和空状态 */
 .ac-game-leaderboard-loading {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 200px;
-    color: #667eea;
-    font-size: 18px;
+    color: #3b82f6;
+    font-size: 16px;
 }
 
 .ac-game-leaderboard-empty {
@@ -260,4 +453,15 @@
 .ac-game-leaderboard-empty-icon {
     font-size: 48px;
     margin-bottom: 10px;
+    opacity: 0.5;
 }
+
+/* 段位颜色定义 - 使用柔和的浅色系 */
+.tier-bronze { background: #d4a574; }
+.tier-silver { background: #c0c0c0; }
+.tier-gold { background: #f3c95f; }
+.tier-platinum { background: #a8c9c9; }
+.tier-diamond { background: #7dd3de; }
+.tier-master { background: #ff9ab5; }
+.tier-grandmaster { background: #b8a7d9; }
+.tier-champion { background: #ffb3c6; }
