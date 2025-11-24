@@ -576,3 +576,292 @@ lock engine: pthread robust mutexes
 thunder lock: disabled (you can enable it with --thunder-lock)
 probably another instance of uWSGI is running on the same address (127.0.0.1:8000).
 bind(): Address already in use [core/socket.c line 769]
+*** Starting uWSGI 2.0.20 (64bit) on [Fri Nov 21 14:18:42 2025] ***
+compiled with version: 9.3.0 on 28 October 2021 05:02:51
+os: Linux-5.4.0-182-generic #202-Ubuntu SMP Fri Apr 26 12:29:36 UTC 2024
+nodename: 8479f11b19ee
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/acs/acapp
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/acs/acapp
+your memory page size is 4096 bytes
+detected max file descriptor number: 1048576
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+probably another instance of uWSGI is running on the same address (127.0.0.1:8000).
+bind(): Address already in use [core/socket.c line 769]
+*** Starting uWSGI 2.0.20 (64bit) on [Fri Nov 21 14:25:38 2025] ***
+compiled with version: 9.3.0 on 28 October 2021 05:02:51
+os: Linux-5.4.0-182-generic #202-Ubuntu SMP Fri Apr 26 12:29:36 UTC 2024
+nodename: 8479f11b19ee
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/acs/acapp
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/acs/acapp
+your memory page size is 4096 bytes
+detected max file descriptor number: 1048576
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+probably another instance of uWSGI is running on the same address (127.0.0.1:8000).
+bind(): Address already in use [core/socket.c line 769]
+*** Starting uWSGI 2.0.20 (64bit) on [Fri Nov 21 14:28:13 2025] ***
+compiled with version: 9.3.0 on 28 October 2021 05:02:51
+os: Linux-5.4.0-182-generic #202-Ubuntu SMP Fri Apr 26 12:29:36 UTC 2024
+nodename: 8479f11b19ee
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/acs/acapp
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/acs/acapp
+your memory page size is 4096 bytes
+detected max file descriptor number: 1048576
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+probably another instance of uWSGI is running on the same address (127.0.0.1:8000).
+bind(): Address already in use [core/socket.c line 769]
+*** Starting uWSGI 2.0.20 (64bit) on [Fri Nov 21 14:29:04 2025] ***
+compiled with version: 9.3.0 on 28 October 2021 05:02:51
+os: Linux-5.4.0-182-generic #202-Ubuntu SMP Fri Apr 26 12:29:36 UTC 2024
+nodename: 8479f11b19ee
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/acs/acapp
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/acs/acapp
+your memory page size is 4096 bytes
+detected max file descriptor number: 1048576
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+probably another instance of uWSGI is running on the same address (127.0.0.1:8000).
+bind(): Address already in use [core/socket.c line 769]
+*** Starting uWSGI 2.0.20 (64bit) on [Fri Nov 21 14:34:49 2025] ***
+compiled with version: 9.3.0 on 28 October 2021 05:02:51
+os: Linux-5.4.0-182-generic #202-Ubuntu SMP Fri Apr 26 12:29:36 UTC 2024
+nodename: 8479f11b19ee
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/acs/acapp
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/acs/acapp
+your memory page size is 4096 bytes
+detected max file descriptor number: 1048576
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+probably another instance of uWSGI is running on the same address (127.0.0.1:8000).
+bind(): Address already in use [core/socket.c line 769]
+*** Starting uWSGI 2.0.20 (64bit) on [Fri Nov 21 14:35:35 2025] ***
+compiled with version: 9.3.0 on 28 October 2021 05:02:51
+os: Linux-5.4.0-182-generic #202-Ubuntu SMP Fri Apr 26 12:29:36 UTC 2024
+nodename: 8479f11b19ee
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/acs/acapp
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/acs/acapp
+your memory page size is 4096 bytes
+detected max file descriptor number: 1048576
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+probably another instance of uWSGI is running on the same address (127.0.0.1:8000).
+bind(): Address already in use [core/socket.c line 769]
+*** Starting uWSGI 2.0.20 (64bit) on [Fri Nov 21 14:36:15 2025] ***
+compiled with version: 9.3.0 on 28 October 2021 05:02:51
+os: Linux-5.4.0-182-generic #202-Ubuntu SMP Fri Apr 26 12:29:36 UTC 2024
+nodename: 8479f11b19ee
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/acs/acapp
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/acs/acapp
+your memory page size is 4096 bytes
+detected max file descriptor number: 1048576
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+probably another instance of uWSGI is running on the same address (127.0.0.1:8000).
+bind(): Address already in use [core/socket.c line 769]
+*** Starting uWSGI 2.0.20 (64bit) on [Fri Nov 21 14:39:10 2025] ***
+compiled with version: 9.3.0 on 28 October 2021 05:02:51
+os: Linux-5.4.0-182-generic #202-Ubuntu SMP Fri Apr 26 12:29:36 UTC 2024
+nodename: 8479f11b19ee
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/acs/acapp
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/acs/acapp
+your memory page size is 4096 bytes
+detected max file descriptor number: 1048576
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+probably another instance of uWSGI is running on the same address (127.0.0.1:8000).
+bind(): Address already in use [core/socket.c line 769]
+*** Starting uWSGI 2.0.20 (64bit) on [Fri Nov 21 14:40:28 2025] ***
+compiled with version: 9.3.0 on 28 October 2021 05:02:51
+os: Linux-5.4.0-182-generic #202-Ubuntu SMP Fri Apr 26 12:29:36 UTC 2024
+nodename: 8479f11b19ee
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/acs/acapp
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/acs/acapp
+your memory page size is 4096 bytes
+detected max file descriptor number: 1048576
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+probably another instance of uWSGI is running on the same address (127.0.0.1:8000).
+bind(): Address already in use [core/socket.c line 769]
+*** Starting uWSGI 2.0.20 (64bit) on [Fri Nov 21 14:41:02 2025] ***
+compiled with version: 9.3.0 on 28 October 2021 05:02:51
+os: Linux-5.4.0-182-generic #202-Ubuntu SMP Fri Apr 26 12:29:36 UTC 2024
+nodename: 8479f11b19ee
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/acs/acapp
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/acs/acapp
+your memory page size is 4096 bytes
+detected max file descriptor number: 1048576
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+probably another instance of uWSGI is running on the same address (127.0.0.1:8000).
+bind(): Address already in use [core/socket.c line 769]
+*** Starting uWSGI 2.0.20 (64bit) on [Fri Nov 21 16:43:19 2025] ***
+compiled with version: 9.3.0 on 28 October 2021 05:02:51
+os: Linux-5.4.0-182-generic #202-Ubuntu SMP Fri Apr 26 12:29:36 UTC 2024
+nodename: 8479f11b19ee
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/acs/acapp
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/acs/acapp
+your memory page size is 4096 bytes
+detected max file descriptor number: 1048576
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+probably another instance of uWSGI is running on the same address (127.0.0.1:8000).
+bind(): Address already in use [core/socket.c line 769]
+*** Starting uWSGI 2.0.20 (64bit) on [Fri Nov 21 17:49:40 2025] ***
+compiled with version: 9.3.0 on 28 October 2021 05:02:51
+os: Linux-5.4.0-182-generic #202-Ubuntu SMP Fri Apr 26 12:29:36 UTC 2024
+nodename: 8479f11b19ee
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/acs/acapp
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/acs/acapp
+your memory page size is 4096 bytes
+detected max file descriptor number: 1048576
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+probably another instance of uWSGI is running on the same address (127.0.0.1:8000).
+bind(): Address already in use [core/socket.c line 769]
+*** Starting uWSGI 2.0.20 (64bit) on [Fri Nov 21 17:55:24 2025] ***
+compiled with version: 9.3.0 on 28 October 2021 05:02:51
+os: Linux-5.4.0-182-generic #202-Ubuntu SMP Fri Apr 26 12:29:36 UTC 2024
+nodename: 8479f11b19ee
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/acs/acapp
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/acs/acapp
+your memory page size is 4096 bytes
+detected max file descriptor number: 1048576
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+probably another instance of uWSGI is running on the same address (127.0.0.1:8000).
+bind(): Address already in use [core/socket.c line 769]
+*** Starting uWSGI 2.0.20 (64bit) on [Fri Nov 21 17:58:18 2025] ***
+compiled with version: 9.3.0 on 28 October 2021 05:02:51
+os: Linux-5.4.0-182-generic #202-Ubuntu SMP Fri Apr 26 12:29:36 UTC 2024
+nodename: 8479f11b19ee
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/acs/acapp
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/acs/acapp
+your memory page size is 4096 bytes
+detected max file descriptor number: 1048576
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+probably another instance of uWSGI is running on the same address (127.0.0.1:8000).
+bind(): Address already in use [core/socket.c line 769]
+*** Starting uWSGI 2.0.20 (64bit) on [Fri Nov 21 23:34:35 2025] ***
+compiled with version: 9.3.0 on 28 October 2021 05:02:51
+os: Linux-5.4.0-182-generic #202-Ubuntu SMP Fri Apr 26 12:29:36 UTC 2024
+nodename: 8479f11b19ee
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/acs/acapp
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/acs/acapp
+your memory page size is 4096 bytes
+detected max file descriptor number: 1048576
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+probably another instance of uWSGI is running on the same address (127.0.0.1:8000).
+bind(): Address already in use [core/socket.c line 769]
+*** Starting uWSGI 2.0.20 (64bit) on [Fri Nov 21 23:35:45 2025] ***
+compiled with version: 9.3.0 on 28 October 2021 05:02:51
+os: Linux-5.4.0-182-generic #202-Ubuntu SMP Fri Apr 26 12:29:36 UTC 2024
+nodename: 8479f11b19ee
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/acs/acapp
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/acs/acapp
+your memory page size is 4096 bytes
+detected max file descriptor number: 1048576
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+probably another instance of uWSGI is running on the same address (127.0.0.1:8000).
+bind(): Address already in use [core/socket.c line 769]
+*** Starting uWSGI 2.0.20 (64bit) on [Fri Nov 21 23:36:18 2025] ***
+compiled with version: 9.3.0 on 28 October 2021 05:02:51
+os: Linux-5.4.0-182-generic #202-Ubuntu SMP Fri Apr 26 12:29:36 UTC 2024
+nodename: 8479f11b19ee
+machine: x86_64
+clock source: unix
+detected number of CPU cores: 2
+current working directory: /home/acs/acapp
+detected binary path: /usr/local/bin/uwsgi
+!!! no internal routing support, rebuild with pcre support !!!
+chdir() to /home/acs/acapp
+your memory page size is 4096 bytes
+detected max file descriptor number: 1048576
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+probably another instance of uWSGI is running on the same address (127.0.0.1:8000).
+bind(): Address already in use [core/socket.c line 769]

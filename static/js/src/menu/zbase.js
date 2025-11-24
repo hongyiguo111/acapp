@@ -86,6 +86,8 @@ class AcGameMenu {
 
         this.announcement_board = new AnnouncementBoard(this);
 
+        this.particleBackground = new ParticleBackground('ac_game_12345678');
+
         this.start();
     }
 
@@ -155,6 +157,10 @@ class AcGameMenu {
     show() {//显示menu界面
         this.$menu.show();
         this.update_user_info();
+        // 确保粒子背景在显示时激活
+        if (!this.particleBackground) {
+            this.particleBackground = new ParticleBackground('ac_game_12345678');
+        }
     }
 
     hide() {// 关闭menu界面

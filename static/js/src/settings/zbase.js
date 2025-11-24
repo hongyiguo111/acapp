@@ -111,6 +111,8 @@ class Settings {
 
         this.root.$ac_game.append(this.$settings);
 
+        this.particleBackground = new ParticleBackground('ac_game_12345678');
+
         this.start();
     }
 
