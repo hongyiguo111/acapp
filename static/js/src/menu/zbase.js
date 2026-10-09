@@ -28,7 +28,7 @@ class AcGameMenu {
                     <strong>多人模式聊天窗：</strong>按下<span class="ac-game-menu-guide-key">ENTER</span>键打开聊天窗，<span class="ac-game-menu-guide-key">ESC</span>键关闭
                 </div>
                 <div class="ac-game-menu-guide-item">
-                    <strong>花瓣模式：</strong>鼠标或<span class="ac-game-menu-guide-key">WASD</span>移动，<span class="ac-game-menu-guide-key">左键/空格</span>展开花瓣攻击，<span class="ac-game-menu-guide-key">右键/Shift</span>收拢防御，<span class="ac-game-menu-guide-key">ESC</span>退出
+                    <strong>花瓣模式：</strong>鼠标或<span class="ac-game-menu-guide-key">WASD</span>移动，<span class="ac-game-menu-guide-key">左键/空格</span>展开花瓣（伤害更高），<span class="ac-game-menu-guide-key">右键/Shift</span>收拢花瓣（更耐打），<span class="ac-game-menu-guide-key">B</span>背包换花瓣，击败怪物会掉落新花瓣，<span class="ac-game-menu-guide-key">ESC</span>退出
                 </div>
                 <div class="ac-game-menu-guide-item">
                     <strong>游戏结束后：</strong>点击<span class="ac-game-menu-guide-key">任意位置</span>回到<span class="ac-game-menu-guide-key">菜单</span>

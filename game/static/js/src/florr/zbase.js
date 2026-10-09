@@ -8,8 +8,16 @@ class AcGameFlorr {
 <div class="ac-game-florr">
     <canvas class="ac-game-florr-canvas" tabindex="0"></canvas>
     <button class="ac-game-florr-exit">退出 (ESC)</button>
+    <button class="ac-game-florr-bag-btn">背包 (B)</button>
     <div class="ac-game-florr-status"></div>
-    <div class="ac-game-florr-help">鼠标/WASD 移动 · 左键或空格：展开花瓣攻击 · 右键或 Shift：收拢花瓣防御</div>
+    <div class="ac-game-florr-toasts"></div>
+    <div class="ac-game-florr-hotbar"></div>
+    <div class="ac-game-florr-bag">
+        <div class="ac-game-florr-bag-title">背包</div>
+        <div class="ac-game-florr-bag-hint">先点一种花瓣，再点下方的栏位装备；背包打开时点击已装备的栏位可卸下</div>
+        <div class="ac-game-florr-bag-items"></div>
+    </div>
+    <div class="ac-game-florr-help">鼠标/WASD 移动 · 左键或空格：展开花瓣（伤害 +50%） · 右键或 Shift：收拢花瓣（花瓣更耐打） · B：背包</div>
 </div>
 `);
         this.$florr.hide();
@@ -20,6 +28,11 @@ class AcGameFlorr {
         this.ctx = this.canvas.getContext('2d');
         this.$status = this.$florr.find('.ac-game-florr-status');
         this.$exit = this.$florr.find('.ac-game-florr-exit');
+        this.$bag_btn = this.$florr.find('.ac-game-florr-bag-btn');
+        this.$bag = this.$florr.find('.ac-game-florr-bag');
+        this.$bag_items = this.$florr.find('.ac-game-florr-bag-items');
+        this.$hotbar = this.$florr.find('.ac-game-florr-hotbar');
+        this.$toasts = this.$florr.find('.ac-game-florr-toasts');
 
         this.VIEW_HEIGHT = 900;       // world units visible vertically, on every screen size
         this.running = false;
@@ -29,14 +42,41 @@ class AcGameFlorr {
         this.$exit.click(function () {
             outer.exit();
         });
+        this.$bag_btn.click(function () {
+            outer.toggle_bag();
+            outer.canvas.focus();
+        });
+        this.$bag_items.on('click', '.ac-game-florr-item', function () {
+            let kind = $(this).data('kind');
+            outer.selected_kind = outer.selected_kind === kind ? null : kind;
+            outer.render_bag();
+        });
+        this.$hotbar.on('click', '.ac-game-florr-slot', function () {
+            if (!outer.bag_open) return;
+            let slot = Number($(this).data('slot'));
+            if (outer.selected_kind) {
+                outer.send_equip(slot, outer.selected_kind);
+                outer.selected_kind = null;
+            } else if (outer.loadout[slot]) {
+                outer.send_equip(slot, "");
+            }
+            outer.render_bag();
+        });
     }
 
     reset_state() {
         this.ws = null;
         this.cfg = null;
+        this.petal_by_id = {};
         this.me_id = null;
         this.players = new Map();
         this.mobs = new Map();
+        this.drops = new Map();
+        this.inv = {};
+        this.loadout = [];
+        this.kills_total = 0;
+        this.selected_kind = null;
+        this.bag_open = false;
         this.snap_time = 0;
         this.keys = new Set();
         this.mouse = {x: 0, y: 0, active: false};
@@ -45,6 +85,12 @@ class AcGameFlorr {
         this.raf = null;
         this.send_timer = null;
         this.last_frame = 0;
+        if (this.$bag) {
+            this.$bag.hide();
+            this.$hotbar.empty();
+            this.$bag_items.empty();
+            this.$toasts.empty();
+        }
     }
 
     show() {
@@ -98,8 +144,13 @@ class AcGameFlorr {
             if (data.t === "welcome") {
                 outer.cfg = data;
                 outer.me_id = data.id;
+                outer.petal_by_id = {};
+                for (let p of data.petals) outer.petal_by_id[p.id] = p;
+                outer.build_hotbar();
             } else if (data.t === "s") {
                 outer.apply_snapshot(data);
+            } else if (data.t === "inv") {
+                outer.apply_inventory(data);
             }
         };
         ws.onclose = function (e) {
@@ -115,6 +166,7 @@ class AcGameFlorr {
         this.me_id = s.me;
         this.sync(this.players, s.ps);
         this.sync(this.mobs, s.ms);
+        this.sync(this.drops, s.ds || []);
     }
 
     // Keep a render-side copy per entity: `tx/ty` is the latest server position, `x/y` is what we draw
@@ -132,10 +184,12 @@ class AcGameFlorr {
             cur.tr = e.r;
             cur.a = e.a;
             cur.mask = e.p;
+            cur.slots = e.l;
             cur.hp = e.h;
             cur.max_hp = e.H;
             cur.name = e.n;
             cur.kind = e.t;
+            cur.item = e.k;
             cur.kills = e.k;
             cur.dead = e.d === 1;
         }
@@ -144,6 +198,92 @@ class AcGameFlorr {
         }
     }
 
+    // ---- inventory and loadout ---------------------------------------------------
+    apply_inventory(m) {
+        this.inv = m.inv;
+        this.loadout = m.lo;
+        this.kills_total = m.kt;
+        for (let kind of m.got || []) {
+            let info = this.petal_by_id[kind];
+            this.toast("获得 " + (info ? info.name : kind));
+        }
+        if (this.selected_kind && !(this.inv[this.selected_kind] > 0)) this.selected_kind = null;
+        this.render_hotbar();
+        this.render_bag();
+    }
+
+    send_equip(slot, kind) {
+        if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+            this.ws.send(JSON.stringify({t: "equip", slot: slot, kind: kind}));
+        }
+    }
+
+    toggle_bag() {
+        this.bag_open = !this.bag_open;
+        if (!this.bag_open) this.selected_kind = null;
+        this.$bag.toggle(this.bag_open);
+        this.$hotbar.toggleClass('ac-game-florr-hotbar-active', this.bag_open);
+        this.render_bag();
+    }
+
+    build_hotbar() {
+        this.$hotbar.empty();
+        for (let i = 0; i < this.cfg.petal_n; i++) {
+            this.$hotbar.append(
+                `<div class="ac-game-florr-slot" data-slot="${i}"><span class="ac-game-florr-swatch"></span><span class="ac-game-florr-slot-name"></span></div>`);
+        }
+        this.render_hotbar();
+    }
+
+    swatch_style(info) {
+        let size = Math.round(info.radius * 2 + 6);
+        return `background:${info.color};width:${size}px;height:${size}px`;
+    }
+
+    render_hotbar() {
+        let outer = this;
+        this.$hotbar.find('.ac-game-florr-slot').each(function (i) {
+            let kind = outer.loadout[i], info = outer.petal_by_id[kind];
+            let $swatch = $(this).find('.ac-game-florr-swatch'), $name = $(this).find('.ac-game-florr-slot-name');
+            $(this).toggleClass('empty', !info);
+            if (info) {
+                $swatch.attr('style', outer.swatch_style(info));
+                $name.text(info.name);
+            } else {
+                $swatch.attr('style', '');
+                $name.text("空");
+            }
+        });
+    }
+
+    render_bag() {
+        this.$hotbar.find('.ac-game-florr-slot').removeClass('target').toggleClass('target', !!this.selected_kind && this.bag_open);
+        if (!this.bag_open || !this.cfg) return;
+        let used = {};
+        for (let kind of this.loadout) {
+            if (kind) used[kind] = (used[kind] || 0) + 1;
+        }
+        let html = "";
+        for (let p of this.cfg.petals) {
+            let count = this.inv[p.id] || 0;
+            if (count <= 0) continue;
+            html += `<div class="ac-game-florr-item${this.selected_kind === p.id ? ' selected' : ''}" data-kind="${p.id}">
+                <span class="ac-game-florr-swatch" style="${this.swatch_style(p)}"></span>
+                <div class="ac-game-florr-item-name">${p.name}</div>
+                <div class="ac-game-florr-item-count">×${count}　已装备 ${used[p.id] || 0}</div>
+            </div>`;
+        }
+        this.$bag_items.html(html || '<div class="ac-game-florr-bag-empty">还没有花瓣</div>');
+    }
+
+    toast(text) {
+        let $t = $(`<div class="ac-game-florr-toast"></div>`).text(text);
+        this.$toasts.append($t);
+        setTimeout(() => $t.fadeOut(400, () => $t.remove()), 1800);
+        while (this.$toasts.children().length > 5) this.$toasts.children().first().remove();
+    }
+
+    // ---- input ------------------------------------------------------------------------
     compute_input() {
         let dx = 0, dy = 0;
         let k = this.keys;
@@ -186,13 +326,16 @@ class AcGameFlorr {
         }
     }
 
-    // ---- input events -----------------------------------------------------------
     add_listening_events() {
         let outer = this;
         this.$canvas.on('contextmenu', () => false);
         this.$canvas.on('mousemove', function (e) {
             let rect = outer.canvas.getBoundingClientRect();
             outer.mouse = {x: e.clientX - rect.left, y: e.clientY - rect.top, active: true};
+        });
+        // over the hotbar / bag the character must not keep walking towards the last canvas position
+        this.$canvas.on('mouseleave', function () {
+            outer.mouse.active = false;
         });
         this.$canvas.on('mousedown', function (e) {
             if (e.which === 1) outer.buttons.left = true;
@@ -208,7 +351,12 @@ class AcGameFlorr {
         $(window).on('keydown.florr', function (e) {
             let code = e.originalEvent.code;
             if (code === 'Escape') {
-                outer.exit();
+                if (outer.bag_open) outer.toggle_bag();
+                else outer.exit();
+                return false;
+            }
+            if (code === 'KeyB' && !e.originalEvent.repeat) {
+                outer.toggle_bag();
                 return false;
             }
             outer.keys.add(code);
@@ -257,6 +405,10 @@ class AcGameFlorr {
             m.x += (m.tx - m.x) * k;
             m.y += (m.ty - m.y) * k;
         }
+        for (let d of this.drops.values()) {
+            d.x = d.tx;
+            d.y = d.ty;
+        }
     }
 
     render(now) {
@@ -275,6 +427,7 @@ class AcGameFlorr {
         ctx.translate(-me.x, -me.y);
 
         this.draw_world(cfg, me, W / scale, H / scale);
+        for (let d of this.drops.values()) this.draw_drop(d, now);
         for (let m of this.mobs.values()) this.draw_mob(m);
         for (let p of this.players.values()) {
             if (p !== me && !p.dead) this.draw_player(p, now, false);
@@ -328,20 +481,27 @@ class AcGameFlorr {
         }
     }
 
+    draw_petal(x, y, info) {
+        let ctx = this.ctx;
+        ctx.beginPath();
+        ctx.arc(x, y, info.radius, 0, Math.PI * 2);
+        ctx.fillStyle = info.color;
+        ctx.fill();
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.35)';
+        ctx.stroke();
+    }
+
     draw_player(p, now, is_me) {
         let ctx = this.ctx, cfg = this.cfg, R = cfg.player_r;
         // petals first so the body sits on top of them
         let a0 = p.a + cfg.omega * (now - this.snap_time) / 1000;
         for (let i = 0; i < cfg.petal_n; i++) {
             if (!(p.mask & (1 << i))) continue;
+            let info = cfg.petals[p.slots[i]];
+            if (!info) continue;
             let a = a0 + i * 2 * Math.PI / cfg.petal_n;
-            ctx.beginPath();
-            ctx.arc(p.x + p.r * Math.cos(a), p.y + p.r * Math.sin(a), cfg.petal_r, 0, Math.PI * 2);
-            ctx.fillStyle = '#ffffff';
-            ctx.fill();
-            ctx.lineWidth = 3;
-            ctx.strokeStyle = '#cfcfcf';
-            ctx.stroke();
+            this.draw_petal(p.x + p.r * Math.cos(a), p.y + p.r * Math.sin(a), info);
         }
         ctx.beginPath();
         ctx.arc(p.x, p.y, R, 0, Math.PI * 2);
@@ -368,13 +528,52 @@ class AcGameFlorr {
         let R = spec.radius;
         ctx.beginPath();
         ctx.arc(m.x, m.y, R, 0, Math.PI * 2);
-        ctx.fillStyle = '#8e5fb3';
+        ctx.fillStyle = spec.color;
         ctx.fill();
         ctx.lineWidth = 4;
-        ctx.strokeStyle = '#6b3f8a';
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.35)';
         ctx.stroke();
-        this.draw_eyes(m.x, m.y, R);
+
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.55)';
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.45)';
+        if (m.kind === 'ladybug') {
+            for (let [dx, dy] of [[-0.45, 0.35], [0.45, 0.35], [0, 0.62]]) {
+                ctx.beginPath();
+                ctx.arc(m.x + dx * R, m.y + dy * R, R * 0.14, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        } else if (m.kind === 'wasp') {
+            ctx.lineWidth = R * 0.22;
+            for (let dy of [0.3, 0.62]) {
+                let half = Math.sqrt(1 - dy * dy) * R * 0.92;
+                ctx.beginPath();
+                ctx.moveTo(m.x - half, m.y + dy * R);
+                ctx.lineTo(m.x + half, m.y + dy * R);
+                ctx.stroke();
+            }
+        } else if (m.kind === 'rock') {
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(m.x - R * 0.5, m.y - R * 0.3);
+            ctx.lineTo(m.x - R * 0.1, m.y + R * 0.05);
+            ctx.lineTo(m.x - R * 0.3, m.y + R * 0.5);
+            ctx.moveTo(m.x + R * 0.1, m.y - R * 0.6);
+            ctx.lineTo(m.x + R * 0.4, m.y - R * 0.1);
+            ctx.stroke();
+        }
+        if (m.kind !== 'rock') this.draw_eyes(m.x, m.y - R * 0.1, R);
         this.draw_hp_bar(m.x, m.y + R + 8, R * 2, m.hp, m.max_hp);
+    }
+
+    draw_drop(d, now) {
+        let ctx = this.ctx, info = this.cfg.petals[d.item];
+        if (!info) return;
+        let bob = Math.sin(now / 250 + d.x) * 2;
+        ctx.beginPath();
+        ctx.arc(d.x, d.y + bob, this.cfg.drop_r + 5, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.28)';
+        ctx.fill();
+        this.draw_petal(d.x, d.y + bob, {radius: Math.min(info.radius, this.cfg.drop_r), color: info.color});
     }
 
     draw_hud(me) {
@@ -384,11 +583,11 @@ class AcGameFlorr {
         ctx.fillStyle = '#ffffff';
         ctx.strokeStyle = 'rgba(0, 0, 0, 0.6)';
         ctx.lineWidth = 4;
-        let text = "击杀 " + me.kills;
+        let text = "击杀 " + me.kills + "　累计 " + (this.kills_total || 0);
         ctx.strokeText(text, 16, 34);
         ctx.fillText(text, 16, 34);
 
-        let bw = Math.min(360, W * 0.5), bh = 18, bx = (W - bw) / 2, by = H - 46;
+        let bw = Math.min(360, W * 0.5), bh = 18, bx = (W - bw) / 2, by = H - 34;
         ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';
         ctx.fillRect(bx, by, bw, bh);
         ctx.fillStyle = '#8be25a';
