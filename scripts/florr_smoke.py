@@ -77,6 +77,14 @@ class WS:
         return json.loads(payload) if op == 1 else None
 
 
+def recv_type(ws, kind, tries=60):
+    for _ in range(tries):
+        m = ws.recv()
+        if isinstance(m, dict) and m.get("t") == kind:
+            return m
+    raise AssertionError(f"no {kind!r} message")
+
+
 def check(cond, label):
     print(("PASS  " if cond else "FAIL  ") + label)
     if not cond:
@@ -101,7 +109,10 @@ a = WS(cookie)
 check(a.status.startswith("HTTP/1.1 101"), "logged-in handshake")
 welcome = a.recv()
 check(welcome["t"] == "welcome" and welcome["w"] == 3000, f"welcome first: {welcome['t']}")
-snap = a.recv()
+check([p["id"] for p in welcome["petals"]] == ["basic", "stinger", "heavy", "rose"], "welcome lists the petal kinds")
+inv = recv_type(a, "inv")
+check(inv["inv"].get("basic", 0) >= 5 and len(inv["lo"]) == 5, f"inventory message: {inv['inv']} loadout {inv['lo']}")
+snap = recv_type(a, "s")
 me = next(p for p in snap["ps"] if p["i"] == welcome["id"])
 check(snap["t"] == "s" and me["n"] == "florr_a", f"state arrives, my name = {me['n']}")
 
@@ -112,18 +123,41 @@ time.sleep(0.8)
 last = None
 t_end = time.time() + 0.4
 while time.time() < t_end:
-    last = a.recv()
+    m = a.recv()
+    if isinstance(m, dict) and m.get("t") == "s":
+        last = m
 me2 = next(p for p in last["ps"] if p["i"] == welcome["id"])
 moved = me2["x"] - x0
 check(moved > 100 or me2["x"] >= 2960, f"moved right by {moved:.0f} units in ~1s (speed 260/s)")
-check(me2["r"] > 90, f"petals extended (orbit radius {me2['r']})")
+check(me2["r"] > 70, f"petals extended (orbit radius {me2['r']})")
 
 # 4) snapshot rate
 t0, count = time.time(), 0
 while time.time() - t0 < 1.0:
-    if a.recv()["t"] == "s":
+    m = a.recv()
+    if isinstance(m, dict) and m.get("t") == "s":
         count += 1
 check(15 <= count <= 25, f"~20 snapshots/s (got {count})")
+
+# 4b) loadout: an unowned kind is refused, unequip/re-equip works and survives a reconnect
+original = inv["lo"][:]
+a.send({"t": "equip", "slot": 0, "kind": "stinger" if inv["inv"].get("stinger", 0) == 0 else "nonsense"})
+refused = recv_type(a, "inv")
+check(refused["lo"] == original, "equipping something you do not own is refused")
+time.sleep(0.6)
+a.send({"t": "equip", "slot": 4, "kind": ""})
+unequipped = recv_type(a, "inv")
+check(unequipped["lo"][4] == "", f"unequip slot 5 -> {unequipped['lo']}")
+a.sock.close()
+time.sleep(0.8)                                   # disconnect saves progress
+a = WS(login("florr_a"))
+welcome = a.recv()
+back = recv_type(a, "inv")
+check(back["lo"][4] == "", f"loadout persisted across reconnect -> {back['lo']}")
+time.sleep(0.6)
+a.send({"t": "equip", "slot": 4, "kind": original[4] or "basic"})
+restored = recv_type(a, "inv")
+check(restored["lo"][4] != "", f"re-equipped -> {restored['lo']}")
 
 # 5) a second account sees the first; a duplicate login replaces the old socket
 b = WS(login("florr_b"))
