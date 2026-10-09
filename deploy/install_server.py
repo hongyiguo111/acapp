@@ -71,9 +71,12 @@ def run(c, cmd, check=True):
 
 
 def put(c, local, remote, mode):
+    # always upload with LF line endings: a CRLF checkout on Windows would turn the shebang into `python3\r` and break it
+    data = open(local, "rb").read().replace(b"\r\n", b"\n")
     sftp = c.open_sftp()
     tmp = remote + ".new"
-    sftp.put(local, tmp)
+    with sftp.open(tmp, "wb") as f:
+        f.write(data)
     sftp.chmod(tmp, mode)
     sftp.close()
     run(c, "chown root:root %s && mv -f %s %s" % (tmp, tmp, remote))

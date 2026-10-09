@@ -1,0 +1,5 @@
+# These files run on Linux (host, container, CI): keep LF line endings even when checked out on Windows.
+*.sh                              text eol=lf
+deploy/acapp_deploy_server.py     text eol=lf
+deploy/replica/*                  text eol=lf
+.github/workflows/*.yml           text eol=lf
