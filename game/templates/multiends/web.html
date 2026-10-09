@@ -28,7 +28,8 @@
 <body style="margin: 0">
 <div id="ac_game_12345678"></div>
 <script type="module">
-    import {AcGame} from "{% static 'js/dist/game.js' %}";
+    // bump ?v= whenever dist/game.js changes: nginx sends no cache headers, so browsers would keep an old copy for days
+    import {AcGame} from "{% static 'js/dist/game.js' %}?v=florr3";
 
     $(document).ready(function () {
         let ac_game = new AcGame("ac_game_12345678");
