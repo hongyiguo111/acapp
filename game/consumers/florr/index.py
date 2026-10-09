@@ -1,9 +1,14 @@
 import json
+import logging
 
+from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
 
+from . import store
 from . import world as w
 from .hub import hub
+
+logger = logging.getLogger(__name__)
 
 MAX_MESSAGE_BYTES = 512
 
@@ -18,14 +23,25 @@ class FlorrPlayer(AsyncWebsocketConsumer):
         if user is None or not user.is_authenticated:
             await self.close(code=4401)
             return
+        name = user.get_username()
+        # a still-connected older session of this account must reach the database before we read it
+        await hub.save_account(name)
+        try:
+            state = await database_sync_to_async(store.load)(name)
+        except Exception:
+            logger.exception("loading florr progress of %s failed", name)
+            await self.close(code=4500)
+            return
         await self.accept()
-        self.pid, previous = hub.join(user.get_username(), self)
+        self.pid, previous = hub.join(name, self, **state)
         # welcome must be queued before anything else yields, so it always precedes the first snapshot
         await self.send(text_data=json.dumps({
             "t": "welcome", "id": self.pid, "w": w.WORLD_W, "h": w.WORLD_H,
-            "player_r": w.PLAYER_RADIUS, "petal_r": w.PETAL_RADIUS, "petal_n": w.PETAL_COUNT,
+            "player_r": w.PLAYER_RADIUS, "petal_n": w.PETAL_COUNT,
             "player_hp": w.PLAYER_MAX_HP, "omega": w.ORBIT_OMEGA, "tick_rate": w.TICK_RATE,
-            "mobs": {k: {"radius": v["radius"]} for k, v in w.MOB_TYPES.items()},
+            "petals": [dict(id=k, **{f: v[f] for f in ("name", "color", "radius")}) for k, v in w.PETAL_TYPES.items()],
+            "mobs": {k: {"name": v["name"], "color": v["color"], "radius": v["radius"]} for k, v in w.MOB_TYPES.items()},
+            "drop_r": w.DROP_RADIUS,
         }))
         if previous is not None:  # same account opened in another tab: the newer one wins
             await previous.close(code=4409)
@@ -33,6 +49,7 @@ class FlorrPlayer(AsyncWebsocketConsumer):
     async def disconnect(self, close_code):
         # a replaced session must not remove its successor
         if self.pid is not None and hub.clients.get(self.pid) is self:
+            await hub.save_player(self.pid)
             hub.leave(self.pid)
         self.pid = None
 
@@ -50,3 +67,5 @@ class FlorrPlayer(AsyncWebsocketConsumer):
             hub.world.set_input(self.pid, msg.get("dx", 0), msg.get("dy", 0), msg.get("m", 0))
         elif kind == "respawn":
             hub.world.respawn(self.pid)
+        elif kind == "equip":
+            hub.world.equip(self.pid, msg.get("slot"), msg.get("kind"))
