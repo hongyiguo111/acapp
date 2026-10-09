@@ -61,13 +61,13 @@
 }
 
 .ac-game-leaderboard-close {
-    background: #ffffff;
-    border: 1px solid #d1d5db;
+    background: transparent;
+    border: none;
     color: #6b7280;
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    font-size: 22px;
+    font-size: 20px; /* 改小一点 */
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
