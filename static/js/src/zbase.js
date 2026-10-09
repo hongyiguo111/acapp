@@ -11,6 +11,7 @@ export class AcGame{
         this.settings = new Settings(this);
         this.menu = new AcGameMenu(this);
         this.playground = new AcGamePlayground(this);
+        this.florr = new AcGameFlorr(this);
         this.chatroom = new AcGameChatRoom(this);
         this.leaderboard = new AcGameLeaderboard(this);
         this.user_settings = new AcGameUserSettings(this);

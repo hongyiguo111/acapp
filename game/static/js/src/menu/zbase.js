@@ -28,6 +28,9 @@ class AcGameMenu {
                     <strong>多人模式聊天窗：</strong>按下<span class="ac-game-menu-guide-key">ENTER</span>键打开聊天窗，<span class="ac-game-menu-guide-key">ESC</span>键关闭
                 </div>
                 <div class="ac-game-menu-guide-item">
+                    <strong>花瓣模式：</strong>鼠标或<span class="ac-game-menu-guide-key">WASD</span>移动，<span class="ac-game-menu-guide-key">左键/空格</span>展开花瓣攻击，<span class="ac-game-menu-guide-key">右键/Shift</span>收拢防御，<span class="ac-game-menu-guide-key">ESC</span>退出
+                </div>
+                <div class="ac-game-menu-guide-item">
                     <strong>游戏结束后：</strong>点击<span class="ac-game-menu-guide-key">任意位置</span>回到<span class="ac-game-menu-guide-key">菜单</span>
                 </div>
             </div>
@@ -45,6 +48,10 @@ class AcGameMenu {
         <br>
         <div class="ac-game-menu-field-item ac-game-menu-field-item-multi-mode">
             多人模式
+        </div>
+        <br>
+        <div class="ac-game-menu-field-item ac-game-menu-field-item-florr-mode">
+            花瓣模式
         </div>
         <br>
         <div class="ac-game-menu-field-item ac-game-menu-field-item-leaderboard">
@@ -75,6 +82,7 @@ class AcGameMenu {
         this.$single_mode = this.$menu.find('.ac-game-menu-field-item-single-mode');
         this.$dual_mode = this.$menu.find('.ac-game-menu-field-item-dual-mode');
         this.$multi_mode = this.$menu.find('.ac-game-menu-field-item-multi-mode');
+        this.$florr_mode = this.$menu.find('.ac-game-menu-field-item-florr-mode');
         this.$leaderboard = this.$menu.find(`.ac-game-menu-field-item-leaderboard`);
         this.$chatroom = this.$menu.find('.ac-game-menu-field-item-chatroom');
         this.$settings = this.$menu.find('.ac-game-menu-field-item-settings');
@@ -122,6 +130,10 @@ class AcGameMenu {
         this.$multi_mode.click(function () {
             outer.hide();
             outer.root.playground.show("multi mode");
+        });
+        this.$florr_mode.click(function () {
+            outer.hide();
+            outer.root.florr.show();
         });
         this.$leaderboard.click(function () {
             outer.hide();
