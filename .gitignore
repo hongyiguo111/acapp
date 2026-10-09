@@ -1,2 +1,15 @@
 **/__pycache__
+*.pyc
 *.swp
+
+# runtime data / logs - never commit
+db.sqlite3
+db.sqlite3-journal
+uwsgi.log
+*.log
+media/
+
+# local-only
+_backup/
+.venv/
+.env

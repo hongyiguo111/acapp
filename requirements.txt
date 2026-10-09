@@ -1,0 +1,12 @@
+# Versions pinned to what is currently running in the django_server container (Python 3.8.10)
+Django==3.2.8
+channels==3.0.4
+daphne==3.0.2
+channels-redis==4.2.1
+django-redis==5.4.0
+redis==6.1.1
+thrift==0.22.0
+pillow==10.4.0
+requests==2.22.0
+# uWSGI is only needed on the Linux server (does not build on Windows)
+uWSGI==2.0.20; sys_platform != "win32"
