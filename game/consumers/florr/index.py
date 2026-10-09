@@ -35,14 +35,7 @@ class FlorrPlayer(AsyncWebsocketConsumer):
         await self.accept()
         self.pid, previous = hub.join(name, self, **state)
         # welcome must be queued before anything else yields, so it always precedes the first snapshot
-        await self.send(text_data=json.dumps({
-            "t": "welcome", "id": self.pid, "w": w.WORLD_W, "h": w.WORLD_H,
-            "player_r": w.PLAYER_RADIUS, "petal_n": w.PETAL_COUNT,
-            "player_hp": w.PLAYER_MAX_HP, "omega": w.ORBIT_OMEGA, "tick_rate": w.TICK_RATE,
-            "petals": [dict(id=k, **{f: v[f] for f in ("name", "color", "radius")}) for k, v in w.PETAL_TYPES.items()],
-            "mobs": {k: {"name": v["name"], "color": v["color"], "radius": v["radius"]} for k, v in w.MOB_TYPES.items()},
-            "drop_r": w.DROP_RADIUS,
-        }))
+        await self.send(text_data=json.dumps({"t": "welcome", "id": self.pid, **w.welcome_info()}))
         if previous is not None:  # same account opened in another tab: the newer one wins
             await previous.close(code=4409)
 
@@ -68,4 +61,6 @@ class FlorrPlayer(AsyncWebsocketConsumer):
         elif kind == "respawn":
             hub.world.respawn(self.pid)
         elif kind == "equip":
-            hub.world.equip(self.pid, msg.get("slot"), msg.get("kind"))
+            hub.world.equip(self.pid, msg.get("slot"), msg.get("item"))
+        elif kind == "craft":
+            hub.world.craft(self.pid, msg.get("item"))

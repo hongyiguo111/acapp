@@ -16,7 +16,7 @@ def _player_for(username):
 
 
 def parse_loadout(text):
-    return (text or "").split(",") if text else []
+    return text.split(",") if text else []
 
 
 def load(username):
@@ -25,11 +25,13 @@ def load(username):
     with transaction.atomic():
         profile, created = FlorrProfile.objects.get_or_create(
             player=player, defaults={"loadout": ",".join(w.STARTER_LOADOUT)})
-        inventory = dict(FlorrPetal.objects.filter(player=player).values_list("kind", "count"))
+        rows = FlorrPetal.objects.filter(player=player).values_list("kind", "rarity", "count")
+        inventory = {w.make_item(kind, rarity): count for kind, rarity, count in rows}
         if created and not inventory:
             inventory = dict(w.STARTER_INVENTORY)
             FlorrPetal.objects.bulk_create(
-                [FlorrPetal(player=player, kind=k, count=c) for k, c in inventory.items()])
+                [FlorrPetal(player=player, kind=kind, rarity=rarity, count=count)
+                 for (kind, rarity), count in ((w.parse_item(item), n) for item, n in inventory.items())])
     return {"inventory": inventory, "loadout": parse_loadout(profile.loadout), "kills_total": profile.kills_total}
 
 
@@ -38,5 +40,20 @@ def save(username, inventory, loadout, kills_total):
     with transaction.atomic():
         FlorrProfile.objects.update_or_create(
             player=player, defaults={"loadout": ",".join(loadout), "kills_total": kills_total})
-        for kind, count in inventory.items():
-            FlorrPetal.objects.update_or_create(player=player, kind=kind, defaults={"count": count})
+        existing = {(row.kind, row.rarity): row for row in FlorrPetal.objects.filter(player=player)}
+        wanted = {}
+        for item, count in inventory.items():
+            parsed = w.parse_item(item)
+            if parsed is not None and count > 0:
+                wanted[parsed] = count
+        for key, count in wanted.items():
+            row = existing.get(key)
+            if row is None:
+                FlorrPetal.objects.create(player=player, kind=key[0], rarity=key[1], count=count)
+            elif row.count != count:
+                row.count = count
+                row.save(update_fields=["count"])
+        # items that were used up (crafting) must disappear, otherwise they come back on the next login
+        for key, row in existing.items():
+            if key not in wanted:
+                row.delete()

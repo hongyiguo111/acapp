@@ -4,6 +4,7 @@ from game.views.settings.login import signin
 from game.views.settings.logout import signout
 from game.views.settings.register import register
 from game.views.settings.ranklist import get_ranklist
+from game.views.settings.florr_ranklist import get_florr_ranklist
 from game.views.settings.get_user_settings import get_user_settings
 from game.views.settings.check_username import check_username
 from game.views.settings.update_username import update_username
@@ -34,6 +35,7 @@ urlpatterns = [
     path("github/", include("game.urls.settings.github.index")),
     path("gitee/", include("game.urls.settings.gitee.index")),
     path('ranklist/', get_ranklist, name='settings_ranklist'),
+    path('florr_ranklist/', get_florr_ranklist, name='settings_florr_ranklist'),
     path('get_user_settings/', get_user_settings, name='settings_get_user'),
     path('check_username/', check_username, name='settings_check_username'),
     path('update_username/', update_username, name='settings_update_username'),
