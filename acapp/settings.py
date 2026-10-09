@@ -24,9 +24,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-0)9g(ho61g(_mdhik909-deje7dcj!82907n-hhri2a(afa3nw'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DJANGO_DEBUG', '0') == '1'
 
 ALLOWED_HOSTS = ["39.96.169.44", "app7562.acapp.acwing.com.cn"]
+if DEBUG:
+    ALLOWED_HOSTS += ["localhost", "127.0.0.1"]
+
+# Defaults match production; override locally (e.g. REDIS_PORT=16379 when 6379 is reserved by Windows)
+REDIS_HOST = os.environ.get('REDIS_HOST', '127.0.0.1')
+REDIS_PORT = int(os.environ.get('REDIS_PORT', '6379'))
 
 
 # Application definition
@@ -86,7 +92,7 @@ DATABASES = {
 CACHES = {
         'default': {
             'BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': 'redis://127.0.0.1:6379/1',
+            'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/1',
             "OPTIONS": {
                 "CLIENT_CLASS": "django_redis.client.DefaultClient",
                 },
@@ -159,7 +165,7 @@ CHANNEL_LAYERS = {
         "default": {
             "BACKEND": "channels_redis.core.RedisChannelLayer",
             "CONFIG": {
-                "hosts": [("127.0.0.1", 6379)],
+                "hosts": [(REDIS_HOST, REDIS_PORT)],
                 },
             },
         }

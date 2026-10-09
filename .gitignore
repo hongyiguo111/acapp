@@ -13,3 +13,4 @@ media/
 _backup/
 .venv/
 .env
+.dev-logs/
