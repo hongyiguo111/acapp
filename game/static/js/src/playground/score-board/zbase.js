@@ -7,10 +7,10 @@ class ScoreBoard extends AcGameObject {
         this.state = null; // win, lose
 
         this.win_img = new Image();
-        this.win_img.src = "https://app7562.acapp.acwing.com.cn/static/image/icons/win.png";
+        this.win_img.src = AC_ORIGIN + "/static/image/icons/win.png";
 
         this.lose_img = new Image();
-        this.lose_img.src = "https://app7562.acapp.acwing.com.cn/static/image/icons/lose.png";
+        this.lose_img.src = AC_ORIGIN + "/static/image/icons/lose.png";
     }
 
 

@@ -195,7 +195,7 @@ class AnnouncementBoard {
         this.$empty.hide();
 
         $.ajax({
-            url: "https://app7562.acapp.acwing.com.cn/settings/get_announcements/",
+            url: AC_ORIGIN + "/settings/get_announcements/",
             type: "GET",
             success: function(resp) {
                 if (resp.result === "success") {
@@ -312,7 +312,7 @@ class AnnouncementBoard {
 
         if (this.current_edit_id) {
             // 更新现有公告
-            url = "https://app7562.acapp.acwing.com.cn/settings/update_announcement/";
+            url = AC_ORIGIN + "/settings/update_announcement/";
             data = {
                 id: this.current_edit_id,
                 title: title,
@@ -321,7 +321,7 @@ class AnnouncementBoard {
             };
         } else {
             // 创建新公告
-            url = "https://app7562.acapp.acwing.com.cn/settings/create_announcement/";
+            url = AC_ORIGIN + "/settings/create_announcement/";
             data = {
                 title: title,
                 content: content,
@@ -360,7 +360,7 @@ class AnnouncementBoard {
         }
 
         $.ajax({
-            url: "https://app7562.acapp.acwing.com.cn/settings/delete_announcement/",
+            url: AC_ORIGIN + "/settings/delete_announcement/",
             type: "POST",
             headers: {
                 'X-CSRFToken': this.get_csrf_token()

@@ -1,7 +1,7 @@
 class DualPlayerSocket {
     constructor(playground) {
         this.playground = playground;
-        this.ws = new WebSocket("wss://app7562.acapp.acwing.com.cn/wss/dual/");  // 使用 dual 路径
+        this.ws = new WebSocket(AC_WS_ORIGIN + "/wss/dual/");  // 使用 dual 路径
         this.start();
     }
 

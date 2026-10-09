@@ -173,7 +173,7 @@ class AcGameChatRoom {
         this.$admin_message_content.html('<div class="ac-game-admin-message-loading">加载中...</div>');
 
         $.ajax({
-            url: "https://app7562.acapp.acwing.com.cn/settings/get_admin_messages/",
+            url: AC_ORIGIN + "/settings/get_admin_messages/",
             type: "GET",
             success: function (resp) {
                 if (resp.result === "success") {
@@ -241,7 +241,7 @@ class AcGameChatRoom {
         this.$admin_message_send.prop('disabled', true);
 
         $.ajax({
-            url: "https://app7562.acapp.acwing.com.cn/settings/send_admin_message/",
+            url: AC_ORIGIN + "/settings/send_admin_message/",
             type: "POST",
             headers: {
                 'X-CSRFToken': this.get_csrf_token()
@@ -305,7 +305,7 @@ class AcGameChatRoom {
         let outer = this;
 
         $.ajax({
-            url: "https://app7562.acapp.acwing.com.cn/settings/get_unread_count/",
+            url: AC_ORIGIN + "/settings/get_unread_count/",
             type: "GET",
             success: function (resp) {
                 if (resp.result === "success" && resp.count > 0) {

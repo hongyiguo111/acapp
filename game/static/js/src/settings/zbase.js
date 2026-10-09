@@ -34,13 +34,13 @@ class Settings {
         </div>
         <br>
         <div class="ac-game-settings-acwing">
-            <img width="30" src="https://app7562.acapp.acwing.com.cn/static/image/login/acwing.png"  alt="AcWing Login">
+            <img width="30" src="${AC_ORIGIN}/static/image/login/acwing.png"  alt="AcWing Login">
         </div>
         <div class="ac-game-settings-github">
-            <img src="https://app7562.acapp.acwing.com.cn/static/image/login/github.png" alt="GitHub Login">
+            <img src="${AC_ORIGIN}/static/image/login/github.png" alt="GitHub Login">
         </div>
             <div class="ac-game-settings-gitee">
-            <img src="https://app7562.acapp.acwing.com.cn/static/image/login/gitee.png" alt="Gitee Login">
+            <img src="${AC_ORIGIN}/static/image/login/gitee.png" alt="Gitee Login">
         </div>
     </div>
     <div class="ac-game-settings-register">
@@ -74,13 +74,13 @@ class Settings {
         </div>
         <br>
         <div class="ac-game-settings-acwing" title="AcWing 一键登录">
-            <img width="30" src="https://app7562.acapp.acwing.com.cn/static/image/login/acwing.png"  alt="AcWing Login">
+            <img width="30" src="${AC_ORIGIN}/static/image/login/acwing.png"  alt="AcWing Login">
         </div>
         <div class="ac-game-settings-github" title="GitHub 一键登录">
-            <img src="https://app7562.acapp.acwing.com.cn/static/image/login/github.png" alt="GitHub Login">
+            <img src="${AC_ORIGIN}/static/image/login/github.png" alt="GitHub Login">
         </div>
             <div class="ac-game-settings-gitee" title="Gitee 一键登录">
-            <img src="https://app7562.acapp.acwing.com.cn/static/image/login/gitee.png" alt="Gitee Login">
+            <img src="${AC_ORIGIN}/static/image/login/gitee.png" alt="Gitee Login">
         </div>
     </div>
 `);
@@ -147,7 +147,7 @@ class Settings {
 
     acwing_login() {
         $.ajax({
-            url: "https://app7562.acapp.acwing.com.cn/settings/acwing/web/apply_code/",
+            url: AC_ORIGIN + "/settings/acwing/web/apply_code/",
             type: "GET",
             success: function (resp) {
                 if(resp.result === "success") {
@@ -159,7 +159,7 @@ class Settings {
 
     github_login() {
         $.ajax({
-            url: "https://app7562.acapp.acwing.com.cn/settings/github/web/apply_code/",
+            url: AC_ORIGIN + "/settings/github/web/apply_code/",
             type: "GET",
             success: function (resp) {
                 if (resp.result === "success") {
@@ -247,7 +247,7 @@ class Settings {
         let password = this.$login_password.val();
         this.$login_error_message.empty();
         $.ajax({
-            url: "https://app7562.acapp.acwing.com.cn/settings/login/",
+            url: AC_ORIGIN + "/settings/login/",
             type: "GET",
             data: {
                 username: username,
@@ -271,7 +271,7 @@ class Settings {
         this.$register_error_message.empty();
 
         $.ajax({
-            url: "https://app7562.acapp.acwing.com.cn/settings/register/",
+            url: AC_ORIGIN + "/settings/register/",
             type: "GET",
             data: {
                 username: username,
@@ -294,7 +294,7 @@ class Settings {
         }
 
         $.ajax({
-            url: "https://app7562.acapp.acwing.com.cn/settings/logout/",
+            url: AC_ORIGIN + "/settings/logout/",
             type: "GET",
             success: function (resp) {
                 if(resp.result === "success"){
@@ -329,7 +329,7 @@ class Settings {
     getinfo_acapp() {
         let outer = this;
         $.ajax({
-            url: "https://app7562.acapp.acwing.com.cn/settings/acwing/acapp/apply_code/",
+            url: AC_ORIGIN + "/settings/acwing/acapp/apply_code/",
             type: "GET",
             success: function (resp) {
                 if(resp.result === "success"){
@@ -343,7 +343,7 @@ class Settings {
         let outer = this;
 
         $.ajax({
-            url: "https://app7562.acapp.acwing.com.cn/settings/getinfo/",
+            url: AC_ORIGIN + "/settings/getinfo/",
             type: "GET",
             data: {
                 platform: outer.platform,
