@@ -3,3 +3,4 @@
 deploy/acapp_deploy_server.py     text eol=lf
 deploy/replica/*                  text eol=lf
 .github/workflows/*.yml           text eol=lf
+deploy/known_hosts                text eol=lf
