@@ -1,0 +1,9 @@
+# Local development only: Redis for Channels (multiplayer) and django-redis cache.
+# settings.py expects Redis at 127.0.0.1:6379 (db 1 for cache), so no settings change is needed.
+# Server runs Redis 5.0.7; use the same major version locally.
+services:
+  redis:
+    image: redis:5
+    ports:
+      - "127.0.0.1:6379:6379"
+    restart: unless-stopped
