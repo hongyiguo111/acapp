@@ -1,6 +1,8 @@
 // Florr-style co-op mode. The server owns the world (see game/consumers/florr/world.py);
 // this class only sends input and draws what the server reports. It has its own canvas and
 // render loop and does not touch the original playground modes.
+//
+// An "item" is a petal of one kind and rarity tier written "kind:rarity" (e.g. "rose:2").
 class AcGameFlorr {
     constructor(root) {
         this.root = root;
@@ -9,15 +11,21 @@ class AcGameFlorr {
     <canvas class="ac-game-florr-canvas" tabindex="0"></canvas>
     <button class="ac-game-florr-exit">退出 (ESC)</button>
     <button class="ac-game-florr-bag-btn">背包 (B)</button>
+    <button class="ac-game-florr-rank-btn">击杀榜 (L)</button>
     <div class="ac-game-florr-status"></div>
     <div class="ac-game-florr-toasts"></div>
     <div class="ac-game-florr-hotbar"></div>
-    <div class="ac-game-florr-bag">
-        <div class="ac-game-florr-bag-title">背包</div>
-        <div class="ac-game-florr-bag-hint">先点一种花瓣，再点下方的栏位装备；背包打开时点击已装备的栏位可卸下</div>
+    <div class="ac-game-florr-bag ac-game-florr-panel">
+        <div class="ac-game-florr-panel-title">背包</div>
+        <div class="ac-game-florr-panel-hint">先点一种花瓣，再点下方的栏位装备；背包打开时点击已装备的栏位可卸下。同种同稀有度的花瓣攒够数量（未装备的）可以合成更高一档。</div>
         <div class="ac-game-florr-bag-items"></div>
     </div>
-    <div class="ac-game-florr-help">鼠标/WASD 移动 · 左键或空格：展开花瓣（伤害 +50%） · 右键或 Shift：收拢花瓣（花瓣更耐打） · B：背包</div>
+    <div class="ac-game-florr-rank ac-game-florr-panel">
+        <div class="ac-game-florr-panel-title">击杀榜</div>
+        <div class="ac-game-florr-panel-hint">累计击杀数，前 20 名</div>
+        <div class="ac-game-florr-rank-rows"></div>
+    </div>
+    <div class="ac-game-florr-help">鼠标/WASD 移动 · 左键或空格：展开花瓣（伤害 +50%） · 右键或 Shift：收拢花瓣（花瓣更耐打） · B：背包 · L：击杀榜 · 越靠近地图中心怪物越强</div>
 </div>
 `);
         this.$florr.hide();
@@ -29,7 +37,10 @@ class AcGameFlorr {
         this.$status = this.$florr.find('.ac-game-florr-status');
         this.$exit = this.$florr.find('.ac-game-florr-exit');
         this.$bag_btn = this.$florr.find('.ac-game-florr-bag-btn');
+        this.$rank_btn = this.$florr.find('.ac-game-florr-rank-btn');
         this.$bag = this.$florr.find('.ac-game-florr-bag');
+        this.$rank = this.$florr.find('.ac-game-florr-rank');
+        this.$rank_rows = this.$florr.find('.ac-game-florr-rank-rows');
         this.$bag_items = this.$florr.find('.ac-game-florr-bag-items');
         this.$hotbar = this.$florr.find('.ac-game-florr-hotbar');
         this.$toasts = this.$florr.find('.ac-game-florr-toasts');
@@ -43,20 +54,28 @@ class AcGameFlorr {
             outer.exit();
         });
         this.$bag_btn.click(function () {
-            outer.toggle_bag();
+            outer.toggle_panel('bag');
             outer.canvas.focus();
         });
+        this.$rank_btn.click(function () {
+            outer.toggle_panel('rank');
+            outer.canvas.focus();
+        });
+        this.$bag_items.on('click', '.ac-game-florr-craft', function (e) {
+            e.stopPropagation();
+            outer.send_craft($(this).data('item'));
+        });
         this.$bag_items.on('click', '.ac-game-florr-item', function () {
-            let kind = $(this).data('kind');
-            outer.selected_kind = outer.selected_kind === kind ? null : kind;
+            let item = $(this).data('item');
+            outer.selected_item = outer.selected_item === item ? null : item;
             outer.render_bag();
         });
         this.$hotbar.on('click', '.ac-game-florr-slot', function () {
-            if (!outer.bag_open) return;
+            if (outer.panel !== 'bag') return;
             let slot = Number($(this).data('slot'));
-            if (outer.selected_kind) {
-                outer.send_equip(slot, outer.selected_kind);
-                outer.selected_kind = null;
+            if (outer.selected_item) {
+                outer.send_equip(slot, outer.selected_item);
+                outer.selected_item = null;
             } else if (outer.loadout[slot]) {
                 outer.send_equip(slot, "");
             }
@@ -68,6 +87,7 @@ class AcGameFlorr {
         this.ws = null;
         this.cfg = null;
         this.petal_by_id = {};
+        this.item_cache = {};
         this.me_id = null;
         this.players = new Map();
         this.mobs = new Map();
@@ -75,8 +95,8 @@ class AcGameFlorr {
         this.inv = {};
         this.loadout = [];
         this.kills_total = 0;
-        this.selected_kind = null;
-        this.bag_open = false;
+        this.selected_item = null;
+        this.panel = null;             // 'bag' | 'rank' | null
         this.snap_time = 0;
         this.keys = new Set();
         this.mouse = {x: 0, y: 0, active: false};
@@ -87,8 +107,10 @@ class AcGameFlorr {
         this.last_frame = 0;
         if (this.$bag) {
             this.$bag.hide();
-            this.$hotbar.empty();
+            this.$rank.hide();
+            this.$hotbar.empty().removeClass('ac-game-florr-hotbar-active');
             this.$bag_items.empty();
+            this.$rank_rows.empty();
             this.$toasts.empty();
         }
     }
@@ -189,8 +211,10 @@ class AcGameFlorr {
             cur.max_hp = e.H;
             cur.name = e.n;
             cur.kind = e.t;
-            cur.item = e.k;
-            cur.kills = e.k;
+            cur.tier = e.u || 0;
+            cur.radius = e.R;
+            cur.code = e.k;               // drops: encoded item
+            cur.kills = e.k;              // players: kills this session
             cur.dead = e.d === 1;
         }
         for (let id of map.keys()) {
@@ -198,32 +222,112 @@ class AcGameFlorr {
         }
     }
 
+    // ---- items --------------------------------------------------------------------
+    parse_item(item) {
+        let parts = item.split(':');
+        return {kind: parts[0], rarity: parts.length > 1 ? Number(parts[1]) : 0};
+    }
+
+    // display data of an item; null while the catalogue is unknown
+    item_info(item) {
+        if (!item || !this.cfg) return null;
+        let info = this.item_cache[item];
+        if (info) return info;
+        let parsed = this.parse_item(item), base = this.petal_by_id[parsed.kind];
+        if (!base) return null;
+        let rar = this.cfg.rarities[parsed.rarity] || this.cfg.rarities[0];
+        info = this.item_cache[item] = {
+            id: item, kind: parsed.kind, rarity: parsed.rarity, name: base.name, full_name: rar.name + base.name,
+            color: base.color, radius: base.radius * (1 + this.cfg.size_growth * parsed.rarity), rarity_color: rar.color,
+        };
+        return info;
+    }
+
+    // snapshots encode an item as kind_index * item_base + rarity (-1 = nothing)
+    item_from_code(code) {
+        if (code === undefined || code < 0 || !this.cfg) return null;
+        let base = this.cfg.petals[Math.floor(code / this.cfg.item_base)];
+        return base ? base.id + ':' + (code % this.cfg.item_base) : null;
+    }
+
+    owned_free(item) {
+        let used = 0;
+        for (let it of this.loadout) {
+            if (it === item) used++;
+        }
+        return (this.inv[item] || 0) - used;
+    }
+
     // ---- inventory and loadout ---------------------------------------------------
     apply_inventory(m) {
         this.inv = m.inv;
         this.loadout = m.lo;
         this.kills_total = m.kt;
-        for (let kind of m.got || []) {
-            let info = this.petal_by_id[kind];
-            this.toast("获得 " + (info ? info.name : kind));
+        for (let item of m.got || []) {
+            let info = this.item_info(item);
+            this.toast("获得 " + (info ? info.full_name : item), info ? info.rarity_color : null);
         }
-        if (this.selected_kind && !(this.inv[this.selected_kind] > 0)) this.selected_kind = null;
+        if (this.selected_item && !(this.inv[this.selected_item] > 0)) this.selected_item = null;
         this.render_hotbar();
         this.render_bag();
     }
 
-    send_equip(slot, kind) {
-        if (this.ws && this.ws.readyState === WebSocket.OPEN) {
-            this.ws.send(JSON.stringify({t: "equip", slot: slot, kind: kind}));
-        }
+    send(obj) {
+        if (this.ws && this.ws.readyState === WebSocket.OPEN) this.ws.send(JSON.stringify(obj));
     }
 
-    toggle_bag() {
-        this.bag_open = !this.bag_open;
-        if (!this.bag_open) this.selected_kind = null;
-        this.$bag.toggle(this.bag_open);
-        this.$hotbar.toggleClass('ac-game-florr-hotbar-active', this.bag_open);
-        this.render_bag();
+    send_equip(slot, item) {
+        this.send({t: "equip", slot: slot, item: item});
+    }
+
+    send_craft(item) {
+        this.send({t: "craft", item: item});
+    }
+
+    toggle_panel(name) {
+        this.panel = this.panel === name ? null : name;
+        this.selected_item = null;
+        this.$bag.toggle(this.panel === 'bag');
+        this.$rank.toggle(this.panel === 'rank');
+        this.$hotbar.toggleClass('ac-game-florr-hotbar-active', this.panel === 'bag');
+        if (this.panel === 'bag') this.render_bag();
+        if (this.panel === 'rank') this.load_ranklist();
+    }
+
+    load_ranklist() {
+        let outer = this;
+        this.$rank_rows.text("加载中…");
+        $.ajax({
+            url: AC_ORIGIN + "/settings/florr_ranklist/",
+            type: "GET",
+            success: function (resp) {
+                if (outer.panel === 'rank') outer.render_ranklist(resp);
+            },
+            error: function () {
+                if (outer.panel === 'rank') outer.$rank_rows.text("加载失败");
+            },
+        });
+    }
+
+    render_ranklist(resp) {
+        this.$rank_rows.empty();
+        if (resp.result !== 'success' || !resp.ranklist.length) {
+            this.$rank_rows.text("还没有人上榜，去打怪吧");
+            return;
+        }
+        let me = this.players.get(this.me_id), my_name = me ? me.name : null;
+        let add_row = (entry, extra_class) => {
+            let $row = $(`<div class="ac-game-florr-rank-row"><span class="ac-game-florr-rank-no"></span><span class="ac-game-florr-rank-name"></span><span class="ac-game-florr-rank-kills"></span></div>`);
+            $row.find('.ac-game-florr-rank-no').text("#" + entry.rank);
+            $row.find('.ac-game-florr-rank-name').text(entry.username);      // usernames are user input: never as html
+            $row.find('.ac-game-florr-rank-kills').text(entry.kills);
+            if (entry.username === my_name) $row.addClass('mine');
+            if (extra_class) $row.addClass(extra_class);
+            this.$rank_rows.append($row);
+        };
+        for (let entry of resp.ranklist) add_row(entry);
+        let mine = resp.current_user;
+        if (mine && !resp.ranklist.some((e) => e.username === mine.username)) add_row(mine, 'separate');
     }
 
     build_hotbar() {
@@ -237,47 +341,55 @@ class AcGameFlorr {
 
     swatch_style(info) {
         let size = Math.round(info.radius * 2 + 6);
-        return `background:${info.color};width:${size}px;height:${size}px`;
+        return `background:${info.color};border-color:${info.rarity_color};width:${size}px;height:${size}px`;
     }
 
     render_hotbar() {
         let outer = this;
         this.$hotbar.find('.ac-game-florr-slot').each(function (i) {
-            let kind = outer.loadout[i], info = outer.petal_by_id[kind];
+            let info = outer.item_info(outer.loadout[i]);
             let $swatch = $(this).find('.ac-game-florr-swatch'), $name = $(this).find('.ac-game-florr-slot-name');
             $(this).toggleClass('empty', !info);
             if (info) {
                 $swatch.attr('style', outer.swatch_style(info));
-                $name.text(info.name);
+                $name.text(info.full_name).css('color', info.rarity_color);
             } else {
                 $swatch.attr('style', '');
-                $name.text("空");
+                $name.text("空").css('color', '');
             }
         });
     }
 
     render_bag() {
-        this.$hotbar.find('.ac-game-florr-slot').removeClass('target').toggleClass('target', !!this.selected_kind && this.bag_open);
-        if (!this.bag_open || !this.cfg) return;
-        let used = {};
-        for (let kind of this.loadout) {
-            if (kind) used[kind] = (used[kind] || 0) + 1;
-        }
-        let html = "";
-        for (let p of this.cfg.petals) {
-            let count = this.inv[p.id] || 0;
-            if (count <= 0) continue;
-            html += `<div class="ac-game-florr-item${this.selected_kind === p.id ? ' selected' : ''}" data-kind="${p.id}">
-                <span class="ac-game-florr-swatch" style="${this.swatch_style(p)}"></span>
-                <div class="ac-game-florr-item-name">${p.name}</div>
-                <div class="ac-game-florr-item-count">×${count}　已装备 ${used[p.id] || 0}</div>
+        this.$hotbar.find('.ac-game-florr-slot').toggleClass('target', !!this.selected_item && this.panel === 'bag');
+        if (this.panel !== 'bag' || !this.cfg) return;
+        let kind_order = this.cfg.petals.map((p) => p.id);
+        let items = Object.keys(this.inv).filter((it) => this.inv[it] > 0 && this.item_info(it));
+        items.sort((a, b) => {
+            let pa = this.parse_item(a), pb = this.parse_item(b);
+            return kind_order.indexOf(pa.kind) - kind_order.indexOf(pb.kind) || pa.rarity - pb.rarity;
+        });
+        let cost = this.cfg.craft_cost, html = "";
+        for (let item of items) {
+            let info = this.item_info(item), free = this.owned_free(item), equipped = this.inv[item] - free;
+            let craft = "";
+            if (info.rarity < this.cfg.max_rarity) {
+                let can = free >= cost;
+                craft = `<button class="ac-game-florr-craft" data-item="${item}"${can ? '' : ' disabled'}>合成 ${Math.min(free, cost)}/${cost}</button>`;
+            }
+            html += `<div class="ac-game-florr-item${this.selected_item === item ? ' selected' : ''}" data-item="${item}">
+                <span class="ac-game-florr-swatch" style="${this.swatch_style(info)}"></span>
+                <div class="ac-game-florr-item-name" style="color:${info.rarity_color}">${info.full_name}</div>
+                <div class="ac-game-florr-item-count">×${this.inv[item]}　已装备 ${equipped}</div>
+                ${craft}
             </div>`;
         }
         this.$bag_items.html(html || '<div class="ac-game-florr-bag-empty">还没有花瓣</div>');
     }
 
-    toast(text) {
+    toast(text, color) {
         let $t = $(`<div class="ac-game-florr-toast"></div>`).text(text);
+        if (color) $t.css('color', color);
         this.$toasts.append($t);
         setTimeout(() => $t.fadeOut(400, () => $t.remove()), 1800);
         while (this.$toasts.children().length > 5) this.$toasts.children().first().remove();
@@ -321,9 +433,7 @@ class AcGameFlorr {
 
     request_respawn() {
         let me = this.players.get(this.me_id);
-        if (me && me.dead && this.ws && this.ws.readyState === WebSocket.OPEN) {
-            this.ws.send(JSON.stringify({t: "respawn"}));
-        }
+        if (me && me.dead) this.send({t: "respawn"});
     }
 
     add_listening_events() {
@@ -333,7 +443,7 @@ class AcGameFlorr {
             let rect = outer.canvas.getBoundingClientRect();
             outer.mouse = {x: e.clientX - rect.left, y: e.clientY - rect.top, active: true};
         });
-        // over the hotbar / bag the character must not keep walking towards the last canvas position
+        // over the hotbar / panels the character must not keep walking towards the last canvas position
         this.$canvas.on('mouseleave', function () {
             outer.mouse.active = false;
         });
@@ -351,12 +461,12 @@ class AcGameFlorr {
         $(window).on('keydown.florr', function (e) {
             let code = e.originalEvent.code;
             if (code === 'Escape') {
-                if (outer.bag_open) outer.toggle_bag();
+                if (outer.panel) outer.toggle_panel(outer.panel);
                 else outer.exit();
                 return false;
             }
-            if (code === 'KeyB' && !e.originalEvent.repeat) {
-                outer.toggle_bag();
+            if ((code === 'KeyB' || code === 'KeyL') && !e.originalEvent.repeat) {
+                outer.toggle_panel(code === 'KeyB' ? 'bag' : 'rank');
                 return false;
             }
             outer.keys.add(code);
@@ -411,6 +521,15 @@ class AcGameFlorr {
         }
     }
 
+    // 0 = outermost zone ... zones.length - 1 = centre
+    zone_index(x, y) {
+        let d = Math.hypot(x - this.cfg.center[0], y - this.cfg.center[1]), tier = 0;
+        for (let t = 1; t < this.cfg.zones.length; t++) {
+            if (d < this.cfg.zones[t].outer) tier = t;
+        }
+        return tier;
+    }
+
     render(now) {
         let ctx = this.ctx, W = this.css_w, H = this.css_h;
         ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
@@ -440,8 +559,17 @@ class AcGameFlorr {
 
     draw_world(cfg, me, view_w, view_h) {
         let ctx = this.ctx;
-        ctx.fillStyle = '#1ea761';
+        ctx.fillStyle = cfg.zones[0].color;
         ctx.fillRect(0, 0, cfg.w, cfg.h);
+        for (let t = 1; t < cfg.zones.length; t++) {          // concentric zones, outermost drawn first
+            ctx.beginPath();
+            ctx.arc(cfg.center[0], cfg.center[1], cfg.zones[t].outer, 0, Math.PI * 2);
+            ctx.fillStyle = cfg.zones[t].color;
+            ctx.fill();
+            ctx.lineWidth = 6;
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.18)';
+            ctx.stroke();
+        }
 
         ctx.strokeStyle = 'rgba(0, 0, 0, 0.10)';
         ctx.lineWidth = 2;
@@ -481,14 +609,15 @@ class AcGameFlorr {
         }
     }
 
+    // a petal is its kind's colour with a border in its rarity colour (common: a plain dark outline)
     draw_petal(x, y, info) {
         let ctx = this.ctx;
         ctx.beginPath();
         ctx.arc(x, y, info.radius, 0, Math.PI * 2);
         ctx.fillStyle = info.color;
         ctx.fill();
-        ctx.lineWidth = 3;
-        ctx.strokeStyle = 'rgba(0, 0, 0, 0.35)';
+        ctx.lineWidth = info.rarity > 0 ? 4 : 3;
+        ctx.strokeStyle = info.rarity > 0 ? info.rarity_color : 'rgba(0, 0, 0, 0.35)';
         ctx.stroke();
     }
 
@@ -498,7 +627,7 @@ class AcGameFlorr {
         let a0 = p.a + cfg.omega * (now - this.snap_time) / 1000;
         for (let i = 0; i < cfg.petal_n; i++) {
             if (!(p.mask & (1 << i))) continue;
-            let info = cfg.petals[p.slots[i]];
+            let info = this.item_info(this.item_from_code(p.slots[i]));
             if (!info) continue;
             let a = a0 + i * 2 * Math.PI / cfg.petal_n;
             this.draw_petal(p.x + p.r * Math.cos(a), p.y + p.r * Math.sin(a), info);
@@ -525,13 +654,15 @@ class AcGameFlorr {
     draw_mob(m) {
         let ctx = this.ctx, spec = this.cfg.mobs[m.kind];
         if (!spec) return;
-        let R = spec.radius;
+        let R = m.radius || spec.radius;
         ctx.beginPath();
         ctx.arc(m.x, m.y, R, 0, Math.PI * 2);
         ctx.fillStyle = spec.color;
         ctx.fill();
-        ctx.lineWidth = 4;
-        ctx.strokeStyle = 'rgba(0, 0, 0, 0.35)';
+        // deeper mobs (higher tier) get an outline in that tier's rarity colour
+        let tier_color = m.tier > 0 ? (this.cfg.rarities[m.tier] || this.cfg.rarities[0]).color : null;
+        ctx.lineWidth = tier_color ? 6 : 4;
+        ctx.strokeStyle = tier_color || 'rgba(0, 0, 0, 0.35)';
         ctx.stroke();
 
         ctx.fillStyle = 'rgba(0, 0, 0, 0.55)';
@@ -566,14 +697,19 @@ class AcGameFlorr {
     }
 
     draw_drop(d, now) {
-        let ctx = this.ctx, info = this.cfg.petals[d.item];
+        let ctx = this.ctx, info = this.item_info(this.item_from_code(d.code));
         if (!info) return;
         let bob = Math.sin(now / 250 + d.x) * 2;
         ctx.beginPath();
         ctx.arc(d.x, d.y + bob, this.cfg.drop_r + 5, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.28)';
+        ctx.fillStyle = info.rarity > 0 ? info.rarity_color : 'rgba(255, 255, 255, 0.28)';
+        ctx.globalAlpha = info.rarity > 0 ? 0.45 : 1;
         ctx.fill();
-        this.draw_petal(d.x, d.y + bob, {radius: Math.min(info.radius, this.cfg.drop_r), color: info.color});
+        ctx.globalAlpha = 1;
+        this.draw_petal(d.x, d.y + bob, {
+            radius: Math.min(info.radius, this.cfg.drop_r), color: info.color,
+            rarity: info.rarity, rarity_color: info.rarity_color,
+        });
     }
 
     draw_hud(me) {
@@ -583,9 +719,11 @@ class AcGameFlorr {
         ctx.fillStyle = '#ffffff';
         ctx.strokeStyle = 'rgba(0, 0, 0, 0.6)';
         ctx.lineWidth = 4;
-        let text = "击杀 " + me.kills + "　累计 " + (this.kills_total || 0);
-        ctx.strokeText(text, 16, 34);
-        ctx.fillText(text, 16, 34);
+        let zone = this.cfg.zones[this.zone_index(me.x, me.y)];
+        for (let [text, y] of [["击杀 " + me.kills + "　累计 " + (this.kills_total || 0), 34], ["区域：" + zone.name, 62]]) {
+            ctx.strokeText(text, 16, y);
+            ctx.fillText(text, 16, y);
+        }
 
         let bw = Math.min(360, W * 0.5), bh = 18, bx = (W - bw) / 2, by = H - 34;
         ctx.fillStyle = 'rgba(0, 0, 0, 0.45)';

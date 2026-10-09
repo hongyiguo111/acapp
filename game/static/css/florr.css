@@ -50,6 +50,23 @@
     background: rgba(0, 0, 0, 0.65);
 }
 
+.ac-game-florr-rank-btn {
+    position: absolute;
+    top: 14px;
+    right: 236px;
+    padding: 8px 16px;
+    font-size: 16px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.ac-game-florr-rank-btn:hover {
+    background: rgba(0, 0, 0, 0.65);
+}
+
 .ac-game-florr-swatch {
     display: inline-block;
     border-radius: 50%;
@@ -102,7 +119,7 @@
     box-shadow: 0 0 10px rgba(255, 231, 99, 0.7);
 }
 
-.ac-game-florr-bag {
+.ac-game-florr-panel {
     display: none;
     position: absolute;
     right: 14px;
@@ -117,13 +134,13 @@
     border-radius: 10px;
 }
 
-.ac-game-florr-bag-title {
+.ac-game-florr-panel-title {
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 4px;
 }
 
-.ac-game-florr-bag-hint {
+.ac-game-florr-panel-hint {
     font-size: 12px;
     line-height: 1.5;
     color: rgba(255, 255, 255, 0.7);
@@ -214,4 +231,63 @@
     line-height: 1.5;
     color: rgba(255, 255, 255, 0.75);
     pointer-events: none;
+}
+
+.ac-game-florr-craft {
+    margin-top: 2px;
+    padding: 3px 8px;
+    font-size: 12px;
+    color: #fff;
+    background: rgba(255, 231, 99, 0.25);
+    border: 1px solid rgba(255, 231, 99, 0.6);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.ac-game-florr-craft:hover:not([disabled]) {
+    background: rgba(255, 231, 99, 0.45);
+}
+
+.ac-game-florr-craft[disabled] {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.ac-game-florr-rank-row {
+    display: flex;
+    gap: 8px;
+    padding: 5px 6px;
+    font-size: 15px;
+    border-radius: 6px;
+}
+
+.ac-game-florr-rank-row:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.ac-game-florr-rank-row.mine {
+    background: rgba(255, 231, 99, 0.2);
+}
+
+.ac-game-florr-rank-row.separate {
+    margin-top: 8px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.35);
+}
+
+.ac-game-florr-rank-no {
+    width: 40px;
+    flex: none;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.ac-game-florr-rank-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ac-game-florr-rank-kills {
+    flex: none;
+    font-weight: bold;
 }
